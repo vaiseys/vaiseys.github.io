@@ -2,11 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://vaiseys.github.io/</loc>
-    <lastmod>2020-12-01T21:13:14-05:00</lastmod>
-    <priority>0</priority>
-  </url><url>
     <loc>https://vaiseys.github.io/post/2020-12-01-r-rmarkdown/</loc>
+    <lastmod>2020-12-01T21:13:14-05:00</lastmod>
+  </url><url>
+    <loc>https://vaiseys.github.io/</loc>
     <lastmod>2020-12-01T21:13:14-05:00</lastmod>
   </url><url>
     <loc>https://vaiseys.github.io/post/</loc>
