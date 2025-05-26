@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Reddit+Mono&display=swap');
+
+body,
+h1, h2, h3, h4, h5, h6,
+.navbar,
+.navbar-brand,
+.btn,
+p,
+li,
+code,
+pre {
+  font-family: 'Reddit Mono', monospace !important;
+}
+
+ol {
+  list-style: none;
+  counter-reset: item;
+  padding-left: 2em;
+}
+
+ol > li {
+  counter-increment: item;
+  position: relative;
+  margin-bottom: 0.5em;
+}
+
+ol > li::before {
+  content: "[" counter(item) "] ";
+  position: absolute;
+  left: -2em;                          // ← shift it a little further left
+  padding-right: 0.5em;               // ← add space after the closing bracket
+}
+
+.circular-image {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+h2,
+h3 {
+  border-bottom: none !important;
+}
+  
+  
+  
+  
+  
