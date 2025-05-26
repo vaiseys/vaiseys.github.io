@@ -1,0 +1,20 @@
+project:
+  type: website
+
+website:
+  title: "Stephen Vaisey"
+  favicon: favicon.ico
+  navbar:
+    right:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: About
+      - href: cv.qmd
+        text: CV
+
+format:
+  html:
+    theme: simplex
+    css: custom.css
+

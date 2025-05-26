@@ -1,0 +1,29 @@
+---
+title: ""
+---
+
+::::columns
+
+:::{.column width="75%"}
+I am Professor of Sociology and Political Science and Director of the [Worldview Lab](https://kenan.ethics.duke.edu/worldview-lab/) at Duke University.
+
+### Research Interests
+
+The main goal of my research is to understand moral and political beliefs: what they are, where they come from, and what they do. I pursue these questions in the broader interdisciplinary context of [cultural evolution](https://culturalevolutionsociety.org/).
+
+I also do a lot with applied statistics. I have been working on how to use simple patterns in repeated cross-section and panel data to help adjudicate between competing theories of cultural change and socialization.
+
+I teach several short courses on applied statistics through [Statistical Horizons](https://statisticalhorizons.com/) and direct their [Code Horizons](https://codehorizons.com/) initiative.
+
+You can check out my work on [Google Scholar](https://scholar.google.com/citations?hl=en&user=cr6RG1QAAAAJ&view_op=list_works&sortby=pubdate).
+
+
+:::
+
+:::{.column width="5%"}
+:::
+
+:::{.column width="20%"}
+![](images/avatar.jpg){.circular-image}
+:::
+::::
