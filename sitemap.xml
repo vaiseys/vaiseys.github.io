@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://vaiseys.github.io/cv.html</loc>
-    <lastmod>2025-05-25T23:57:59.483Z</lastmod>
-  </url>
-  <url>
     <loc>https://vaiseys.github.io/index.html</loc>
-    <lastmod>2025-06-13T12:40:58.006Z</lastmod>
+    <lastmod>2025-06-13T15:32:27.021Z</lastmod>
   </url>
   <url>
     <loc>https://vaiseys.github.io/about.html</loc>
-    <lastmod>2025-05-26T03:39:07.895Z</lastmod>
+    <lastmod>2025-06-13T15:16:01.480Z</lastmod>
+  </url>
+  <url>
+    <loc>https://vaiseys.github.io/cv.html</loc>
+    <lastmod>2025-05-25T23:57:59.000Z</lastmod>
   </url>
 </urlset>
