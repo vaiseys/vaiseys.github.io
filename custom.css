@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Reddit+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
 
 body,
 h1, h2, h3, h4, h5, h6,
@@ -9,7 +9,7 @@ p,
 li,
 code,
 pre {
-  font-family: 'Reddit Mono', monospace !important;
+  font-family: 'Inconsolata', monospace !important;
 }
 
 ol {
