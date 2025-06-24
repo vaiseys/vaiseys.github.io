@@ -1,3 +1,6 @@
+extensions:
+  - quarto-ext/fontawesome
+
 project:
   type: website
 
@@ -12,7 +15,13 @@ website:
         text: About
       - href: cv.qmd
         text: CV
-
+      - text: "{{<fa brands google-scholar >}}"
+        href: https://scholar.google.com/citations?hl=en&user=cr6RG1QAAAAJ&view_op=list_works&sortby=pubdate
+      - text: "{{< fa brands bluesky >}}"
+        href: https://bsky.app/profile/stephenvaisey.com
+      - text: "{{< fa solid envelope >}}"
+        href: mailto:stephen.vaisey@duke.edu
+     
 format:
   html:
     theme: simplex
