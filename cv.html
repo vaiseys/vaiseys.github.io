@@ -107,7 +107,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="https://scholar.google.com/citations?hl=en&amp;user=cr6RG1QAAAAJ&amp;view_op=list_works&amp;sortby=pubdate"> 
-<span class="menu-text"><i class="fa-brands fa-google-scholar" aria-label="google-scholar"></i></span></a>
+<span class="menu-text"><i class="fa-solid fa-graduation-cap" aria-label="graduation-cap"></i></span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="https://bsky.app/profile/stephenvaisey.com"> 
@@ -213,7 +213,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/vaiseys\.github\.io\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
