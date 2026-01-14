@@ -15,7 +15,7 @@ website:
         text: About
       - href: cv.qmd
         text: CV
-      - text: "{{<fa brands google-scholar >}}"
+      - text: "{{<fa solid graduation-cap >}}"
         href: https://scholar.google.com/citations?hl=en&user=cr6RG1QAAAAJ&view_op=list_works&sortby=pubdate
       - text: "{{< fa brands bluesky >}}"
         href: https://bsky.app/profile/stephenvaisey.com
