@@ -220,7 +220,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#defining-a-linear-two-parameter-model" id="toc-defining-a-linear-two-parameter-model" class="nav-link" data-scroll-target="#defining-a-linear-two-parameter-model">Defining a linear two-parameter model</a></li>
   <li><a href="#estimating-a-linear-two-parameter-model" id="toc-estimating-a-linear-two-parameter-model" class="nav-link" data-scroll-target="#estimating-a-linear-two-parameter-model">Estimating a linear two-parameter model</a></li>
-  <li><a href="#an-alternative-specification-or-many" id="toc-an-alternative-specification-or-many" class="nav-link" data-scroll-target="#an-alternative-specification-or-many">An alternative specification [or many…]</a>
+  <li><a href="#an-alternative-specification-or-five" id="toc-an-alternative-specification-or-five" class="nav-link" data-scroll-target="#an-alternative-specification-or-five">An alternative specification (or five)!</a>
   <ul class="collapse">
   <li><a href="#centering" id="toc-centering" class="nav-link" data-scroll-target="#centering">Centering</a></li>
   <li><a href="#normalization" id="toc-normalization" class="nav-link" data-scroll-target="#normalization">Normalization*</a></li>
@@ -291,12 +291,15 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="the-t-test-as-a-two-group-lm-comparison">The t-test as a two-group <code>lm()</code> comparison*</h4>
 <p>Let’s look at Southern and non-Southern states in 1977 and compare them on income per capita.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(state.x77, </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">region =</span> state.division) <span class="sc">|&gt;</span> <span class="co"># both are in base R</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">|&gt;</span>                     <span class="co"># lower case and underscore</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">south =</span> <span class="fu">as.integer</span>(                    <span class="co"># make a south dummy</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(<span class="fu">as.character</span>(region), </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>               <span class="st">"South"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>state.x77_with_names <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(state.x77,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">rownames =</span> <span class="st">"state"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(state.x77_with_names, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">region =</span> state.division) <span class="sc">|&gt;</span> <span class="co"># both are in base R</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">|&gt;</span>                     <span class="co"># lower case and underscore</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">south =</span> <span class="fu">as.integer</span>(                    <span class="co"># make a south dummy</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(<span class="fu">as.character</span>(region), </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>               <span class="st">"South"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can write:</p>
 <p><span class="math display">\[\begin{align}
@@ -324,8 +327,8 @@ window.Quarto = {
 
     <script>
 
-      function styleCell_il9w3s5upvohj6niajjv(i, j, css_id) {
-          var table = document.getElementById("tinytable_il9w3s5upvohj6niajjv");
+      function styleCell_7z0107e42eewd8xasg81(i, j, css_id) {
+          var table = document.getElementById("tinytable_7z0107e42eewd8xasg81");
           var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -334,8 +337,8 @@ window.Quarto = {
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function spanCell_il9w3s5upvohj6niajjv(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_il9w3s5upvohj6niajjv");
+      function spanCell_7z0107e42eewd8xasg81(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_7z0107e42eewd8xasg81");
         const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
         if (!targetCell) {
           console.warn(`Cell at (${i}, ${j}) not found.`);
@@ -366,20 +369,20 @@ window.Quarto = {
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 },  ], css_id: 'tinytable_css_ia7mpap1hzgbuwgg7pr8',}, 
-          { positions: [ { i: '2', j: 2 }, { i: '2', j: 1 },  ], css_id: 'tinytable_css_pfnhe4yzq3h8k1o1sbew',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '1', j: 2 },  ], css_id: 'tinytable_css_gnbqrxgcd4coo9fl8i3f',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_dzivhx9smxq70b9ttu4c',}, 
-          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_jzae2rqb6q6vvmmaldq5',}, 
-          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_29o6nwlrrv88uqoxispw',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_i4mpvg03r45u4p82j7xb',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_ucfvalom7oqcr8optez1',}, 
+          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 },  ], css_id: 'tinytable_css_ydwtfc8eji8944makcyb',}, 
+          { positions: [ { i: '2', j: 2 }, { i: '2', j: 1 },  ], css_id: 'tinytable_css_doixyd0qg3jyrs90u4i3',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '1', j: 2 },  ], css_id: 'tinytable_css_39mj6auxhbyybg9hc5up',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_mhpywu5b7jxddskahosz',}, 
+          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_xcnx7svbti5761t45vh3',}, 
+          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_1x12aa1zz8a7h3pyr972',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_xx9ctyifieeu3dxvh090',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_9xyxrgixydk2pcnc2756',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_il9w3s5upvohj6niajjv(cell.i, cell.j, group.css_id);
+                  styleCell_7z0107e42eewd8xasg81(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -387,17 +390,17 @@ window.Quarto = {
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_ia7mpap1hzgbuwgg7pr8, .table th.tinytable_css_ia7mpap1hzgbuwgg7pr8 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_pfnhe4yzq3h8k1o1sbew, .table th.tinytable_css_pfnhe4yzq3h8k1o1sbew { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_gnbqrxgcd4coo9fl8i3f, .table th.tinytable_css_gnbqrxgcd4coo9fl8i3f { text-align: center; }
-      .table td.tinytable_css_dzivhx9smxq70b9ttu4c, .table th.tinytable_css_dzivhx9smxq70b9ttu4c { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_jzae2rqb6q6vvmmaldq5, .table th.tinytable_css_jzae2rqb6q6vvmmaldq5 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_29o6nwlrrv88uqoxispw, .table th.tinytable_css_29o6nwlrrv88uqoxispw { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_i4mpvg03r45u4p82j7xb, .table th.tinytable_css_i4mpvg03r45u4p82j7xb { text-align: left; }
-      .table td.tinytable_css_ucfvalom7oqcr8optez1, .table th.tinytable_css_ucfvalom7oqcr8optez1 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_ydwtfc8eji8944makcyb, .table th.tinytable_css_ydwtfc8eji8944makcyb { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_doixyd0qg3jyrs90u4i3, .table th.tinytable_css_doixyd0qg3jyrs90u4i3 { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_39mj6auxhbyybg9hc5up, .table th.tinytable_css_39mj6auxhbyybg9hc5up { text-align: center; }
+      .table td.tinytable_css_mhpywu5b7jxddskahosz, .table th.tinytable_css_mhpywu5b7jxddskahosz { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_xcnx7svbti5761t45vh3, .table th.tinytable_css_xcnx7svbti5761t45vh3 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_1x12aa1zz8a7h3pyr972, .table th.tinytable_css_1x12aa1zz8a7h3pyr972 { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_xx9ctyifieeu3dxvh090, .table th.tinytable_css_xx9ctyifieeu3dxvh090 { text-align: left; }
+      .table td.tinytable_css_9xyxrgixydk2pcnc2756, .table th.tinytable_css_9xyxrgixydk2pcnc2756 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_il9w3s5upvohj6niajjv" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_7z0107e42eewd8xasg81" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -465,8 +468,8 @@ window.Quarto = {
 
     <script>
 
-      function styleCell_3oywf5x9mrrws27fq0oo(i, j, css_id) {
-          var table = document.getElementById("tinytable_3oywf5x9mrrws27fq0oo");
+      function styleCell_7aaxru0lbtf2gn1ca74i(i, j, css_id) {
+          var table = document.getElementById("tinytable_7aaxru0lbtf2gn1ca74i");
           var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -475,8 +478,8 @@ window.Quarto = {
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function spanCell_3oywf5x9mrrws27fq0oo(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_3oywf5x9mrrws27fq0oo");
+      function spanCell_7aaxru0lbtf2gn1ca74i(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_7aaxru0lbtf2gn1ca74i");
         const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
         if (!targetCell) {
           console.warn(`Cell at (${i}, ${j}) not found.`);
@@ -507,20 +510,20 @@ window.Quarto = {
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 },  ], css_id: 'tinytable_css_rj2f2g119hrrae2r95x4',}, 
-          { positions: [ { i: '3', j: 2 }, { i: '3', j: 1 },  ], css_id: 'tinytable_css_bshyn2urp504h43tuojy',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '4', j: 2 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '5', j: 2 },  ], css_id: 'tinytable_css_qr846fp7pwp1dhbwayqj',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_uh54mb8uttjty3kwf75j',}, 
-          { positions: [ { i: '6', j: 0 },  ], css_id: 'tinytable_css_ifcoatmupf7y8uplm3p3',}, 
-          { positions: [ { i: '3', j: 0 },  ], css_id: 'tinytable_css_ybsvam5nfl4b9dwvuqvw',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '2', j: 0 }, { i: '4', j: 0 }, { i: '5', j: 0 },  ], css_id: 'tinytable_css_bzfwv2ezh2u0w5ashzm4',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_a48dhkjna9ggoeg65bel',}, 
+          { positions: [ { i: '6', j: 1 }, { i: '6', j: 2 },  ], css_id: 'tinytable_css_v3mxoc7zkoauoqv6c7p7',}, 
+          { positions: [ { i: '3', j: 2 }, { i: '3', j: 1 },  ], css_id: 'tinytable_css_7ly56p9zk7wcjj1nn2en',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '4', j: 2 }, { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '5', j: 2 },  ], css_id: 'tinytable_css_5lgggoqxq6bdg2ur62aj',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_dnukt1ovgncg42fg32s5',}, 
+          { positions: [ { i: '6', j: 0 },  ], css_id: 'tinytable_css_qahabg5bcghisty7936p',}, 
+          { positions: [ { i: '3', j: 0 },  ], css_id: 'tinytable_css_rx0bd3rp30n57bo6i3bm',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '2', j: 0 }, { i: '4', j: 0 }, { i: '5', j: 0 },  ], css_id: 'tinytable_css_tas15zzmcd6e0xccxhc5',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_c8jmnos2ampeznul7yyj',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_3oywf5x9mrrws27fq0oo(cell.i, cell.j, group.css_id);
+                  styleCell_7aaxru0lbtf2gn1ca74i(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -528,17 +531,17 @@ window.Quarto = {
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_rj2f2g119hrrae2r95x4, .table th.tinytable_css_rj2f2g119hrrae2r95x4 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_bshyn2urp504h43tuojy, .table th.tinytable_css_bshyn2urp504h43tuojy { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_qr846fp7pwp1dhbwayqj, .table th.tinytable_css_qr846fp7pwp1dhbwayqj { text-align: center; }
-      .table td.tinytable_css_uh54mb8uttjty3kwf75j, .table th.tinytable_css_uh54mb8uttjty3kwf75j { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_ifcoatmupf7y8uplm3p3, .table th.tinytable_css_ifcoatmupf7y8uplm3p3 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_ybsvam5nfl4b9dwvuqvw, .table th.tinytable_css_ybsvam5nfl4b9dwvuqvw { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_bzfwv2ezh2u0w5ashzm4, .table th.tinytable_css_bzfwv2ezh2u0w5ashzm4 { text-align: left; }
-      .table td.tinytable_css_a48dhkjna9ggoeg65bel, .table th.tinytable_css_a48dhkjna9ggoeg65bel { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_v3mxoc7zkoauoqv6c7p7, .table th.tinytable_css_v3mxoc7zkoauoqv6c7p7 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_7ly56p9zk7wcjj1nn2en, .table th.tinytable_css_7ly56p9zk7wcjj1nn2en { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_5lgggoqxq6bdg2ur62aj, .table th.tinytable_css_5lgggoqxq6bdg2ur62aj { text-align: center; }
+      .table td.tinytable_css_dnukt1ovgncg42fg32s5, .table th.tinytable_css_dnukt1ovgncg42fg32s5 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_qahabg5bcghisty7936p, .table th.tinytable_css_qahabg5bcghisty7936p { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_rx0bd3rp30n57bo6i3bm, .table th.tinytable_css_rx0bd3rp30n57bo6i3bm { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_tas15zzmcd6e0xccxhc5, .table th.tinytable_css_tas15zzmcd6e0xccxhc5 { text-align: left; }
+      .table td.tinytable_css_c8jmnos2ampeznul7yyj, .table th.tinytable_css_c8jmnos2ampeznul7yyj { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_3oywf5x9mrrws27fq0oo" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_7aaxru0lbtf2gn1ca74i" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -668,7 +671,7 @@ window.Quarto = {
 <p>Estimate the models.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> states)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ma <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad, <span class="at">data =</span> states)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ma <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> hs_grad, <span class="at">data =</span> states)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <details class="code-fold">
@@ -685,8 +688,8 @@ window.Quarto = {
 
     <script>
 
-      function styleCell_rnjla8nyh1qfgx7sv4wo(i, j, css_id) {
-          var table = document.getElementById("tinytable_rnjla8nyh1qfgx7sv4wo");
+      function styleCell_mn2dv8dhrem3cce5jm43(i, j, css_id) {
+          var table = document.getElementById("tinytable_mn2dv8dhrem3cce5jm43");
           var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -695,8 +698,8 @@ window.Quarto = {
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function spanCell_rnjla8nyh1qfgx7sv4wo(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_rnjla8nyh1qfgx7sv4wo");
+      function spanCell_mn2dv8dhrem3cce5jm43(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_mn2dv8dhrem3cce5jm43");
         const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
         if (!targetCell) {
           console.warn(`Cell at (${i}, ${j}) not found.`);
@@ -727,20 +730,20 @@ window.Quarto = {
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 },  ], css_id: 'tinytable_css_gr1u1dh1p379t10sqvpm',}, 
-          { positions: [ { i: '2', j: 2 }, { i: '2', j: 1 },  ], css_id: 'tinytable_css_eiodz14t92dulsv1ahjk',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '1', j: 2 },  ], css_id: 'tinytable_css_3wmpvwk1df5ufz8ymwe5',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_eqlu69u0qgpizxcig0lv',}, 
-          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_wlwdmo3mlaqw8tw0z4ah',}, 
-          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_cxf3f00tdyy0humpvg9w',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_whbwqwxkkxp335hv0rz4',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_auimmxxcdpejzlhh7tjl',}, 
+          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 },  ], css_id: 'tinytable_css_dunlx07468puvpfx95a8',}, 
+          { positions: [ { i: '2', j: 2 }, { i: '2', j: 1 },  ], css_id: 'tinytable_css_v76njktb86z9anx0l8z9',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '1', j: 2 },  ], css_id: 'tinytable_css_mp2yqu868fgvooj3oar5',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_4cpkj6u1asal1le2qxyq',}, 
+          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_vplqkliunqkz38focjl4',}, 
+          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_s9kyfdoii7usvboy4it0',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_ughoydf4kddsix4bgiyn',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_0u58fjr7e2qbjtqem3yr',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_rnjla8nyh1qfgx7sv4wo(cell.i, cell.j, group.css_id);
+                  styleCell_mn2dv8dhrem3cce5jm43(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -748,17 +751,17 @@ window.Quarto = {
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_gr1u1dh1p379t10sqvpm, .table th.tinytable_css_gr1u1dh1p379t10sqvpm { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_eiodz14t92dulsv1ahjk, .table th.tinytable_css_eiodz14t92dulsv1ahjk { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_3wmpvwk1df5ufz8ymwe5, .table th.tinytable_css_3wmpvwk1df5ufz8ymwe5 { text-align: center; }
-      .table td.tinytable_css_eqlu69u0qgpizxcig0lv, .table th.tinytable_css_eqlu69u0qgpizxcig0lv { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_wlwdmo3mlaqw8tw0z4ah, .table th.tinytable_css_wlwdmo3mlaqw8tw0z4ah { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_cxf3f00tdyy0humpvg9w, .table th.tinytable_css_cxf3f00tdyy0humpvg9w { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_whbwqwxkkxp335hv0rz4, .table th.tinytable_css_whbwqwxkkxp335hv0rz4 { text-align: left; }
-      .table td.tinytable_css_auimmxxcdpejzlhh7tjl, .table th.tinytable_css_auimmxxcdpejzlhh7tjl { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_dunlx07468puvpfx95a8, .table th.tinytable_css_dunlx07468puvpfx95a8 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_v76njktb86z9anx0l8z9, .table th.tinytable_css_v76njktb86z9anx0l8z9 { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_mp2yqu868fgvooj3oar5, .table th.tinytable_css_mp2yqu868fgvooj3oar5 { text-align: center; }
+      .table td.tinytable_css_4cpkj6u1asal1le2qxyq, .table th.tinytable_css_4cpkj6u1asal1le2qxyq { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_vplqkliunqkz38focjl4, .table th.tinytable_css_vplqkliunqkz38focjl4 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_s9kyfdoii7usvboy4it0, .table th.tinytable_css_s9kyfdoii7usvboy4it0 { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_ughoydf4kddsix4bgiyn, .table th.tinytable_css_ughoydf4kddsix4bgiyn { text-align: left; }
+      .table td.tinytable_css_0u58fjr7e2qbjtqem3yr, .table th.tinytable_css_0u58fjr7e2qbjtqem3yr { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_rnjla8nyh1qfgx7sv4wo" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_mn2dv8dhrem3cce5jm43" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -801,8 +804,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="an-alternative-specification-or-many" class="level2">
-<h2 class="anchored" data-anchor-id="an-alternative-specification-or-many">An alternative specification [or many…]</h2>
+<section id="an-alternative-specification-or-five" class="level2">
+<h2 class="anchored" data-anchor-id="an-alternative-specification-or-five">An alternative specification (or five)!</h2>
 <section id="centering" class="level3">
 <h3 class="anchored" data-anchor-id="centering">Centering</h3>
 <div class="cell">
@@ -812,22 +815,43 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fit_cent <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> c_hs_grad,</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> states)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"Centered"</span> <span class="ot">=</span> fit_cent),</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(life_exp <span class="sc">~</span> c_hs_grad,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> states,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">67</span>, <span class="dv">74</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Life expectancy and education"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"US states, 1977"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"% high school graduates (centered)"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Life expectancy at birth"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="st">"lm"</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">level =</span> .<span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter-06_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fit_cent <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> c_hs_grad,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> states)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"Centered"</span> <span class="ot">=</span> fit_cent),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <!-- preamble start -->
 
     <script>
 
-      function styleCell_dxscvxj9odzczso8b4rr(i, j, css_id) {
-          var table = document.getElementById("tinytable_dxscvxj9odzczso8b4rr");
+      function styleCell_bkq6e8y77gq72hwolf3v(i, j, css_id) {
+          var table = document.getElementById("tinytable_bkq6e8y77gq72hwolf3v");
           var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -836,8 +860,8 @@ window.Quarto = {
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function spanCell_dxscvxj9odzczso8b4rr(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_dxscvxj9odzczso8b4rr");
+      function spanCell_bkq6e8y77gq72hwolf3v(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_bkq6e8y77gq72hwolf3v");
         const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
         if (!targetCell) {
           console.warn(`Cell at (${i}, ${j}) not found.`);
@@ -868,20 +892,20 @@ window.Quarto = {
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_9fgvlvi8lh1i3oiyt8mz',}, 
-          { positions: [ { i: '2', j: 1 },  ], css_id: 'tinytable_css_0zyy9cyby21np254hnl5',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 },  ], css_id: 'tinytable_css_ics6awwcxcs55douiy34',}, 
-          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_s9to85agfttmrrvj8apw',}, 
-          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_e9ovzmnf8ena8wltn4fk',}, 
-          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_3zdys1oo7pxbpexqqamp',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_46nfpi3r89dbkh7z0za9',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_fw657xi38ukops0p1p70',}, 
+          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_dqqm9v6sd9dfpa6kn8qn',}, 
+          { positions: [ { i: '2', j: 1 },  ], css_id: 'tinytable_css_jqgiflnfgtqwnbcqq5xs',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 },  ], css_id: 'tinytable_css_jwrnid9mh0nxlya59gau',}, 
+          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_8pa3b1g9nhww9032ganf',}, 
+          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_xxlnr3c6v93yl05psn4p',}, 
+          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_zr5vdufcxe1lh3ermvfp',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_3q8v01ujy9vg16pb9h5m',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_fpr7mqau772z3g5va600',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_dxscvxj9odzczso8b4rr(cell.i, cell.j, group.css_id);
+                  styleCell_bkq6e8y77gq72hwolf3v(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -889,17 +913,17 @@ window.Quarto = {
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_9fgvlvi8lh1i3oiyt8mz, .table th.tinytable_css_9fgvlvi8lh1i3oiyt8mz { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_0zyy9cyby21np254hnl5, .table th.tinytable_css_0zyy9cyby21np254hnl5 { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_ics6awwcxcs55douiy34, .table th.tinytable_css_ics6awwcxcs55douiy34 { text-align: center; }
-      .table td.tinytable_css_s9to85agfttmrrvj8apw, .table th.tinytable_css_s9to85agfttmrrvj8apw { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_e9ovzmnf8ena8wltn4fk, .table th.tinytable_css_e9ovzmnf8ena8wltn4fk { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_3zdys1oo7pxbpexqqamp, .table th.tinytable_css_3zdys1oo7pxbpexqqamp { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_46nfpi3r89dbkh7z0za9, .table th.tinytable_css_46nfpi3r89dbkh7z0za9 { text-align: left; }
-      .table td.tinytable_css_fw657xi38ukops0p1p70, .table th.tinytable_css_fw657xi38ukops0p1p70 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_dqqm9v6sd9dfpa6kn8qn, .table th.tinytable_css_dqqm9v6sd9dfpa6kn8qn { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_jqgiflnfgtqwnbcqq5xs, .table th.tinytable_css_jqgiflnfgtqwnbcqq5xs { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_jwrnid9mh0nxlya59gau, .table th.tinytable_css_jwrnid9mh0nxlya59gau { text-align: center; }
+      .table td.tinytable_css_8pa3b1g9nhww9032ganf, .table th.tinytable_css_8pa3b1g9nhww9032ganf { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_xxlnr3c6v93yl05psn4p, .table th.tinytable_css_xxlnr3c6v93yl05psn4p { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_zr5vdufcxe1lh3ermvfp, .table th.tinytable_css_zr5vdufcxe1lh3ermvfp { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_3q8v01ujy9vg16pb9h5m, .table th.tinytable_css_3q8v01ujy9vg16pb9h5m { text-align: left; }
+      .table td.tinytable_css_fpr7mqau772z3g5va600, .table th.tinytable_css_fpr7mqau772z3g5va600 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_dxscvxj9odzczso8b4rr" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_bkq6e8y77gq72hwolf3v" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -935,27 +959,6 @@ window.Quarto = {
 <!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
-<div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(life_exp <span class="sc">~</span> c_hs_grad,</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> states,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">67</span>, <span class="dv">74</span>),</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Life expectancy and education"</span>,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"US states, 1977"</span>,</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"% high school graduates (centered)"</span>,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Life expectancy at birth"</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="st">"lm"</span>,</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">level =</span> .<span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter-06_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
 <p>The intercept, <span class="math inline">\(b_0\)</span>, is now the expected value of the outcome when <code>hs_grad</code> is at its mean. But the slope, <span class="math inline">\(b_1\)</span>, is the same.</p>
 </section>
 <section id="normalization" class="level3">
@@ -976,7 +979,7 @@ window.Quarto = {
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">67</span>, <span class="dv">74</span>),</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Life expectancy and education"</span>,</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"US states, 1977"</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"high school graduate rate (normalized)"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"% high school graduates (normalized)"</span>,</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Life expectancy at birth"</span>)</span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="st">"lm"</span>,</span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">level =</span> .<span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1006,8 +1009,8 @@ window.Quarto = {
 
     <script>
 
-      function styleCell_gifg72uypphix12j96mx(i, j, css_id) {
-          var table = document.getElementById("tinytable_gifg72uypphix12j96mx");
+      function styleCell_1922ugykc7572lggjsh9(i, j, css_id) {
+          var table = document.getElementById("tinytable_1922ugykc7572lggjsh9");
           var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -1016,8 +1019,8 @@ window.Quarto = {
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function spanCell_gifg72uypphix12j96mx(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_gifg72uypphix12j96mx");
+      function spanCell_1922ugykc7572lggjsh9(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_1922ugykc7572lggjsh9");
         const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
         if (!targetCell) {
           console.warn(`Cell at (${i}, ${j}) not found.`);
@@ -1048,20 +1051,20 @@ window.Quarto = {
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_dhukk1saosmuq0mn53qc',}, 
-          { positions: [ { i: '2', j: 1 },  ], css_id: 'tinytable_css_j58ik7ih2ntx1plkvwoj',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 },  ], css_id: 'tinytable_css_8sujy9j59iy0py3xo0js',}, 
-          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_3b0v5hw6etwgb7f7s5h1',}, 
-          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_6t8dzvt898y9ynkmz7iy',}, 
-          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_rb6gbocuspkj7nlhp39w',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_4r38mq2juzch19fwntxr',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_iulvy0cwghgf0c2f5wyw',}, 
+          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_8850zakkzxpe4tlcnhll',}, 
+          { positions: [ { i: '2', j: 1 },  ], css_id: 'tinytable_css_gevbk59pxg2yyub3v0ij',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 },  ], css_id: 'tinytable_css_vmgjq5htfdu0nkep4o6t',}, 
+          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_zzw9mkbbu7bghh4l90zb',}, 
+          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_awel94bx9zqp02bgb7il',}, 
+          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_2d4683s7davqup5v2jwi',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_xudfn2rlzifudjma7rzt',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_pqrlb0z728wumm0zem39',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_gifg72uypphix12j96mx(cell.i, cell.j, group.css_id);
+                  styleCell_1922ugykc7572lggjsh9(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1069,17 +1072,17 @@ window.Quarto = {
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_dhukk1saosmuq0mn53qc, .table th.tinytable_css_dhukk1saosmuq0mn53qc { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_j58ik7ih2ntx1plkvwoj, .table th.tinytable_css_j58ik7ih2ntx1plkvwoj { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_8sujy9j59iy0py3xo0js, .table th.tinytable_css_8sujy9j59iy0py3xo0js { text-align: center; }
-      .table td.tinytable_css_3b0v5hw6etwgb7f7s5h1, .table th.tinytable_css_3b0v5hw6etwgb7f7s5h1 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_6t8dzvt898y9ynkmz7iy, .table th.tinytable_css_6t8dzvt898y9ynkmz7iy { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_rb6gbocuspkj7nlhp39w, .table th.tinytable_css_rb6gbocuspkj7nlhp39w { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_4r38mq2juzch19fwntxr, .table th.tinytable_css_4r38mq2juzch19fwntxr { text-align: left; }
-      .table td.tinytable_css_iulvy0cwghgf0c2f5wyw, .table th.tinytable_css_iulvy0cwghgf0c2f5wyw { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_8850zakkzxpe4tlcnhll, .table th.tinytable_css_8850zakkzxpe4tlcnhll { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_gevbk59pxg2yyub3v0ij, .table th.tinytable_css_gevbk59pxg2yyub3v0ij { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_vmgjq5htfdu0nkep4o6t, .table th.tinytable_css_vmgjq5htfdu0nkep4o6t { text-align: center; }
+      .table td.tinytable_css_zzw9mkbbu7bghh4l90zb, .table th.tinytable_css_zzw9mkbbu7bghh4l90zb { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_awel94bx9zqp02bgb7il, .table th.tinytable_css_awel94bx9zqp02bgb7il { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_2d4683s7davqup5v2jwi, .table th.tinytable_css_2d4683s7davqup5v2jwi { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_xudfn2rlzifudjma7rzt, .table th.tinytable_css_xudfn2rlzifudjma7rzt { text-align: left; }
+      .table td.tinytable_css_pqrlb0z728wumm0zem39, .table th.tinytable_css_pqrlb0z728wumm0zem39 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_gifg72uypphix12j96mx" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_1922ugykc7572lggjsh9" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -1123,18 +1126,25 @@ window.Quarto = {
 <p><span class="math display">\[X^* = \frac{X_i-\bar{X}}{s_X}\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">z_hs_grad =</span> (hs_grad <span class="sc">-</span> <span class="fu">mean</span>(hs_grad)) <span class="sc">/</span> <span class="fu">sd</span>(hs_grad))</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(z_hs_grad <span class="sc">~</span> hs_grad,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> states,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>),</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Original and standardized values"</span>,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"% HS grads"</span>,</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"z-score"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">z_hs_grad =</span> (hs_grad <span class="sc">-</span> <span class="fu">mean</span>(hs_grad)) <span class="sc">/</span> <span class="fu">sd</span>(hs_grad))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(life_exp <span class="sc">~</span> z_hs_grad,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> states,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">67</span>, <span class="dv">74</span>),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Life expectancy and education"</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"US states, 1977"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"% high school graduates (z-standardized)"</span>,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Life expectancy at birth"</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="st">"lm"</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">level =</span> .<span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter-06_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter-06_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1142,22 +1152,22 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>fit_stdx <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> z_hs_grad,</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> states)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"X std."</span> <span class="ot">=</span> fit_stdx),</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fit_stdx <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> z_hs_grad,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> states)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"X std."</span> <span class="ot">=</span> fit_stdx),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <!-- preamble start -->
 
     <script>
 
-      function styleCell_r0p8jonkngopudr2oyjf(i, j, css_id) {
-          var table = document.getElementById("tinytable_r0p8jonkngopudr2oyjf");
+      function styleCell_by34lv1x1z0arpa7e40d(i, j, css_id) {
+          var table = document.getElementById("tinytable_by34lv1x1z0arpa7e40d");
           var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -1166,8 +1176,8 @@ window.Quarto = {
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function spanCell_r0p8jonkngopudr2oyjf(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_r0p8jonkngopudr2oyjf");
+      function spanCell_by34lv1x1z0arpa7e40d(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_by34lv1x1z0arpa7e40d");
         const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
         if (!targetCell) {
           console.warn(`Cell at (${i}, ${j}) not found.`);
@@ -1198,20 +1208,20 @@ window.Quarto = {
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_eg5i2f4ubnsv4nv9e7na',}, 
-          { positions: [ { i: '2', j: 1 },  ], css_id: 'tinytable_css_va5oyz1i28pq0ne0oc9v',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 },  ], css_id: 'tinytable_css_n5gvcpcpdvrsw46ionr0',}, 
-          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_n3byjv98140j2blg0nb4',}, 
-          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_dyykgobzfyhvksrh2cwe',}, 
-          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_ym6fdwu1c20liqqukszn',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_txoelnol5v1h40xk83hg',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_4tmro8rmlpnlbapgy7q8',}, 
+          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_bf7d5t2bvanoqtq56ef3',}, 
+          { positions: [ { i: '2', j: 1 },  ], css_id: 'tinytable_css_70qw8nej3rpstg49aq52',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 },  ], css_id: 'tinytable_css_08i5awdu0950q2rks89p',}, 
+          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_k4y09hu3ad4iifbsoo7a',}, 
+          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_xmrp9uxwh3acs3mbjjbt',}, 
+          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_5w7p7zbf8g8kzbtws7pr',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_s59fxpruiz4zh0vxtaug',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_ib4ke1bcjepylz6u8hwk',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_r0p8jonkngopudr2oyjf(cell.i, cell.j, group.css_id);
+                  styleCell_by34lv1x1z0arpa7e40d(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1219,17 +1229,17 @@ window.Quarto = {
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_eg5i2f4ubnsv4nv9e7na, .table th.tinytable_css_eg5i2f4ubnsv4nv9e7na { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_va5oyz1i28pq0ne0oc9v, .table th.tinytable_css_va5oyz1i28pq0ne0oc9v { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_n5gvcpcpdvrsw46ionr0, .table th.tinytable_css_n5gvcpcpdvrsw46ionr0 { text-align: center; }
-      .table td.tinytable_css_n3byjv98140j2blg0nb4, .table th.tinytable_css_n3byjv98140j2blg0nb4 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_dyykgobzfyhvksrh2cwe, .table th.tinytable_css_dyykgobzfyhvksrh2cwe { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_ym6fdwu1c20liqqukszn, .table th.tinytable_css_ym6fdwu1c20liqqukszn { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_txoelnol5v1h40xk83hg, .table th.tinytable_css_txoelnol5v1h40xk83hg { text-align: left; }
-      .table td.tinytable_css_4tmro8rmlpnlbapgy7q8, .table th.tinytable_css_4tmro8rmlpnlbapgy7q8 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_bf7d5t2bvanoqtq56ef3, .table th.tinytable_css_bf7d5t2bvanoqtq56ef3 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_70qw8nej3rpstg49aq52, .table th.tinytable_css_70qw8nej3rpstg49aq52 { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_08i5awdu0950q2rks89p, .table th.tinytable_css_08i5awdu0950q2rks89p { text-align: center; }
+      .table td.tinytable_css_k4y09hu3ad4iifbsoo7a, .table th.tinytable_css_k4y09hu3ad4iifbsoo7a { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_xmrp9uxwh3acs3mbjjbt, .table th.tinytable_css_xmrp9uxwh3acs3mbjjbt { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_5w7p7zbf8g8kzbtws7pr, .table th.tinytable_css_5w7p7zbf8g8kzbtws7pr { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_s59fxpruiz4zh0vxtaug, .table th.tinytable_css_s59fxpruiz4zh0vxtaug { text-align: left; }
+      .table td.tinytable_css_ib4ke1bcjepylz6u8hwk, .table th.tinytable_css_ib4ke1bcjepylz6u8hwk { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_r0p8jonkngopudr2oyjf" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_by34lv1x1z0arpa7e40d" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -1273,25 +1283,49 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">z_life_exp =</span> (life_exp <span class="sc">-</span> (<span class="fu">mean</span>(life_exp))) <span class="sc">/</span> <span class="fu">sd</span>(life_exp))</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>fit_std <span class="ot">&lt;-</span> <span class="fu">lm</span>(z_life_exp <span class="sc">~</span> z_hs_grad,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> states)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"XY std."</span> <span class="ot">=</span> fit_std),</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">z_life_exp =</span> (life_exp <span class="sc">-</span> (<span class="fu">mean</span>(life_exp))) <span class="sc">/</span> <span class="fu">sd</span>(life_exp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(z_life_exp <span class="sc">~</span> z_hs_grad,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> states,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Life expectancy and education"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"US states, 1977"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"% high school graduates (z-standardized)"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Life expectancy at birth (z-standardized)"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="st">"lm"</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">level =</span> .<span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter-06_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fit_std <span class="ot">&lt;-</span> <span class="fu">lm</span>(z_life_exp <span class="sc">~</span> z_hs_grad,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> states)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"XY std."</span> <span class="ot">=</span> fit_std),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <!-- preamble start -->
 
     <script>
 
-      function styleCell_xgk061tk29ynxw73eewi(i, j, css_id) {
-          var table = document.getElementById("tinytable_xgk061tk29ynxw73eewi");
+      function styleCell_o1waiec4nj93skf8fffr(i, j, css_id) {
+          var table = document.getElementById("tinytable_o1waiec4nj93skf8fffr");
           var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -1300,8 +1334,8 @@ window.Quarto = {
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function spanCell_xgk061tk29ynxw73eewi(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_xgk061tk29ynxw73eewi");
+      function spanCell_o1waiec4nj93skf8fffr(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_o1waiec4nj93skf8fffr");
         const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
         if (!targetCell) {
           console.warn(`Cell at (${i}, ${j}) not found.`);
@@ -1332,20 +1366,20 @@ window.Quarto = {
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_ab6nyamotpyyautprvhb',}, 
-          { positions: [ { i: '2', j: 1 },  ], css_id: 'tinytable_css_h2tzeap1fubt3olmudfg',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 },  ], css_id: 'tinytable_css_d6rhj5oechhuf1c7tcly',}, 
-          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_t3oy3nxj1zbduyowbrqk',}, 
-          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_6izgah51in0f40maywag',}, 
-          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_k57e2ado45k0l6oo0b8j',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_68493rbfr8hdr6ignjez',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_j0fa4x4bmln27tpnijbv',}, 
+          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_d8dgzu94qb7osnaln4ys',}, 
+          { positions: [ { i: '2', j: 1 },  ], css_id: 'tinytable_css_0ggf1uh5ok7s0haqj0ud',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 },  ], css_id: 'tinytable_css_vk6jqf33irryrpyouhk7',}, 
+          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_851yyjpnayyqugw4c5q2',}, 
+          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_da547311twb03shzd06y',}, 
+          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_8a7rz8qq451kfgsjime3',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_8etob4vso7xoi7btzz8e',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_xtbhi8rs65pwmdbgu3bl',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_xgk061tk29ynxw73eewi(cell.i, cell.j, group.css_id);
+                  styleCell_o1waiec4nj93skf8fffr(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1353,17 +1387,17 @@ window.Quarto = {
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_ab6nyamotpyyautprvhb, .table th.tinytable_css_ab6nyamotpyyautprvhb { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_h2tzeap1fubt3olmudfg, .table th.tinytable_css_h2tzeap1fubt3olmudfg { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_d6rhj5oechhuf1c7tcly, .table th.tinytable_css_d6rhj5oechhuf1c7tcly { text-align: center; }
-      .table td.tinytable_css_t3oy3nxj1zbduyowbrqk, .table th.tinytable_css_t3oy3nxj1zbduyowbrqk { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_6izgah51in0f40maywag, .table th.tinytable_css_6izgah51in0f40maywag { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_k57e2ado45k0l6oo0b8j, .table th.tinytable_css_k57e2ado45k0l6oo0b8j { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_68493rbfr8hdr6ignjez, .table th.tinytable_css_68493rbfr8hdr6ignjez { text-align: left; }
-      .table td.tinytable_css_j0fa4x4bmln27tpnijbv, .table th.tinytable_css_j0fa4x4bmln27tpnijbv { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_d8dgzu94qb7osnaln4ys, .table th.tinytable_css_d8dgzu94qb7osnaln4ys { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_0ggf1uh5ok7s0haqj0ud, .table th.tinytable_css_0ggf1uh5ok7s0haqj0ud { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_vk6jqf33irryrpyouhk7, .table th.tinytable_css_vk6jqf33irryrpyouhk7 { text-align: center; }
+      .table td.tinytable_css_851yyjpnayyqugw4c5q2, .table th.tinytable_css_851yyjpnayyqugw4c5q2 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_da547311twb03shzd06y, .table th.tinytable_css_da547311twb03shzd06y { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_8a7rz8qq451kfgsjime3, .table th.tinytable_css_8a7rz8qq451kfgsjime3 { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_8etob4vso7xoi7btzz8e, .table th.tinytable_css_8etob4vso7xoi7btzz8e { text-align: left; }
+      .table td.tinytable_css_xtbhi8rs65pwmdbgu3bl, .table th.tinytable_css_xtbhi8rs65pwmdbgu3bl { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_xgk061tk29ynxw73eewi" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_o1waiec4nj93skf8fffr" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -1409,23 +1443,23 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"Original"</span> <span class="ot">=</span> ma,</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Centered"</span> <span class="ot">=</span> fit_cent,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Norm."</span> <span class="ot">=</span> fit_pomp,</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">"X-std."</span> <span class="ot">=</span> fit_stdx,</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">"XY-std."</span> <span class="ot">=</span> fit_std),</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate}"</span>,</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"Original"</span> <span class="ot">=</span> ma,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Centered"</span> <span class="ot">=</span> fit_cent,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Norm."</span> <span class="ot">=</span> fit_pomp,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>              <span class="st">"X-std."</span> <span class="ot">=</span> fit_stdx,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>              <span class="st">"XY-std."</span> <span class="ot">=</span> fit_std),</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate}"</span>,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <!-- preamble start -->
 
     <script>
 
-      function styleCell_51olf2qazyjcxuunhhu7(i, j, css_id) {
-          var table = document.getElementById("tinytable_51olf2qazyjcxuunhhu7");
+      function styleCell_ctrqzhfbcg3iej2ti8bm(i, j, css_id) {
+          var table = document.getElementById("tinytable_ctrqzhfbcg3iej2ti8bm");
           var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -1434,8 +1468,8 @@ window.Quarto = {
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function spanCell_51olf2qazyjcxuunhhu7(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_51olf2qazyjcxuunhhu7");
+      function spanCell_ctrqzhfbcg3iej2ti8bm(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_ctrqzhfbcg3iej2ti8bm");
         const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
         if (!targetCell) {
           console.warn(`Cell at (${i}, ${j}) not found.`);
@@ -1466,20 +1500,20 @@ window.Quarto = {
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '8', j: 4 }, { i: '8', j: 3 }, { i: '8', j: 1 }, { i: '8', j: 2 }, { i: '8', j: 5 },  ], css_id: 'tinytable_css_jg0we0tshislm1e4jjjc',}, 
-          { positions: [ { i: '5', j: 1 }, { i: '5', j: 4 }, { i: '5', j: 3 }, { i: '5', j: 2 }, { i: '5', j: 5 },  ], css_id: 'tinytable_css_38s8jmspy7qayzv8ki2x',}, 
-          { positions: [ { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '2', j: 1 }, { i: '7', j: 1 }, { i: '3', j: 3 }, { i: '6', j: 1 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '1', j: 1 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '7', j: 4 }, { i: '4', j: 3 }, { i: '1', j: 2 }, { i: '6', j: 3 }, { i: '7', j: 3 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '7', j: 5 }, { i: '6', j: 4 }, { i: '2', j: 5 }, { i: '1', j: 5 }, { i: '6', j: 5 },  ], css_id: 'tinytable_css_vhx8898n9flxppyl3yzp',}, 
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 3 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_607khgk4eameorojp2r8',}, 
-          { positions: [ { i: '8', j: 0 },  ], css_id: 'tinytable_css_6sw027kwwpd15tdkc8uj',}, 
-          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_k1lgzcy5wrc68viulz35',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '2', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 }, { i: '6', j: 0 }, { i: '7', j: 0 },  ], css_id: 'tinytable_css_hj9g6xioi3yrv5t2jkfg',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_jz418yrimzd97kcto35x',}, 
+          { positions: [ { i: '8', j: 4 }, { i: '8', j: 3 }, { i: '8', j: 1 }, { i: '8', j: 2 }, { i: '8', j: 5 },  ], css_id: 'tinytable_css_vhkew0k3oyospou74t6q',}, 
+          { positions: [ { i: '5', j: 1 }, { i: '5', j: 4 }, { i: '5', j: 3 }, { i: '5', j: 2 }, { i: '5', j: 5 },  ], css_id: 'tinytable_css_g77i88lb1oe7f111t53x',}, 
+          { positions: [ { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '2', j: 1 }, { i: '7', j: 1 }, { i: '3', j: 3 }, { i: '6', j: 1 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '1', j: 1 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '3', j: 4 }, { i: '4', j: 4 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '7', j: 4 }, { i: '4', j: 3 }, { i: '1', j: 2 }, { i: '6', j: 3 }, { i: '7', j: 3 }, { i: '3', j: 5 }, { i: '4', j: 5 }, { i: '1', j: 4 }, { i: '2', j: 4 }, { i: '7', j: 5 }, { i: '6', j: 4 }, { i: '2', j: 5 }, { i: '1', j: 5 }, { i: '6', j: 5 },  ], css_id: 'tinytable_css_mzd2lg35bdw7w6d08bj8',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 3 }, { i: '0', j: 2 },  ], css_id: 'tinytable_css_fsqw440190d08gd62sf1',}, 
+          { positions: [ { i: '8', j: 0 },  ], css_id: 'tinytable_css_7dp3rc6za0h2o170slnp',}, 
+          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_rgxw6xf7byrhzk4vk388',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '2', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 }, { i: '6', j: 0 }, { i: '7', j: 0 },  ], css_id: 'tinytable_css_umg3n69g5x1rd8mgm9yk',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_uk9fxo96cukxj24zny95',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_51olf2qazyjcxuunhhu7(cell.i, cell.j, group.css_id);
+                  styleCell_ctrqzhfbcg3iej2ti8bm(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1487,17 +1521,17 @@ window.Quarto = {
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_jg0we0tshislm1e4jjjc, .table th.tinytable_css_jg0we0tshislm1e4jjjc { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_38s8jmspy7qayzv8ki2x, .table th.tinytable_css_38s8jmspy7qayzv8ki2x { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_vhx8898n9flxppyl3yzp, .table th.tinytable_css_vhx8898n9flxppyl3yzp { text-align: center; }
-      .table td.tinytable_css_607khgk4eameorojp2r8, .table th.tinytable_css_607khgk4eameorojp2r8 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_6sw027kwwpd15tdkc8uj, .table th.tinytable_css_6sw027kwwpd15tdkc8uj { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_k1lgzcy5wrc68viulz35, .table th.tinytable_css_k1lgzcy5wrc68viulz35 { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_hj9g6xioi3yrv5t2jkfg, .table th.tinytable_css_hj9g6xioi3yrv5t2jkfg { text-align: left; }
-      .table td.tinytable_css_jz418yrimzd97kcto35x, .table th.tinytable_css_jz418yrimzd97kcto35x { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_vhkew0k3oyospou74t6q, .table th.tinytable_css_vhkew0k3oyospou74t6q { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_g77i88lb1oe7f111t53x, .table th.tinytable_css_g77i88lb1oe7f111t53x { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_mzd2lg35bdw7w6d08bj8, .table th.tinytable_css_mzd2lg35bdw7w6d08bj8 { text-align: center; }
+      .table td.tinytable_css_fsqw440190d08gd62sf1, .table th.tinytable_css_fsqw440190d08gd62sf1 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_7dp3rc6za0h2o170slnp, .table th.tinytable_css_7dp3rc6za0h2o170slnp { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_rgxw6xf7byrhzk4vk388, .table th.tinytable_css_rgxw6xf7byrhzk4vk388 { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_umg3n69g5x1rd8mgm9yk, .table th.tinytable_css_umg3n69g5x1rd8mgm9yk { text-align: left; }
+      .table td.tinytable_css_uk9fxo96cukxj24zny95, .table th.tinytable_css_uk9fxo96cukxj24zny95 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_51olf2qazyjcxuunhhu7" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_ctrqzhfbcg3iej2ti8bm" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -1591,73 +1625,73 @@ window.Quarto = {
 <p>We’re going to do this with simulations. Specifically, we’re going to implement a <strong>permutation test.</strong> That means keeping all the individual X values and all the individual Y values as they are in the real data. But we pair them up randomly, which makes the columns independent of each other.</p>
 <p>Let’s make a function to randomly pair x and y values and then estimate a regression line.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NB: we could make this faster but I want to make it clear...</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># this will make the code less messy</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> states<span class="sc">$</span>hs_grad</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> states<span class="sc">$</span>life_exp</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>get_coefs <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">sample</span>(y, <span class="fu">length</span>(y)),</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">sample</span>(x, <span class="fu">length</span>(x))</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> d)</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">b0 =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[<span class="dv">1</span>]),</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">b1 =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[<span class="dv">2</span>])</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NB: we could make this faster but I want to make it clear...</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># this will make the code less messy</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> states<span class="sc">$</span>hs_grad</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> states<span class="sc">$</span>life_exp</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>get_coefs <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) {</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">sample</span>(y, <span class="fu">length</span>(y)),</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">sample</span>(x, <span class="fu">length</span>(x))</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> d)</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">b0 =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[<span class="dv">1</span>]),</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">b1 =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[<span class="dv">2</span>])</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Make skeleton and get regression lines from each run of <code>get_coefs()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mynulls <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) <span class="sc">|&gt;</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coefs =</span> <span class="fu">list</span>(<span class="fu">get_coefs</span>(x, y))) <span class="sc">|&gt;</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">unnest_wider</span>(coefs) <span class="sc">|&gt;</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mynulls <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">coefs =</span> <span class="fu">list</span>(<span class="fu">get_coefs</span>(x, y))) <span class="sc">|&gt;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">unnest_wider</span>(coefs) <span class="sc">|&gt;</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Convert the estimates to predictions for plotting.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">max</span>(states<span class="sc">$</span>hs_grad)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>x_min <span class="ot">&lt;-</span> <span class="fu">min</span>(states<span class="sc">$</span>hs_grad)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>mysticks <span class="ot">&lt;-</span> mynulls <span class="sc">|&gt;</span> </span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> <span class="fu">factor</span>(id),</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x1 =</span> x_min,</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x2 =</span> x_max,</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y1 =</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x1,</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y2 =</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x2</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(x1, x2, y1, y2),</span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">".value"</span>, <span class="st">"pt"</span>),</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"([xy])(</span><span class="sc">\\</span><span class="st">d)"</span></span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x_max <span class="ot">&lt;-</span> <span class="fu">max</span>(states<span class="sc">$</span>hs_grad)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>x_min <span class="ot">&lt;-</span> <span class="fu">min</span>(states<span class="sc">$</span>hs_grad)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>mysticks <span class="ot">&lt;-</span> mynulls <span class="sc">|&gt;</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> <span class="fu">factor</span>(id),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x1 =</span> x_min,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x2 =</span> x_max,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y1 =</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x1,</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y2 =</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x2</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="fu">c</span>(x1, x2, y1, y2),</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">".value"</span>, <span class="st">"pt"</span>),</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span> <span class="st">"([xy])(</span><span class="sc">\\</span><span class="st">d)"</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now plot the “bundle of null sticks” (as I like to think of it).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(y <span class="sc">~</span> x,</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> mysticks[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, ],</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> .<span class="dv">4</span>,</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">67</span>, <span class="dv">74</span>),</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(x_min, x_max),</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Null regression lines and estimated line"</span>,</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"Nulls from 100 permuations"</span>,</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"% HS grad"</span>,</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Life expectancy"</span>)</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_abline</span>(<span class="at">a =</span> <span class="fu">coef</span>(ma)[<span class="dv">1</span>], </span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                           <span class="at">b =</span> <span class="fu">coef</span>(ma)[<span class="dv">2</span>]),</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">lw =</span> <span class="dv">3</span>,</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"#F28E2B"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(y <span class="sc">~</span> x,</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> mysticks[<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, ],</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> .<span class="dv">4</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">67</span>, <span class="dv">74</span>),</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(x_min, x_max),</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Null regression lines and estimated line"</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"Nulls from 100 permuations"</span>,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"% HS grad"</span>,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Life expectancy"</span>)</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_abline</span>(<span class="at">a =</span> <span class="fu">coef</span>(ma)[<span class="dv">1</span>], </span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                           <span class="at">b =</span> <span class="fu">coef</span>(ma)[<span class="dv">2</span>]),</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">lw =</span> <span class="dv">3</span>,</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"#F28E2B"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter-06_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter-06_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1666,21 +1700,21 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>est_b1 <span class="ot">&lt;-</span> ma<span class="sc">$</span>coefficients[<span class="dv">2</span>] </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(<span class="sc">~</span> b1,</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> mynulls,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"hist"</span>,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Observed and null estimates of b1"</span>,</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fu">min</span>(mynulls<span class="sc">$</span>b1) <span class="sc">*</span> <span class="fl">1.05</span> , est_b1 <span class="sc">*</span> <span class="fl">1.05</span>))</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_vline</span>(<span class="at">v =</span> est_b1),</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"#F28E2B"</span>,</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">lw =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>est_b1 <span class="ot">&lt;-</span> ma<span class="sc">$</span>coefficients[<span class="dv">2</span>] </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(<span class="sc">~</span> b1,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> mynulls,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"hist"</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Observed and null estimates of b1"</span>,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="fu">min</span>(mynulls<span class="sc">$</span>b1) <span class="sc">*</span> <span class="fl">1.05</span> , est_b1 <span class="sc">*</span> <span class="fl">1.05</span>))</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_vline</span>(<span class="at">v =</span> est_b1),</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"#F28E2B"</span>,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">lw =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter-06_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter-06_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1691,25 +1725,25 @@ window.Quarto = {
 <p>This is basically the same as before: the estimate plus and minus a certain number of standard errors depending on the desired interval.</p>
 <p>Consider this result again:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(ma, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">conf.level =</span> .<span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(ma, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">conf.level =</span> .<span class="dv">95</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 7
   term        estimate std.error statistic  p.value conf.low conf.high
   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-1 (Intercept)  65.7       1.05       62.8  9.92e-48  62.9       68.5  
-2 hs_grad       0.0968    0.0195      4.96 9.20e- 6   0.0445     0.149</code></pre>
+1 (Intercept)  65.7       1.05       62.8  9.92e-48  63.6       67.8  
+2 hs_grad       0.0968    0.0195      4.96 9.20e- 6   0.0575     0.136</code></pre>
 </div>
 </div>
-<p>Consider all the ways that these quantities relate to each other. Make sure you understand.</p>
+<p>Consider all the ways that these quantities relate to each other. Make sure you understand the connection between t, F, <span class="math inline">\(b_1\)</span>, the standard error, R<sup>2</sup>, the confidence interval, etc. Which ones can you make out of which other ones?</p>
 </section>
 <section id="power-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="power-analysis">Power analysis</h3>
 <p>Using fully standardized variables allows us to think about power pretty easily using <code>pwr::pwr.r.test()</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pwr<span class="sc">::</span><span class="fu">pwr.r.test</span>(<span class="at">r =</span> .<span class="dv">1</span>, </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">sig.level =</span> .<span class="dv">01</span>, </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">power =</span> .<span class="dv">9</span>, </span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pwr<span class="sc">::</span><span class="fu">pwr.r.test</span>(<span class="at">r =</span> .<span class="dv">1</span>, </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">sig.level =</span> .<span class="dv">01</span>, </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">power =</span> .<span class="dv">9</span>, </span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
      approximate correlation power calculation (arctangh transformation) 
@@ -1719,6 +1753,44 @@ window.Quarto = {
       sig.level = 0.01
           power = 0.9
     alternative = two.sided</code></pre>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># function</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>get_n <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">power =</span> .<span class="dv">8</span>, <span class="at">alpha =</span> .<span class="dv">01</span>) {</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  tmp <span class="ot">&lt;-</span> pwr<span class="sc">::</span><span class="fu">pwr.r.test</span>(<span class="at">r =</span> r, </span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sig.level =</span> alpha, </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">power =</span> power, </span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(tmp<span class="sc">$</span>n)</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a><span class="co"># skeleton and apply</span></span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>n_needed <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">r =</span> <span class="fu">seq</span>(<span class="at">from =</span> .<span class="dv">1</span>, <span class="at">to =</span> .<span class="dv">6</span>, <span class="at">by =</span> .<span class="dv">025</span>),</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fu">c</span>(.<span class="dv">8</span>, .<span class="dv">95</span>),</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha =</span> .<span class="dv">01</span>) <span class="sc">|&gt;</span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">n =</span> <span class="fu">get_n</span>(<span class="at">r =</span> r, <span class="at">power =</span> power))</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(n <span class="sc">~</span> r <span class="sc">|</span> <span class="fu">factor</span>(power),</span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> n_needed,</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter-06_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
