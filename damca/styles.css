@@ -1,0 +1,4 @@
+/* Keep margin sidebar from collapsing when empty */
+#quarto-margin-sidebar {
+  display: block !important;
+}
