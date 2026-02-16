@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Section A Recap – DAMCA Companion</title>
+<title>title: “Chapters 2 and 3” – DAMCA Companion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapter-06.html" rel="next">
-<link href="./chapter-05.html" rel="prev">
+<link href="./chapter-04.html" rel="next">
+<link href="./chapter-01.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -139,7 +139,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./section-a-recap.html">Section A Recap</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter-02-03.html">title: “Chapters 2 and 3”</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -187,7 +187,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter-02-03.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapter-02-03.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">title: “Chapters 2 and 3”</span></a>
   </div>
 </li>
@@ -205,7 +205,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./section-a-recap.html" class="sidebar-item-text sidebar-link active">
+  <a href="./section-a-recap.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Section A Recap</span></a>
   </div>
 </li>
@@ -225,21 +225,19 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
-  <ul class="collapse">
-  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals">Goals</a></li>
-  <li><a href="#session-set-up" id="toc-session-set-up" class="nav-link" data-scroll-target="#session-set-up">Session set up</a></li>
-  </ul></li>
-  <li><a href="#maximum-likelihood" id="toc-maximum-likelihood" class="nav-link" data-scroll-target="#maximum-likelihood">Maximum likelihood</a></li>
+  <li><a href="#goals" id="toc-goals" class="nav-link active" data-scroll-target="#goals">Goals</a></li>
+  <li><a href="#set-up" id="toc-set-up" class="nav-link" data-scroll-target="#set-up">Set up</a></li>
+  <li><a href="#unconditional-predictions-and-sse" id="toc-unconditional-predictions-and-sse" class="nav-link" data-scroll-target="#unconditional-predictions-and-sse">Unconditional predictions and SSE</a></li>
+  <li><a href="#conditional-predictions" id="toc-conditional-predictions" class="nav-link" data-scroll-target="#conditional-predictions">Conditional predictions</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Section A Recap</h1>
+<h1 class="title">title: “Chapters 2 and 3”</h1>
 </div>
 
 
@@ -256,112 +254,224 @@ window.Quarto = {
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<section id="goals" class="level3">
-<h3 class="anchored" data-anchor-id="goals">Goals</h3>
-<p>I’m not going to talk about everything in this section here. But I do want to mention one thing that is going to be important: <strong>maximum likelihood</strong>.</p>
+<section id="goals" class="level2">
+<h2 class="anchored" data-anchor-id="goals">Goals</h2>
+<p>We’ll go over some R code here to lock in the content from Chapter 2 (and a bit of 3).</p>
 </section>
-<section id="session-set-up" class="level3">
-<h3 class="anchored" data-anchor-id="session-set-up">Session set up</h3>
-</section>
-</section>
-<section id="maximum-likelihood" class="level2">
-<h2 class="anchored" data-anchor-id="maximum-likelihood">Maximum likelihood</h2>
-<p>So far we have been interesting in <em>minimizing the sum of squared residuals</em>. This makes sense when we’re dealing with outcome whose residuals can be modeled as a normal distribution. But, as we’ll see later, that’s not always the case.</p>
-<p>It turns out that <em>minimizing the sum of squared residuals</em> is equivalent to <em>maximizing the likelihood</em> of the observations. Which is a procedure we can use with basically <em>every</em> kind of model later on.</p>
-<p>The relationship between the residual sum of squares (RSS) and the likelihood of the observations is:</p>
-<p><span class="math display">\[\ell
-= -\frac{n}{2}\left[1+\log(2\pi)+\log\!\left(\frac{\mathrm{RSS}}{n}\right)\right]\]</span></p>
-<p>You do NOT have to memorize this. But it’s good to think about.</p>
-<p>Here’s a quick comparison in R for you to see the equivalence.</p>
+<section id="set-up" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="set-up">Set up</h2>
+<p>Load packages here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(wt <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> mtcars)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">deviance</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 29.67875</code></pre>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gssr)       <span class="co"># you may need to install</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Package loaded. To attach the GSS data, type data(gss_all) at the console.
+For the panel data and documentation, type e.g. data(gss_panel08_long) and data(gss_panel_doc).
+For help on a specific GSS variable, type ?varname at the console.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rss <span class="ot">&lt;-</span> <span class="fu">deviance</span>(fit)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nobs</span>(fit)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ll_from_rss <span class="ot">&lt;-</span> <span class="sc">-</span>(n<span class="sc">/</span><span class="dv">2</span>) <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">2</span><span class="sc">*</span>pi) <span class="sc">+</span> <span class="fu">log</span>(rss<span class="sc">/</span>n))</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ll_from_rss</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] -44.20116</code></pre>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gssrdoc)    <span class="co"># ditto</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(fit) <span class="co"># same!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>'log Lik.' -44.20116 (df=2)</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
 </div>
-<p>If you <em>really</em> want to understand likelihood, it’s valuable to think about it as a <em>pointwise</em> or <em>rowwise</em> quantity. That is, given a specific model, you can evaluate the likelihood of any individual observation.</p>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinyplot)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tinytheme</span>(<span class="st">"ipsum"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">"Roboto Condensed"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette.qualitative =</span> <span class="st">"Tableau 10"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette.sequential =</span> <span class="st">"agSunset"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Get data from NORC one time and save it to your hard drive. I have the chunk option set to <code>#| eval: false</code> so this doesn’t run in the future.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>m_hat <span class="ot">&lt;-</span> fit<span class="sc">$</span>coefficients[<span class="dv">1</span>]</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>s_hat <span class="ot">&lt;-</span> <span class="fu">sd</span>(fit<span class="sc">$</span>residuals)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>mtcars <span class="ot">&lt;-</span> mtcars <span class="sc">|&gt;</span> </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">likelihood =</span> <span class="fu">dnorm</span>(wt, m_hat, s_hat),</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">log_lik =</span> <span class="fu">log</span>(likelihood))</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span> </span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(wt) <span class="sc">|&gt;</span> </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(wt, likelihood, log_lik)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>gss2024 <span class="ot">&lt;-</span> <span class="fu">gss_get_yr</span>(<span class="dv">2024</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(gss2024, <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once it’s saved locally you can load it locally in the future.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>gss2024 <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We only need a small subset of variables to demonstrate today’s material so let’s get that.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;This section uses <code>haven::zap_labels()</code> to get rid of the labels that come from the Stata import that is the origin of data in the {gssr} package. These can be useful sometimes but they can also get in the way of certain functions.</p></div></div><div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> gss2024 <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(polviews, sex) <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">zap_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="unconditional-predictions-and-sse" class="level2">
+<h2 class="anchored" data-anchor-id="unconditional-predictions-and-sse">Unconditional predictions and SSE</h2>
+<p>We will rely on <em>the sum of squared errors</em> (<strong>SSE</strong>) to quantify ERROR in this framework (at least for now). This is also sometimes called the sum of squared residuals (SSR) or the residual sum of squares (RSS). These are all the same quantities.</p>
+<p>We can get R to estimate “model C” (our zero parameter guess).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mod_c_pred =</span> <span class="dv">4</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">mod_c_err =</span> polviews <span class="sc">-</span> mod_c_pred)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>sse_c <span class="ot">&lt;-</span> <span class="fu">sum</span>(d<span class="sc">$</span>mod_c_err<span class="sc">^</span><span class="dv">2</span>) <span class="co"># SSE for model C</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>sse_c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                       wt likelihood    log_lik
-Lotus Europa        1.513 0.08945265 -2.4140458
-Honda Civic         1.615 0.10668155 -2.2379071
-Toyota Corolla      1.835 0.15031880 -1.8949969
-Fiat X1-9           1.935 0.17276190 -1.7558409
-Porsche 914-2       2.140 0.22241163 -1.5032254
-Fiat 128            2.200 0.23749870 -1.4375931
-Datsun 710          2.320 0.26777471 -1.3176093
-Toyota Corona       2.465 0.30340200 -1.1926966
-Mazda RX4           2.620 0.33842446 -1.0834544
-Ferrari Dino        2.770 0.36728051 -1.0016294
-Volvo 142E          2.780 0.36898104 -0.9970100
-Mazda RX4 Wag       2.875 0.38353077 -0.9583354
-Merc 230            3.150 0.40676384 -0.8995225
-Ford Pantera L      3.170 0.40725061 -0.8983265
-Merc 240D           3.190 0.40756765 -0.8975484
-Hornet 4 Drive      3.215 0.40772466 -0.8971632
-AMC Javelin         3.435 0.39775323 -0.9219235
-Hornet Sportabout   3.440 0.39729596 -0.9230738
-Merc 280            3.440 0.39729596 -0.9230738
-Merc 280C           3.440 0.39729596 -0.9230738
-Valiant             3.460 0.39536891 -0.9279360
-Dodge Challenger    3.520 0.38866808 -0.9450296
-Duster 360          3.570 0.38207185 -0.9621466
-Maserati Bora       3.570 0.38207185 -0.9621466
-Merc 450SL          3.730 0.35541503 -1.0344691
-Merc 450SLC         3.780 0.34557225 -1.0625535
-Camaro Z28          3.840 0.33297034 -1.0997018
-Pontiac Firebird    3.845 0.33188483 -1.1029673
-Merc 450SE          4.070 0.27888986 -1.2769384
-Cadillac Fleetwood  5.250 0.04711454 -3.0551736
-Chrysler Imperial   5.345 0.03832721 -3.2615952
-Lincoln Continental 5.424 0.03205090 -3.4404301</code></pre>
+<pre><code>[1] 7408</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(mtcars<span class="sc">$</span>log_lik) <span class="co"># any differences here are just rounding error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now get R to estimate “model A” (our one parameter estimate).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mod_a_pred =</span> <span class="fu">mean</span>(polviews),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">mod_a_err =</span> polviews <span class="sc">-</span> mod_a_pred)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>sse_a <span class="ot">&lt;-</span> <span class="fu">sum</span>(d<span class="sc">$</span>mod_a_err<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>sse_a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -44.20914</code></pre>
+<pre><code>[1] 7372.137</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
+<p>We can use these quantities to estimate PRE.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>(sse_c <span class="sc">-</span> sse_a) <span class="sc">/</span> sse_c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.004841087</code></pre>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>Because the normal is a continuous distribution, these likelihood values are <strong>probability densities</strong>. So each value is a <strong>likelihood contribution</strong> to the overall likelihood.</p>
+<p>We can also estimate model C with <code>lm()</code>. First let’s make a version of polviews “centered” on 4.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">polviews_dev =</span> polviews <span class="sc">-</span> <span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can estimate model C by regressing <code>polviews_dev</code> in a model with no constant (i.e., estimating no parameters at all).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mod_c <span class="ot">&lt;-</span> <span class="fu">lm</span>(polviews_dev <span class="sc">~</span> <span class="dv">0</span>, </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> d)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">deviance</span>(mod_c) <span class="co"># confirm this is the same as above</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7408</code></pre>
 </div>
 </div>
+<p>This is similar for model A, except we now estimate the “intercept” by changing the formula to <code>~ 1</code>. This asks R to estimate the intercept. Because of the way we transformed the outcome variable (deviating it from 4), this means “how different is the estimated mean from 4”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>mod_a <span class="ot">&lt;-</span> <span class="fu">lm</span>(polviews_dev <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> d)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">deviance</span>(mod_a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7372.137</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">deviance</span>(mod_c) <span class="sc">-</span> <span class="fu">deviance</span>(mod_a)) <span class="sc">/</span> <span class="fu">deviance</span>(mod_c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.004841087</code></pre>
+</div>
+</div>
+<p>This makes a very small difference, reducing the SSE/SSR/RSS by .04%.</p>
+<p>If we want, we can also use the <code>predict()</code> function after <code>lm()</code> to add the model estimate to the data frame. Here the same number will be added to each observation because the model is making the same guess for every row.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>mod_a_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(mod_a)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>mod_c_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(mod_c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>glance()</code> is also a useful function to look at models. It’s too early for us to dig into this too much, but <code>sigma</code> here (<span class="math inline">\(\sigma\)</span>) is the <strong>RMSE</strong> (the square root of the mean squared error).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glance</span>(mod_a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 12
+  r.squared adj.r.squared sigma statistic p.value    df logLik    AIC    BIC
+      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1         0             0  1.53        NA      NA    NA -5806. 11616. 11629.
+# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="conditional-predictions" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-predictions">Conditional predictions</h2>
+<p>We won’t talk too much about this until the next chapter or two, but we can also use the data to make different predictions for different groups. For example, is the mean <code>polviews</code> different for male and female respondents?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>d2 <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_pv =</span> <span class="fu">mean</span>(polviews))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>d2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+    sex mean_pv
+  &lt;dbl&gt;   &lt;dbl&gt;
+1     1    4.20
+2     2    4.03</code></pre>
+</div>
+</div>
+<p>We can also do this with <code>lm()</code> Let’s start with the “bad way” of conditional predictions. This is bad because it doesn’t make sense to have sex be coded 1 to 2.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(polviews <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> d)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)    4.38     0.0890     49.3  0      
+2 sex           -0.178    0.0547     -3.26 0.00113</code></pre>
+</div>
+</div>
+<p>One good way is to make a new variable with a meaningful zero. That means that the intercept is now the prediction for the “zero group” or <strong>reference category</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">male =</span> <span class="fu">if_else</span>(sex <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(polviews <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> male,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> d)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term        estimate std.error statistic p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)    4.03     0.0368    109.   0      
+2 male           0.178    0.0547      3.26 0.00113</code></pre>
+</div>
+</div>
+<p>Another way is using the <code>factor()</code> wrapper to force R to make a dummy variable. Here it chose 1 (male) as the reference category and and 2 (female) as the “1” category. So the sign is different than when we manually chose above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>model3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(polviews <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">factor</span>(sex),</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> d)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  term         estimate std.error statistic p.value
+  &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)     4.20     0.0405    104.   0      
+2 factor(sex)2   -0.178    0.0547     -3.26 0.00113</code></pre>
+</div>
+</div>
+<p>In any case, we can compare one-parameter models that make <em>unconditional</em> predictions (i.e., the same prediction for everyone) to two-parameter models that make predictions <em>conditional</em> on the sex of the respondent.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">deviance</span>(mod_a)  <span class="co"># just b0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7372.137</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">deviance</span>(model3) <span class="co"># b0 and b1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7347.317</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">deviance</span>(mod_a) <span class="sc">-</span> <span class="fu">deviance</span>(model3)) <span class="sc">/</span> <span class="fu">deviance</span>(mod_a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.003366721</code></pre>
+</div>
+</div>
+<p>Here the conditional model reduces the error by .34%. This isn’t a lot but how do we know if it’s “worth it”? We’ll talk about that later.</p>
 
 
 </section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -765,13 +875,13 @@ Note
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter-05.html" class="pagination-link" aria-label="Chapter 5">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter 5</span>
+      <a href="./chapter-01.html" class="pagination-link" aria-label="Chapter 1">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter 1</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter-06.html" class="pagination-link" aria-label="Chapter 6">
-        <span class="nav-page-text">Chapter 6</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapter-04.html" class="pagination-link" aria-label="Chapter 4">
+        <span class="nav-page-text">Chapter 4</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
