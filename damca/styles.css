@@ -2,3 +2,7 @@
 #quarto-margin-sidebar {
   display: block !important;
 }
+
+#quarto-margin-sidebar:empty {
+  visibility: hidden;
+}
