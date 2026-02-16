@@ -139,7 +139,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -248,7 +248,7 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -302,7 +302,7 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="power" class="level2">
+<section id="power" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="power">Power</h2>
 <section id="motivating-example-tv-hours" class="level3">
 <h3 class="anchored" data-anchor-id="motivating-example-tv-hours">Motivating example: TV hours</h3>
@@ -421,7 +421,7 @@ window.Quarto = {
 </div>
 <p>Given a minimum effect size, expected SD, and alpha level, power increases as a function of the sample size. With around 150 people, we could only detect the difference about half the time <strong>even if it’s there</strong>. And we definitely wouldn’t need more than 600 people, as the power is nearly 100%.</p>
 </section>
-<section id="simulation-power-analysis" class="level3">
+<section id="simulation-power-analysis" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="simulation-power-analysis">Simulation power analysis</h3>
 <p>These calculators are great but we can learn more about power analysis by simulation. I want to write a function that <strong>does my whole study</strong> from start to finish (i.e., collects data, tests null hypothesis, reports result) with a particular sample size. The goal is to see how often I reject the null hypothesis given that it’s <em>actually false</em>. I will create my own hypothetical world with a known change (30 minutes) and SD (2.37; estimated from the GSS) and then conduct my experiment many, many times under different sample sizes and alpha levels so see how often I can (correctly) reject the null hypothesis.</p>
 <p>What this <code>do_study()</code> function returns is a 1 if the null hypothesis is <em>rejected</em> and a 0 if it can’t be rejected.</p>
@@ -506,8 +506,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>This is “messier” than a power calculator but you can see the same basic findings you’d expect. And it (hopefully) gives you a better sense of power as “the probability of rejecting the null hypothesis under a given set of conditions.”[^fn51]</p>
-</section>
+<p>This is “messier” than a power calculator but you can see the same basic findings you’d expect. And it (hopefully) gives you a better sense of power as “the probability of rejecting the null hypothesis under a given set of conditions.”<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;What would you expect these graphs to look like if the null hypothesis was actually true? Try it out!</p></div></div></section>
 </section>
 <section id="effect-sizes" class="level2">
 <h2 class="anchored" data-anchor-id="effect-sizes">Effect sizes</h2>
@@ -642,6 +642,7 @@ Model 2: ydiff ~ 1
 
 </section>
 </section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -139,7 +139,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating slimcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -235,7 +235,7 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -266,14 +266,13 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="session-set-up">Session set up</h3>
 </section>
 </section>
-<section id="maximum-likelihood" class="level2">
+<section id="maximum-likelihood" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="maximum-likelihood">Maximum likelihood</h2>
 <p>So far we have been interesting in <em>minimizing the sum of squared residuals</em>. This makes sense when we’re dealing with outcome whose residuals can be modeled as a normal distribution. But, as we’ll see later, that’s not always the case.</p>
 <p>It turns out that <em>minimizing the sum of squared residuals</em> is equivalent to <em>maximizing the likelihood</em> of the observations. Which is a procedure we can use with basically <em>every</em> kind of model later on.</p>
-<p>The relationship between the residual sum of squares (RSS) and the likelihood of the observations is:</p>
-<p><span class="math display">\[\ell
+<p>The relationship between the residual sum of squares (RSS) and the likelihood of the observations<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> is:</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;You do NOT have to memorize this. But it’s good to think about.</p></div></div><p><span class="math display">\[\ell
 = -\frac{n}{2}\left[1+\log(2\pi)+\log\!\left(\frac{\mathrm{RSS}}{n}\right)\right]\]</span></p>
-<p>You do NOT have to memorize this. But it’s good to think about.</p>
 <p>Here’s a quick comparison in R for you to see the equivalence.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(wt <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> mtcars)</span>
@@ -346,22 +345,11 @@ Lincoln Continental 5.424 0.03205090 -3.4404301</code></pre>
 <pre><code>[1] -44.20914</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
 <p>Because the normal is a continuous distribution, these likelihood values are <strong>probability densities</strong>. So each value is a <strong>likelihood contribution</strong> to the overall likelihood.</p>
-</div>
-</div>
 
 
 </section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
