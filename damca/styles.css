@@ -1,8 +1,6 @@
-/* Keep margin sidebar from collapsing when empty */
-#quarto-margin-sidebar {
-  display: block !important;
-}
-
-#quarto-margin-sidebar:empty {
-  visibility: hidden;
+/* On narrow screens, drop the margin sidebar */
+@media (max-width: 991.98px) {
+  #quarto-margin-sidebar {
+    display: none !important;
+  }
 }
