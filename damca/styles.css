@@ -1,6 +1,1 @@
-/* On narrow screens, drop the margin sidebar */
-@media (max-width: 991.98px) {
-  #quarto-margin-sidebar {
-    display: none !important;
-  }
-}
+

@@ -270,7 +270,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="maximum-likelihood">Maximum likelihood</h2>
 <p>So far we have been interesting in <em>minimizing the sum of squared residuals</em>. This makes sense when we’re dealing with outcome whose residuals can be modeled as a normal distribution. But, as we’ll see later, that’s not always the case.</p>
 <p>It turns out that <em>minimizing the sum of squared residuals</em> is equivalent to <em>maximizing the likelihood</em> of the observations. Which is a procedure we can use with basically <em>every</em> kind of model later on.</p>
-<p>The relationship between the residual sum of squares (RSS) and the likelihood of the observations<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> is:</p>
+<p>The relationship between the residual sum of squares (RSS) and the log likelihood of the observations is<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;You do NOT have to memorize this. But it’s good to think about.</p></div></div><p><span class="math display">\[\ell
 = -\frac{n}{2}\left[1+\log(2\pi)+\log\!\left(\frac{\mathrm{RSS}}{n}\right)\right]\]</span></p>
 <p>Here’s a quick comparison in R for you to see the equivalence.</p>
