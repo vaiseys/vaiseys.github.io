@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 4 – DAMCA Companion</title>
+<title>Likelihood and model selection* – DAMCA Companion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapter-05.html" rel="next">
-<link href="./chapter-03.html" rel="prev">
+<link href="./chapter-06.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -148,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter-04.html">Chapter 4</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter-06-01-likelihood.html">Likelihood and model selection*</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -199,7 +198,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter-04.html" class="sidebar-item-text sidebar-link active">
+  <a href="./chapter-04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Chapter 4</span></a>
   </div>
 </li>
@@ -223,7 +222,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter-06-01-likelihood.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapter-06-01-likelihood.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Likelihood and model selection*</span></a>
   </div>
 </li>
@@ -237,16 +236,16 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
-  <ul class="collapse">
-  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals">Goals</a></li>
+  <li><a href="#goals" id="toc-goals" class="nav-link active" data-scroll-target="#goals">Goals</a></li>
   <li><a href="#set-up" id="toc-set-up" class="nav-link" data-scroll-target="#set-up">Set up</a></li>
-  </ul></li>
-  <li><a href="#null-hypothesis" id="toc-null-hypothesis" class="nav-link" data-scroll-target="#null-hypothesis">Null hypothesis</a>
+  <li><a href="#evaluating-likelihoods" id="toc-evaluating-likelihoods" class="nav-link" data-scroll-target="#evaluating-likelihoods">Evaluating likelihoods</a>
   <ul class="collapse">
-  <li><a href="#setting-up-the-null-model" id="toc-setting-up-the-null-model" class="nav-link" data-scroll-target="#setting-up-the-null-model">Setting up the null model</a></li>
-  <li><a href="#creating-a-null-distribution" id="toc-creating-a-null-distribution" class="nav-link" data-scroll-target="#creating-a-null-distribution">Creating a null distribution</a></li>
-  <li><a href="#the-test" id="toc-the-test" class="nav-link" data-scroll-target="#the-test">The test</a></li>
+  <li><a href="#null-model-likelihood" id="toc-null-model-likelihood" class="nav-link" data-scroll-target="#null-model-likelihood">Null model likelihood</a></li>
+  <li><a href="#augmented-model-likelihood" id="toc-augmented-model-likelihood" class="nav-link" data-scroll-target="#augmented-model-likelihood">“Augmented” model likelihood</a></li>
+  </ul></li>
+  <li><a href="#comparing-model-likelihoods" id="toc-comparing-model-likelihoods" class="nav-link" data-scroll-target="#comparing-model-likelihoods">Comparing model likelihoods</a>
+  <ul class="collapse">
+  <li><a href="#likelihood-ratio-test" id="toc-likelihood-ratio-test" class="nav-link" data-scroll-target="#likelihood-ratio-test">Likelihood ratio test</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -256,7 +255,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 4</h1>
+<h1 class="title">Likelihood and model selection*</h1>
 </div>
 
 
@@ -273,179 +272,192 @@ window.Quarto = {
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<section id="goals" class="level3">
-<h3 class="anchored" data-anchor-id="goals">Goals</h3>
-<p>We’re going to look at testing null hypotheses.</p>
+<section id="goals" class="level2">
+<h2 class="anchored" data-anchor-id="goals">Goals</h2>
+<p>The goal of this aside is to introduce you to some concepts that the book doesn’t really address until the very end: mainly likelihood-based model selection and the generalized linear model. Since likelihood came up in at the end of the Section A Recap and we’re now dealing with more realistic models (Chapter 6), this seemed like a good time.</p>
 </section>
-<section id="set-up" class="level3">
-<h3 class="anchored" data-anchor-id="set-up">Set up</h3>
-<p>Load packages and set theme.</p>
+<section id="set-up" class="level2">
+<h2 class="anchored" data-anchor-id="set-up">Set up</h2>
+<p>As usual, we’ll set packages and our theme.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinyplot)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">tinytheme</span>(<span class="st">"ipsum"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">"Roboto Condensed"</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette.qualitative =</span> <span class="st">"Tableau 10"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette.sequential =</span> <span class="st">"agSunset"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinyplot)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tinytheme</span>(<span class="st">"ipsum"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">"Roboto Condensed"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette.qualitative =</span> <span class="st">"Tableau 10"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette.sequential =</span> <span class="st">"agSunset"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Load saved GSS data.</p>
+<p>Get the same data we’ve been using.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>gss2024 <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">zap_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>state.x77_with_names <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(state.x77,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">rownames =</span> <span class="st">"state"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(state.x77_with_names, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">region =</span> state.division) <span class="sc">|&gt;</span> <span class="co"># both are in base R</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>() <span class="sc">|&gt;</span>                     <span class="co"># lower case and underscore</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">south =</span> <span class="fu">as.integer</span>(                    <span class="co"># make a south dummy</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">str_detect</span>(<span class="fu">as.character</span>(region), </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>               <span class="st">"South"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
-<section id="null-hypothesis" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="null-hypothesis">Null hypothesis</h2>
-<section id="setting-up-the-null-model" class="level3">
-<h3 class="anchored" data-anchor-id="setting-up-the-null-model">Setting up the null model</h3>
-<p>Null hypothesis: the average American adult in 2024 watches 3 hours of TV per day. By subtracting 3 from the observed value, we can make it so the null hypothesis is 0. That makes it easy to use <code>lm(y ~ 0)</code> to set up the null model.</p>
+<section id="evaluating-likelihoods" class="level2">
+<h2 class="anchored" data-anchor-id="evaluating-likelihoods">Evaluating likelihoods</h2>
+<p>50 cases isn’t very many but it will be even easier to understand what we’re doing with an even smaller sample. So let’s restrict the sample to the southern US states.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> gss2024 <span class="sc">|&gt;</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tvhours) <span class="sc">|&gt;</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tvdev =</span> tvhours <span class="sc">-</span> <span class="dv">3</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">0</span>, <span class="at">data =</span> d)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> d)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>sse0 <span class="ot">&lt;-</span> <span class="fu">deviance</span>(m0)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>sse1 <span class="ot">&lt;-</span> <span class="fu">deviance</span>(m1)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>observed_pre <span class="ot">&lt;-</span> (sse0 <span class="sc">-</span> sse1) <span class="sc">/</span> sse0</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>observed_pre</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.008343581</code></pre>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>s_states <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(south <span class="sc">==</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<p>The SSE is improved by estimating <span class="math inline">\(\beta_0\)</span>, but was it improved more than we’d expect by chance?</p>
-</section>
-<section id="creating-a-null-distribution" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="creating-a-null-distribution">Creating a null distribution</h3>
-<p>Here’s a quick example where we make data where the null hypothesis is TRUE. Then we can use it to check whether we could get numbers that big by chance.</p>
+<section id="null-model-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="null-model-likelihood">Null model likelihood</h3>
+<p>Here’s the prediction of the “null model”:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">tvhours =</span> <span class="fu">rnorm</span>(<span class="dv">2152</span>, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="fl">3.3</span>))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> fake_data <span class="sc">|&gt;</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tvdev =</span> tvhours <span class="sc">-</span> <span class="dv">3</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">0</span>, <span class="at">data =</span> fake_data)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> fake_data)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>sse0 <span class="ot">&lt;-</span> <span class="fu">deviance</span>(m0)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>sse1 <span class="ot">&lt;-</span> <span class="fu">deviance</span>(m1)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>(sse0 <span class="sc">-</span> sse1) <span class="sc">/</span> sse0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 7.170288e-05</code></pre>
-</div>
-</div>
-<p>Convert this idea to a function so we can do this many times. The basic idea is to simulate data where the null is true, then calculate the PRE (which won’t be <em>exactly</em> zero because of sampling variability).<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;We could create a better null distribution here by using a different distribution than the normal for our fake <code>tvhours</code> data. As you saw earlier the <em>data</em> itself is actually NOT normally distributed. We could use a count distribution but we’re not ready for that! We’ll talk about that more later.</p></div></div><div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>calc_null_pre <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  null_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">tvdev =</span> <span class="fu">rnorm</span>(<span class="dv">2152</span>, <span class="dv">0</span>, <span class="fl">3.3</span>))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  m0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">0</span>, <span class="at">data =</span> null_data)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> null_data) </span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  pre <span class="ot">&lt;-</span> (<span class="fu">deviance</span>(m0) <span class="sc">-</span> <span class="fu">deviance</span>(m1)) <span class="sc">/</span> <span class="fu">deviance</span>(m0)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pre) <span class="co"># this returns the observed PRE from that simulation</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Create a skeleton and append 1000 null PRE simulations.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>null_sims <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">sim_number =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pre =</span> <span class="fu">calc_null_pre</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="the-test" class="level3">
-<h3 class="anchored" data-anchor-id="the-test">The test</h3>
-<p>The idea is to compare the real world to the world implied by the null hypothesis. So we’ll show how the OBSERVED PRE compares to the distribution of NULL PREs.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(<span class="sc">~</span> pre,</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> null_sims,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"hist"</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">009</span>))</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_vline</span>(<span class="at">v =</span> observed_pre),</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"#E69F00"</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter-04_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter-06-01-likelihood_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>Based on the formula in the book, what F would that be equivalent to?</p>
+<p>We can write this null model like this, which is a little different than we see in the book. But it will generalize well to other types of models.</p>
+<p><span class="math display">\[\begin{align}
+  \text{lifeexp}_i &amp;\sim \mathcal{N}(\mu_i, \sigma) \\
+  \mu_i &amp;= \beta_0
+\end{align}\]</span></p>
+<p>This representation allows for a direct representation of the <strong>likelihood</strong>, which we saw in the Section A Recap.</p>
+<p>We can calculate get that number either the easy way:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fstat <span class="ot">&lt;-</span> (observed_pre <span class="sc">/</span> <span class="dv">1</span>) <span class="sc">/</span> ((<span class="dv">1</span> <span class="sc">-</span> observed_pre) <span class="sc">/</span> (<span class="fu">nrow</span>(d) <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fstat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mc <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> s_states)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(mc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 18.09805</code></pre>
+<pre><code>'log Lik.' -22.53801 (df=2)</code></pre>
 </div>
 </div>
-<p>F-distribution with numerator df = 1 and denominator df = 2151. The dotted line is the critical value and the solid line is the observed value (wayyyy above that).</p>
+<p>Or we can get it the hard way:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m_hat <span class="ot">&lt;-</span> mc<span class="sc">$</span>coefficients[<span class="dv">1</span>]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>s_hat <span class="ot">&lt;-</span> <span class="fu">sd</span>(mc<span class="sc">$</span>residuals)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>s_states <span class="ot">&lt;-</span> s_states <span class="sc">|&gt;</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">l_mc =</span> <span class="fu">dnorm</span>(life_exp, m_hat, s_hat), <span class="co"># rowwise likelihood</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">ll_mc =</span> <span class="fu">log</span>(l_mc))                    <span class="co"># rowwise log-likelihood</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here are the likelihoods:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.31759577 0.25254287 0.36759389 0.25254287 0.20356969 0.36237192
+ [7] 0.25427082 0.34397205 0.11181475 0.34689364 0.09572509 0.09071031
+[13] 0.36099167 0.19734482 0.36504343 0.38083463</code></pre>
+</div>
+</div>
+<p>Here are the log-likelihoods (which we use):</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] -1.1469759 -1.3761743 -1.0007765 -1.3761743 -1.5917469 -1.0150842
+ [7] -1.3693554 -1.0671949 -2.1909118 -1.0587371 -2.3462748 -2.4000842
+[13] -1.0189004 -1.6228027 -1.0077389 -0.9653901</code></pre>
+</div>
+</div>
+<p>And here’s the sum, which is the model log-likelihood. OK enough review of that…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(s_states<span class="sc">$</span>ll_mc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -22.55432</code></pre>
+</div>
+</div>
+</section>
+<section id="augmented-model-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="augmented-model-likelihood">“Augmented” model likelihood</h3>
+<p>Let’s keep going. As before, we will add the predictor here so that we make different predictions for different cases.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="dv">2151</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">01</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>f_obs <span class="ot">&lt;-</span> <span class="fl">18.1</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>f_crit <span class="ot">&lt;-</span> <span class="fu">qf</span>(<span class="dv">1</span> <span class="sc">-</span> alpha, df1, df2)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>x_max  <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># grid for the curve</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="at">length.out =</span> <span class="dv">2000</span>)</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">df</span>(x, <span class="at">df1 =</span> df1, <span class="at">df2 =</span> df2)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># main curve</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(y <span class="sc">~</span> x,</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"F(1, 2151)"</span>,</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"F"</span>,</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, x_max),</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co"># critical line + observed line</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> f_crit, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)          <span class="co"># dashed</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> f_obs,  <span class="at">col =</span> <span class="st">"#E69F00"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(life_exp <span class="sc">~</span> hs_grad,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> s_states,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">67</span>, <span class="dv">73</span>),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Life expectancy and education"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"US states, 1977"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"% high school graduates"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Life expectancy at birth"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="st">"lm"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">level =</span> .<span class="dv">99</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter-04_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter-06-01-likelihood_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>You can get F* (the critical value) from the book. Or we can do it using functions in R (as we did above). Remember that there is nothing sacred about 95% or 99% or any of that.</p>
+<p>We can write this model like this:</p>
+<p><span class="math display">\[\begin{align}
+  \text{lifeexp}_i &amp;\sim \mathcal{N}(\mu_i, \sigma) \\
+  \mu_i &amp;= \beta_0 + \beta_1\,\text{hsgpct}_i
+\end{align}\]</span></p>
+<p>And estimate it like this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(.<span class="dv">99</span>, <span class="dv">1</span>, <span class="dv">2151</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ma <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad, <span class="at">data =</span> s_states)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(ma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 6.646687</code></pre>
+<pre><code>'log Lik.' -18.73661 (df=3)</code></pre>
 </div>
 </div>
-<p>You can also get the p-value from functions rather than from the book.</p>
+<p>You can probably see that the log-likelihood of Model A (-18.74) is higher/better than the log-likelihood of Model C (-22.54). But how can we interpret this comparison?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(fstat, <span class="dv">1</span>, <span class="dv">2151</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ll_diff <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">logLik</span>(ma)) <span class="sc">-</span> <span class="fu">as.numeric</span>(<span class="fu">logLik</span>(mc))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>ll_diff       <span class="co"># the difference</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.188091e-05</code></pre>
+<pre><code>[1] 3.8014</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(ll_diff)  <span class="co"># the exponentiated difference</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 44.76381</code></pre>
 </div>
 </div>
-<p>In any case, we will be rejecting the null hypothesis here!</p>
+<p>Exponentiating the log-likelihood difference tells us that Model A is 45 times more likely than Model C given the data. That seems like a lot! But remember that <em>any</em> more complicated model is going to be at least <em>somewhat</em> more likely. So what is a more systematic way to compare them?</p>
+</section>
+</section>
+<section id="comparing-model-likelihoods" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="comparing-model-likelihoods">Comparing model likelihoods</h2>
+<p>We are going to consider three ways to compare likelihoods: the likelihood ratio test, the AIC, and the BIC.</p>
+<section id="likelihood-ratio-test" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="likelihood-ratio-test">Likelihood ratio test</h3>
+<p>It turns out that two times the log-likelihood difference can be used as a test statistic (often called <span class="math inline">\(G^2\)</span>) for testing the null hypothesis that any parameters you added could be set to zero.</p>
+<p>This is almost exactly like the <span class="math inline">\(F\)</span> test that you know already. The only difference is looking up an <span class="math inline">\(F\)</span> statistic on an <span class="math inline">\(F\)</span> table, you look up the <span class="math inline">\(G^2\)</span> statistic on the <span class="math inline">\(\chi^2\)</span> (“chi-square”) table with <span class="math inline">\(df\)</span> equal to the number of parameters that differ between the models (just like numerator <span class="math inline">\(df\)</span> in the <span class="math inline">\(F\)</span> distribution)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;We might point out that <span class="math inline">\(t\)</span> is to <span class="math inline">\(F\)</span> as <span class="math inline">\(z\)</span> is to <span class="math inline">\(\chi^2\)</span>. We could also say that <span class="math inline">\(t\)</span> is to <span class="math inline">\(z\)</span> as <span class="math inline">\(F\)</span> is to <span class="math inline">\(\chi^2\)</span>. Both <span class="math inline">\(t\)</span> and <span class="math inline">\(F\)</span> are “small sample” statistics whereas <span class="math inline">\(z\)</span> and <span class="math inline">\(\chi^2\)</span> are “large sample” or “asymptotic” statistics.</p></div></div><p><span class="math display">\[
+G^2 = 2 \bigl[ \ell(\hat{\theta_1}) - \ell(\hat{\theta_0}) \bigr] \overset{\text{approx}}{\sim} \chi^2_{df}
+\]</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="at">length.out =</span> <span class="dv">300</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">dchisq</span>(x, <span class="at">df =</span> <span class="dv">1</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># main curve</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(y <span class="sc">~</span> x,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="fu">expression</span>(chi[(<span class="dv">1</span>)]<span class="sc">^</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">": critical (99%, dashed) and observed values"</span>),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="fu">expression</span>(chi<span class="sc">^</span><span class="dv">2</span> <span class="sc">~</span> <span class="st">"test statistic"</span>),</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>),</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co"># critical and observed lines</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">qchisq</span>(.<span class="dv">99</span>, <span class="dv">1</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)          <span class="co"># dashed</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="dv">2</span><span class="sc">*</span>ll_diff,  <span class="at">col =</span> <span class="st">"#E69F00"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="chapter-06-01-likelihood_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The resulting p-value here is 0.00583, which is not too different (but a bit smaller) from what we’d get from the same <span class="math inline">\(F\)</span> test (0.01123). This is because the <span class="math inline">\(\chi^2\)</span> is like an <span class="math inline">\(F\)</span> distribution with infinite denominator degrees of freedom.</p>
 
 
 </section>
@@ -854,14 +866,11 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter-03.html" class="pagination-link" aria-label="Chapter 3">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter 3</span>
+      <a href="./chapter-06.html" class="pagination-link" aria-label="Chapter 6">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter 6</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter-05.html" class="pagination-link" aria-label="Chapter 5">
-        <span class="nav-page-text">Chapter 5</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
