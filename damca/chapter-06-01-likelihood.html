@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Likelihood and model selection* – DAMCA Companion</title>
+<title>Likelihood comparison* – DAMCA Companion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapter-07.html" rel="next">
+<link href="./chapter-06-02-model-selection.html" rel="next">
 <link href="./chapter-06.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter-06-01-likelihood.html">Likelihood and model selection*</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter-06-01-likelihood.html">Likelihood comparison*</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -224,7 +224,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter-06-01-likelihood.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Likelihood and model selection*</span></a>
+ <span class="menu-text">Likelihood comparison*</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter-06-02-model-selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Information criteria*</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -255,8 +261,6 @@ window.Quarto = {
   <li><a href="#likelihood-ratio-test" id="toc-likelihood-ratio-test" class="nav-link" data-scroll-target="#likelihood-ratio-test">Likelihood ratio test</a></li>
   </ul></li>
   <li><a href="#proportional-reduction-of-deviance" id="toc-proportional-reduction-of-deviance" class="nav-link" data-scroll-target="#proportional-reduction-of-deviance">Proportional reduction of deviance</a></li>
-  <li><a href="#aic" id="toc-aic" class="nav-link" data-scroll-target="#aic">AIC</a></li>
-  <li><a href="#bic" id="toc-bic" class="nav-link" data-scroll-target="#bic">BIC</a></li>
   </ul>
 </nav>
     </div>
@@ -265,7 +269,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Likelihood and model selection*</h1>
+<h1 class="title">Likelihood comparison*</h1>
 </div>
 
 
@@ -369,7 +373,7 @@ window.Quarto = {
 [13] 0.36099167 0.19734482 0.36504343 0.38083463</code></pre>
 </div>
 </div>
-<p>Here are the log-likelihoods (which we use):</p>
+<p>Here are the log-likelihoods (which we actually use):</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] -1.1469759 -1.3761743 -1.0007765 -1.3761743 -1.5917469 -1.0150842
@@ -578,83 +582,6 @@ R^2 = \frac{\text{RSS}_C - \text{RSS}_A}{\text{RSS}_C} = 1 - \exp \left( \frac{-
 </div>
 </div>
 <p>You can confirm that these are the same.</p>
-</section>
-<section id="aic" class="level2">
-<h2 class="anchored" data-anchor-id="aic">AIC</h2>
-<p>As we’ve seen many ways so far, one of the problems in <strong>model selection</strong> is that more complicated models will always get at least a little closer to the data. So we can’t simply choose the model with the lowest RSS or deviance.</p>
-<p>[Explain]</p>
-<p>[Implicit p-value]</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>aic_to_p <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta_k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">sqrt</span>(<span class="dv">2</span> <span class="sc">*</span> delta_k)))</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(p <span class="sc">~</span> delta_k,</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> aic_to_p,</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"b"</span>,</span>
-<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"AIC model preference and implied p-value"</span>,</span>
-<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Implied LRT p-value"</span>,</span>
-<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="fu">expression</span>(Delta <span class="sc">*</span> <span class="st">"k"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter-06-01-likelihood_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="bic" class="level2">
-<h2 class="anchored" data-anchor-id="bic">BIC</h2>
-<p>[Explain]</p>
-<p>[Implicit p-value]</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>bic_to_p <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta_k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">100</span>, <span class="dv">400</span>, <span class="dv">1600</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">sqrt</span>(<span class="fu">log</span>(n) <span class="sc">*</span> delta_k))),</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">logp =</span> <span class="fu">log10</span>(p))</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(p <span class="sc">~</span> delta_k <span class="sc">|</span> <span class="fu">factor</span>(n),</span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> bic_to_p,</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"b"</span>,</span>
-<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"BIC model preference and implied p-value"</span>,</span>
-<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub  =</span> <span class="st">"Reference lines at .05 and .01"</span>, </span>
-<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"LRT p-value"</span>,</span>
-<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">08</span>),</span>
-<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="fu">expression</span>(Delta <span class="sc">*</span> <span class="st">"k"</span>),</span>
-<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend =</span> <span class="fu">list</span>(<span class="st">"bottomright!"</span>, <span class="at">title =</span> <span class="st">"N"</span>))</span>
-<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> .<span class="dv">05</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"darkgray"</span>)</span>
-<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> .<span class="dv">01</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"darkgray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter-06-01-likelihood_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(logp <span class="sc">~</span> delta_k <span class="sc">|</span> <span class="fu">factor</span>(n),</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> bic_to_p,</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"b"</span>,</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"BIC model preference and implied log p-value"</span>,</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub  =</span> <span class="st">"Reference lines at .05, .01, and .001"</span>, </span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"LRT log10 p-value"</span>,</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="fu">expression</span>(Delta <span class="sc">*</span> <span class="st">"k"</span>),</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend =</span> <span class="fu">list</span>(<span class="st">"bottomright!"</span>, <span class="at">title =</span> <span class="st">"N"</span>))</span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> <span class="fu">log10</span>(.<span class="dv">05</span>)), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"darkgray"</span>)</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> <span class="fu">log10</span>(.<span class="dv">01</span>)), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"darkgray"</span>)</span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> <span class="fu">log10</span>(.<span class="dv">001</span>)), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"darkgray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter-06-01-likelihood_files/figure-html/unnamed-chunk-21-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
 
 
 </section>
@@ -1067,8 +994,8 @@ R^2 = \frac{\text{RSS}_C - \text{RSS}_A}{\text{RSS}_C} = 1 - \exp \left( \frac{-
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter-07.html" class="pagination-link" aria-label="Chapter 7">
-        <span class="nav-page-text">Chapter 7</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapter-06-02-model-selection.html" class="pagination-link" aria-label="Information criteria*">
+        <span class="nav-page-text">Information criteria*</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
