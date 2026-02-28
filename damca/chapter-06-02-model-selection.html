@@ -255,7 +255,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition">Definition</a></li>
   <li><a href="#motivation-out-of-sample-prediction" id="toc-motivation-out-of-sample-prediction" class="nav-link" data-scroll-target="#motivation-out-of-sample-prediction">Motivation: out-of-sample prediction</a></li>
-  <li><a href="#why-2_k_" id="toc-why-2_k_" class="nav-link" data-scroll-target="#why-2_k_">Why 2_k_?</a></li>
+  <li><a href="#why-2-k" id="toc-why-2-k" class="nav-link" data-scroll-target="#why-2-k">Why 2 <em>k</em>?</a></li>
   <li><a href="#implied-p-value" id="toc-implied-p-value" class="nav-link" data-scroll-target="#implied-p-value">Implied <em>p</em>-value</a></li>
   <li><a href="#example-use" id="toc-example-use" class="nav-link" data-scroll-target="#example-use">Example use</a></li>
   </ul></li>
@@ -458,8 +458,8 @@ window.Quarto = {
 </div>
 <p>The polynomials end up “chasing” weird data points in ways that actually make our true understanding worse. This is called <strong>overfitting</strong> and it’s the main reason we don’t want to make models too complicated.</p>
 </section>
-<section id="why-2_k_" class="level3">
-<h3 class="anchored" data-anchor-id="why-2_k_">Why 2_k_?</h3>
+<section id="why-2-k" class="level3">
+<h3 class="anchored" data-anchor-id="why-2-k">Why 2 <em>k</em>?</h3>
 <p>The number “2” in the AIC formula isn’t arbitrary. It’s because adding extra parameters is <em>expected</em> to make the deviance worse out of sample at <em>precisely the rate of two per “extra” parameter</em>.</p>
 <p>Here’s a simulation based loosely on the one in Richard McElreath’s <em>Statistical Rethinking</em>. The steps are:</p>
 <ol type="1">
@@ -606,7 +606,7 @@ m1  3 155.6309</code></pre>
 <section id="motivation-identifying-the-true-model" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="motivation-identifying-the-true-model">Motivation: identifying the true model</h3>
 <p>Whereas the AIC’s motivation is to approximate <em>out-of-sample prediction</em>, the BIC’s goal is to figure out which of the models that we’re considering is most likely to be the “true model” that generated the data<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. (Of course that assumes that the true model is in the set that we’re considering, which is usually unlikely.)</p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;I’m not going to do full justice to the BIC here. If you want to know more, see Adrian Raftery’s classic paper <a href="https://www.jstor.org/stable/271063">Bayesian Model Selection in Social Research</a>. It is worth taking the time to read.</p></div></div></section>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;I’m not going to do full justice to the BIC here. If you want to know more, see Adrian Raftery’s classic paper <a href="https://www.jstor.org/stable/271063">“Bayesian Model Selection in Social Research”</a>. It is worth taking the time to read.</p></div></div></section>
 <section id="why-k-log-n" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="why-k-log-n">Why <em>k</em> log <em>n</em>?</h3>
 <p>The different penalty term comes here because the BIC is set up to do a different job. The difference between two models’ BICs is a large-sample approximation to a <em>Bayes’ Factor</em> (BF). The BF is how much more likely one model is compared to another. So if, say, the BF of <span class="math inline">\(M1\)</span> vs.&nbsp;<span class="math inline">\(M0\)</span> is 4, that means that <span class="math inline">\(M1\)</span> is four times more likely to be the true model. If those are the only two models we are considering, then <span class="math inline">\(M1\)</span> has an 80% chance of being the true model.</p>
