@@ -255,7 +255,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition">Definition</a></li>
   <li><a href="#motivation-out-of-sample-prediction" id="toc-motivation-out-of-sample-prediction" class="nav-link" data-scroll-target="#motivation-out-of-sample-prediction">Motivation: out-of-sample prediction</a></li>
-  <li><a href="#why-2-k" id="toc-why-2-k" class="nav-link" data-scroll-target="#why-2-k">Why 2 <em>k</em>?</a></li>
+  <li><a href="#why-2-times-k" id="toc-why-2-times-k" class="nav-link" data-scroll-target="#why-2-times-k">Why 2 times <em>k</em>?</a></li>
   <li><a href="#implied-p-value" id="toc-implied-p-value" class="nav-link" data-scroll-target="#implied-p-value">Implied <em>p</em>-value</a></li>
   <li><a href="#example-use" id="toc-example-use" class="nav-link" data-scroll-target="#example-use">Example use</a></li>
   </ul></li>
@@ -458,8 +458,8 @@ window.Quarto = {
 </div>
 <p>The polynomials end up “chasing” weird data points in ways that actually make our true understanding worse. This is called <strong>overfitting</strong> and it’s the main reason we don’t want to make models too complicated.</p>
 </section>
-<section id="why-2-k" class="level3">
-<h3 class="anchored" data-anchor-id="why-2-k">Why 2 <em>k</em>?</h3>
+<section id="why-2-times-k" class="level3">
+<h3 class="anchored" data-anchor-id="why-2-times-k">Why 2 times <em>k</em>?</h3>
 <p>The number “2” in the AIC formula isn’t arbitrary. It’s because adding extra parameters is <em>expected</em> to make the deviance worse out of sample at <em>precisely the rate of two per “extra” parameter</em>.</p>
 <p>Here’s a simulation based loosely on the one in Richard McElreath’s <em>Statistical Rethinking</em>. The steps are:</p>
 <ol type="1">
@@ -609,7 +609,7 @@ m1  3 155.6309</code></pre>
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;I’m not going to do full justice to the BIC here. If you want to know more, see Adrian Raftery’s classic paper <a href="https://www.jstor.org/stable/271063">“Bayesian Model Selection in Social Research”</a>. It is worth taking the time to read.</p></div></div></section>
 <section id="why-k-log-n" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="why-k-log-n">Why <em>k</em> log <em>n</em>?</h3>
-<p>The different penalty term comes here because the BIC is set up to do a different job. The difference between two models’ BICs is a large-sample approximation to a <em>Bayes’ Factor</em> (BF). The BF is how much more likely one model is compared to another. So if, say, the BF of <span class="math inline">\(M1\)</span> vs.&nbsp;<span class="math inline">\(M0\)</span> is 4, that means that <span class="math inline">\(M1\)</span> is four times more likely to be the true model. If those are the only two models we are considering, then <span class="math inline">\(M1\)</span> has an 80% chance of being the true model.</p>
+<p>The different penalty term comes here because the BIC is set up to do a different job. The difference between two models’ BICs is a large-sample approximation to a <em>Bayes’ Factor</em> (BF). The BF is how much more likely one model is compared to another. So if, say, the BF of <span class="math inline">\(M_1\)</span> vs.&nbsp;<span class="math inline">\(M_0\)</span> is 4, that means that <span class="math inline">\(M_1\)</span> is four times more likely to be the true model. If those are the <em>only</em> two models we are considering, then <span class="math inline">\(M_1\)</span> has an 80% chance of being the true model.</p>
 <p>We can convert the difference between two BICs into a BF<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> as follows:</p>
 <div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;This formula (and this whole section) assumes we have no prior preference for either model before looking at the data. That’s not something we’re going to discuss further here. But go read the paper!</p></div></div><p><span class="math display">\[
 \text{BF}_{10} = \exp \left( -\frac{1}{2} \Delta \text{BIC} \right)
@@ -758,11 +758,11 @@ P(M_1 | \text{data}) = \frac{\text{BF}_{01}}{1 + \text{BF}_{01}}
 </div>
 </div>
 </div>
-<p>In all these cases, it’s easy to see that using the BIC as a model selection decision rule is functionally equivalent to choosing a much smaller <span class="math inline">\(\alpha\)</span> level than in conventional in social science. For that reason, I think it’s a good choice for self-discipline.</p>
+<p>In all these cases, it’s easy to see that using the BIC as a model selection decision rule is functionally equivalent to choosing a much smaller <span class="math inline">\(\alpha\)</span> level than is conventional in social and behavioral science. For that reason, I think it’s a good choice for self-discipline.</p>
 </section>
 <section id="example-use-1" class="level3">
 <h3 class="anchored" data-anchor-id="example-use-1">Example use</h3>
-<p>In R, using the BIC is just as easy as using the AIC.</p>
+<p>In R, getting the BIC is just as easy as getting the AIC.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> states)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> hs_grad, <span class="at">data =</span> states)</span>
