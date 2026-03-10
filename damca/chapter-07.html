@@ -295,12 +295,12 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="set-up">Set up</h2>
 <p>As usual, we’ll set packages and our theme.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tinyplot)</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(dplyr,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               tidyr,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               broom,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               stringr,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               modelsummary,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               tinyplot)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">tinytheme</span>(<span class="st">"ipsum"</span>,</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="st">"Roboto Condensed"</span>,</span>
@@ -613,16 +613,16 @@ murder   -0.7808458 -0.4879710  1.0000000</code></pre>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(myboots, <span class="at">n =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4,000 × 3
-  sim_id    value term       
-   &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;      
-1      1 71.9     (Intercept)
-2      1  0.0201  hs_grad    
-3      1 -0.274   murder     
-4      1  0.642   sigma      
-5      2 72.3     (Intercept)
-6      2  0.00622 hs_grad    
-7      2 -0.238   murder     
-8      2  0.838   sigma      
+  sim_id   value term       
+   &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;      
+1      1 70.2    (Intercept)
+2      1  0.0360 hs_grad    
+3      1 -0.209  murder     
+4      1  0.749  sigma      
+5      2 70.5    (Intercept)
+6      2  0.0407 hs_grad    
+7      2 -0.226  murder     
+8      2  0.845  sigma      
 # ℹ 3,992 more rows</code></pre>
 </div>
 </div>
