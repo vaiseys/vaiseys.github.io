@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 4 – DAMCA Companion</title>
+<title>OLS in matrix form* – DAMCA Companion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,8 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapter-05.html" rel="next">
-<link href="./chapter-03.html" rel="prev">
+<link href="./chapter-07.html" rel="next">
+<link href="./model-selection.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter-04.html">Chapter 4</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ols-in-matrix-form.html">OLS in matrix form*</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -199,7 +199,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter-04.html" class="sidebar-item-text sidebar-link active">
+  <a href="./chapter-04.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Chapter 4</span></a>
   </div>
 </li>
@@ -235,7 +235,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ols-in-matrix-form.html" class="sidebar-item-text sidebar-link">
+  <a href="./ols-in-matrix-form.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">OLS in matrix form*</span></a>
   </div>
 </li>
@@ -261,16 +261,28 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
-  <ul class="collapse">
-  <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals">Goals</a></li>
+  <li><a href="#goals" id="toc-goals" class="nav-link active" data-scroll-target="#goals">Goals</a></li>
   <li><a href="#set-up" id="toc-set-up" class="nav-link" data-scroll-target="#set-up">Set up</a></li>
-  </ul></li>
-  <li><a href="#null-hypothesis" id="toc-null-hypothesis" class="nav-link" data-scroll-target="#null-hypothesis">Null hypothesis</a>
+  <li><a href="#review-matrix-basics" id="toc-review-matrix-basics" class="nav-link" data-scroll-target="#review-matrix-basics">Review: matrix basics</a>
   <ul class="collapse">
-  <li><a href="#setting-up-the-null-model" id="toc-setting-up-the-null-model" class="nav-link" data-scroll-target="#setting-up-the-null-model">Setting up the null model</a></li>
-  <li><a href="#creating-a-null-distribution" id="toc-creating-a-null-distribution" class="nav-link" data-scroll-target="#creating-a-null-distribution">Creating a null distribution</a></li>
-  <li><a href="#the-test" id="toc-the-test" class="nav-link" data-scroll-target="#the-test">The test</a></li>
+  <li><a href="#multiplication" id="toc-multiplication" class="nav-link" data-scroll-target="#multiplication">Multiplication</a></li>
+  <li><a href="#transpose" id="toc-transpose" class="nav-link" data-scroll-target="#transpose">Transpose</a></li>
+  <li><a href="#identity-and-inverse" id="toc-identity-and-inverse" class="nav-link" data-scroll-target="#identity-and-inverse">Identity and inverse</a></li>
+  </ul></li>
+  <li><a href="#the-regression-model-in-matrix-form" id="toc-the-regression-model-in-matrix-form" class="nav-link" data-scroll-target="#the-regression-model-in-matrix-form">The regression model in matrix form</a>
+  <ul class="collapse">
+  <li><a href="#n-equations-become-one" id="toc-n-equations-become-one" class="nav-link" data-scroll-target="#n-equations-become-one">N equations become one</a></li>
+  <li><a href="#taking-expectations" id="toc-taking-expectations" class="nav-link" data-scroll-target="#taking-expectations">Taking expectations</a></li>
+  </ul></li>
+  <li><a href="#visualizing-residuals" id="toc-visualizing-residuals" class="nav-link" data-scroll-target="#visualizing-residuals">Visualizing residuals</a></li>
+  <li><a href="#deriving-the-ols-estimator" id="toc-deriving-the-ols-estimator" class="nav-link" data-scroll-target="#deriving-the-ols-estimator">Deriving the OLS estimator</a>
+  <ul class="collapse">
+  <li><a href="#an-analogy" id="toc-an-analogy" class="nav-link" data-scroll-target="#an-analogy">An analogy</a></li>
+  <li><a href="#the-derivation" id="toc-the-derivation" class="nav-link" data-scroll-target="#the-derivation">The derivation</a></li>
+  </ul></li>
+  <li><a href="#a-worked-example" id="toc-a-worked-example" class="nav-link" data-scroll-target="#a-worked-example">A worked example</a>
+  <ul class="collapse">
+  <li><a href="#verify-with-lm" id="toc-verify-with-lm" class="nav-link" data-scroll-target="#verify-with-lm">Verify with <code>lm()</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -280,7 +292,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 4</h1>
+<h1 class="title">OLS in matrix form*</h1>
 </div>
 
 
@@ -297,21 +309,15 @@ window.Quarto = {
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<section id="goals" class="level3">
-<h3 class="anchored" data-anchor-id="goals">Goals</h3>
-<p>We’re going to look at testing null hypotheses.</p>
+<section id="goals" class="level2">
+<h2 class="anchored" data-anchor-id="goals">Goals</h2>
+<p>The goal of this aside is to show how the algebra of ordinary least squares can be expressed compactly using matrix notation, and then to verify the result numerically in R. Understanding the matrix form will serve you well when you encounter multiple regression, generalized linear models, and most of modern applied statistics. Plus it’s kind of a rite of passage. Just let it wash over you…</p>
 </section>
-<section id="set-up" class="level3">
-<h3 class="anchored" data-anchor-id="set-up">Set up</h3>
-<p>Load packages and set theme.</p>
+<section id="set-up" class="level2">
+<h2 class="anchored" data-anchor-id="set-up">Set up</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(dplyr,</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               tidyr,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               broom,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               tinyplot,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(tinyplot,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">ggplot2</a></li></ul>
@@ -342,83 +348,86 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Load saved GSS data.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>gss2024 <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">zap_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</section>
+<section id="review-matrix-basics" class="level2">
+<h2 class="anchored" data-anchor-id="review-matrix-basics">Review: matrix basics</h2>
+<p>A <strong>matrix</strong> is a rectangular table of numbers arranged in rows and columns. We write matrices in bold: <span class="math inline">\(\mathbf{A}\)</span>. A matrix with <span class="math inline">\(n\)</span> rows and <span class="math inline">\(p\)</span> columns is called an <span class="math inline">\(n \times p\)</span> matrix.</p>
+<p>Two special cases come up constantly:</p>
+<ul>
+<li>A <strong>column vector</strong> is an <span class="math inline">\(n \times 1\)</span> matrix — a single column of numbers.</li>
+<li>A <strong>row vector</strong> is a <span class="math inline">\(1 \times p\)</span> matrix — a single row of numbers.</li>
+</ul>
+<section id="multiplication" class="level3">
+<h3 class="anchored" data-anchor-id="multiplication">Multiplication</h3>
+<p>Two matrices can be multiplied only when they are <em>conformable</em>: the number of columns in the left matrix must equal the number of rows in the right matrix. If <span class="math inline">\(\mathbf{A}\)</span> is <span class="math inline">\(n \times p\)</span> and <span class="math inline">\(\mathbf{B}\)</span> is <span class="math inline">\(p \times m\)</span>, then <span class="math inline">\(\mathbf{AB}\)</span> is <span class="math inline">\(n \times m\)</span>.</p>
+<p>Order matters: in general, <span class="math inline">\(\mathbf{AB} \neq \mathbf{BA}\)</span>.</p>
+</section>
+<section id="transpose" class="level3">
+<h3 class="anchored" data-anchor-id="transpose">Transpose</h3>
+<p>The <strong>transpose</strong> of a matrix, written <span class="math inline">\(\mathbf{A}'\)</span>, swaps rows and columns. If <span class="math inline">\(\mathbf{A}\)</span> is <span class="math inline">\(n \times p\)</span>, then <span class="math inline">\(\mathbf{A}'\)</span> is <span class="math inline">\(p \times n\)</span>. A useful fact: pre-multiplying any matrix by its own transpose, <span class="math inline">\(\mathbf{A}'\mathbf{A}\)</span>, always produces a <em>square, symmetric</em> matrix.</p>
+</section>
+<section id="identity-and-inverse" class="level3">
+<h3 class="anchored" data-anchor-id="identity-and-inverse">Identity and inverse</h3>
+<p>The <strong>identity matrix</strong> <span class="math inline">\(\mathbf{I}\)</span> is the matrix equivalent of the number 1 — multiplying any conformable matrix by <span class="math inline">\(\mathbf{I}\)</span> leaves it unchanged. It is square, with 1s on the main diagonal and 0s everywhere else:</p>
+<p><span class="math display">\[
+\mathbf{I} = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}
+\]</span></p>
+<p>The <strong>inverse</strong> of a square matrix <span class="math inline">\(\mathbf{A}\)</span> is the matrix <span class="math inline">\(\mathbf{A}^{-1}\)</span> such that:</p>
+<p><span class="math display">\[
+\mathbf{A}\mathbf{A}^{-1} = \mathbf{A}^{-1}\mathbf{A} = \mathbf{I}
+\]</span></p>
+<p>Not every square matrix has an inverse (just as you can’t divide by zero in scalar algebra), but <span class="math inline">\(\mathbf{X}'\mathbf{X}\)</span> will have one as long as no predictor is an exact linear combination of the others.</p>
 </section>
 </section>
-<section id="null-hypothesis" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="null-hypothesis">Null hypothesis</h2>
-<section id="setting-up-the-null-model" class="level3">
-<h3 class="anchored" data-anchor-id="setting-up-the-null-model">Setting up the null model</h3>
-<p>Null hypothesis: the average American adult in 2024 watches 3 hours of TV per day. By subtracting 3 from the observed value, we can make it so the null hypothesis is 0. That makes it easy to use <code>lm(y ~ 0)</code> to set up the null model.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> gss2024 <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tvhours) <span class="sc">|&gt;</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tvdev =</span> tvhours <span class="sc">-</span> <span class="dv">3</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">0</span>, <span class="at">data =</span> d)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> d)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>sse0 <span class="ot">&lt;-</span> <span class="fu">deviance</span>(m0)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>sse1 <span class="ot">&lt;-</span> <span class="fu">deviance</span>(m1)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>observed_pre <span class="ot">&lt;-</span> (sse0 <span class="sc">-</span> sse1) <span class="sc">/</span> sse0</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>observed_pre</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.008343581</code></pre>
-</div>
-</div>
-<p>The SSE is improved by estimating <span class="math inline">\(\beta_0\)</span>, but was it improved more than we’d expect by chance?</p>
+<section id="the-regression-model-in-matrix-form" class="level2">
+<h2 class="anchored" data-anchor-id="the-regression-model-in-matrix-form">The regression model in matrix form</h2>
+<section id="n-equations-become-one" class="level3">
+<h3 class="anchored" data-anchor-id="n-equations-become-one">N equations become one</h3>
+<p>In the simple regression case you already know, we write a separate equation for each observation <span class="math inline">\(i\)</span>:</p>
+<p><span class="math display">\[
+y_i = b_0 + b_1 x_i + \varepsilon_i
+\]</span></p>
+<p>With <span class="math inline">\(n\)</span> observations that is <span class="math inline">\(n\)</span> separate equations. Matrix notation collapses them all into one:</p>
+<p><span class="math display">\[
+\mathbf{y} = \mathbf{X}\mathbf{b} + \boldsymbol{\varepsilon}
+\]</span></p>
+<p>where <span class="math inline">\(\mathbf{y}\)</span> is an <span class="math inline">\(n \times 1\)</span> column vector of outcomes, <span class="math inline">\(\mathbf{X}\)</span> is an <span class="math inline">\(n \times (p+1)\)</span> matrix of predictors with a leading column of 1s for the intercept, <span class="math inline">\(\mathbf{b}\)</span> is a <span class="math inline">\((p+1) \times 1\)</span> vector of coefficients, and <span class="math inline">\(\boldsymbol{\varepsilon}\)</span> is an <span class="math inline">\(n \times 1\)</span> vector of errors. Expanded out, this looks like:</p>
+<p><span class="math display">\[
+\underbrace{\begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{pmatrix}}_{\mathbf{y}}
+=
+\underbrace{\begin{pmatrix} 1 &amp; x_1 \\ 1 &amp; x_2 \\ \vdots &amp; \vdots \\ 1 &amp; x_n \end{pmatrix}}_{\mathbf{X}}
+\underbrace{\begin{pmatrix} b_0 \\ b_1 \end{pmatrix}}_{\mathbf{b}}
++
+\underbrace{\begin{pmatrix} \varepsilon_1 \\ \varepsilon_2 \\ \vdots \\ \varepsilon_n \end{pmatrix}}_{\boldsymbol{\varepsilon}}
+\]</span></p>
+<p>The column of 1s in <span class="math inline">\(\mathbf{X}\)</span> is what lets the intercept <span class="math inline">\(b_0\)</span> enter the model — multiplying <span class="math inline">\(b_0\)</span> by 1 leaves it unchanged for every row.</p>
 </section>
-<section id="creating-a-null-distribution" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="creating-a-null-distribution">Creating a null distribution</h3>
-<p>Here’s a quick example where we make data where the null hypothesis is TRUE. Then we can use it to check whether we could get numbers that big by chance.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">tvhours =</span> <span class="fu">rnorm</span>(<span class="dv">2152</span>, <span class="at">mean =</span> <span class="dv">3</span>, <span class="at">sd =</span> <span class="fl">3.3</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>fake_data <span class="ot">&lt;-</span> fake_data <span class="sc">|&gt;</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tvdev =</span> tvhours <span class="sc">-</span> <span class="dv">3</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">0</span>, <span class="at">data =</span> fake_data)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> fake_data)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>sse0 <span class="ot">&lt;-</span> <span class="fu">deviance</span>(m0)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>sse1 <span class="ot">&lt;-</span> <span class="fu">deviance</span>(m1)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>(sse0 <span class="sc">-</span> sse1) <span class="sc">/</span> sse0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 5.687081e-05</code></pre>
-</div>
-</div>
-<p>Convert this idea to a function so we can do this many times. The basic idea is to simulate data where the null is true, then calculate the PRE (which won’t be <em>exactly</em> zero because of sampling variability).<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;We could create a better null distribution here by using a different distribution than the normal for our fake <code>tvhours</code> data. As you saw earlier the <em>data</em> itself is actually NOT normally distributed. We could use a count distribution but we’re not ready for that! We’ll talk about that more later.</p></div></div><div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>calc_null_pre <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  null_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">tvdev =</span> <span class="fu">rnorm</span>(<span class="dv">2152</span>, <span class="dv">0</span>, <span class="fl">3.3</span>))</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  m0 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">0</span>, <span class="at">data =</span> null_data)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvdev <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> null_data) </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  pre <span class="ot">&lt;-</span> (<span class="fu">deviance</span>(m0) <span class="sc">-</span> <span class="fu">deviance</span>(m1)) <span class="sc">/</span> <span class="fu">deviance</span>(m0)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(pre) <span class="co"># this returns the observed PRE from that simulation</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Create a skeleton and append 1000 null PRE simulations.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>null_sims <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">sim_number =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pre =</span> <span class="fu">calc_null_pre</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="taking-expectations" class="level3">
+<h3 class="anchored" data-anchor-id="taking-expectations">Taking expectations</h3>
+<p>If we assume that errors average to zero across observations, <span class="math inline">\(\text{E}(\boldsymbol{\varepsilon}) = \mathbf{0}\)</span>, taking the conditional expectation of both sides gives:</p>
+<p><span class="math display">\[
+\text{E}(\mathbf{y} \mid \mathbf{X}) = \mathbf{X}\mathbf{b}
+\]</span></p>
+<p>This is the model for the <em>conditional mean</em> of <span class="math inline">\(\mathbf{y}\)</span> — the same thing we have been fitting all along, just written compactly.</p>
 </section>
-<section id="the-test" class="level3">
-<h3 class="anchored" data-anchor-id="the-test">The test</h3>
-<p>The idea is to compare the real world to the world implied by the null hypothesis. So we’ll show how the OBSERVED PRE compares to the distribution of NULL PREs.</p>
+</section>
+<section id="visualizing-residuals" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="visualizing-residuals">Visualizing residuals</h2>
+<p>The error <span class="math inline">\(\varepsilon_i\)</span> for each observation is the vertical distance between the observed <span class="math inline">\(y_i\)</span> and the model’s prediction <span class="math inline">\(\hat{y}_i\)</span>. Here is what that looks like with a small dataset on income inequality and the share of employment in agriculture for 10 countries.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;This is part of a dataset from a class I took in 2002 (I think). The outcome is the income share of the top 5% and the predictor is the percentage of workers employed in agriculture.</p></div></div><div class="cell">
+<details class="code-fold">
+<summary>Data prep</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">country =</span> <span class="fu">c</span>(<span class="st">"Israel"</span>, <span class="st">"Canada"</span>, <span class="st">"Denmark"</span>, <span class="st">"Zambia"</span>, <span class="st">"Panama"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Morocco"</span>, <span class="st">"Sweden"</span>, <span class="st">"Argentina"</span>, <span class="st">"Japan"</span>, <span class="st">"Tunisia"</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">inctop5 =</span> <span class="fu">c</span>(<span class="fl">16.4</span>, <span class="fl">14.1</span>, <span class="fl">14.9</span>, <span class="fl">33.7</span>, <span class="fl">22.2</span>, <span class="fl">20.6</span>, <span class="fl">16.8</span>, <span class="fl">27.5</span>, <span class="fl">17.9</span>, <span class="fl">23.5</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">agpct   =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">69</span>, <span class="dv">30</span>, <span class="dv">53</span>, <span class="dv">5</span>, <span class="dv">14</span>, <span class="dv">14</span>, <span class="dv">43</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">lm</span>(inctop5 <span class="sc">~</span> agpct, <span class="at">data =</span> d)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>yhat <span class="ot">&lt;-</span> <span class="fu">fitted</span>(m)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
@@ -426,18 +435,18 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(<span class="sc">~</span> pre,</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> null_sims,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="fu">type_hist</span>(<span class="at">breaks =</span> <span class="st">"Sturges"</span>),</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">009</span>))</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_vline</span>(<span class="at">v =</span> observed_pre),</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"#E69F00"</span>,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(inctop5 <span class="sc">~</span> agpct, <span class="at">data =</span> d,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Income inequality and agriculture"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"% employed in agriculture"</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Income share of top 5%"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(m, <span class="at">col =</span> <span class="st">"#5778a4"</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(d<span class="sc">$</span>agpct, d<span class="sc">$</span>inctop5, d<span class="sc">$</span>agpct, d<span class="sc">$</span>yhat,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">col =</span> <span class="st">"gray60"</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter-04_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="ols-in-matrix-form_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -447,18 +456,21 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(null_sims, <span class="fu">aes</span>(<span class="at">x =</span> pre)) <span class="sc">+</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="fu">nclass.Sturges</span>(null_sims<span class="sc">$</span>pre),</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">boundary =</span> <span class="dv">0</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> tableau10[<span class="dv">1</span>], <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> observed_pre, <span class="at">color =</span> <span class="st">"#E69F00"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">009</span>)) <span class="sc">+</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"pre"</span>, <span class="at">y =</span> <span class="st">"Count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">x =</span> agpct, <span class="at">y =</span> inctop5)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">xend =</span> agpct, <span class="at">yend =</span> yhat),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray60"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">se =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">color =</span> tableau10[<span class="dv">1</span>], <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> tableau10[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Income inequality and agriculture"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"% employed in agriculture"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Income share of top 5%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="chapter-04_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="ols-in-matrix-form_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -466,97 +478,114 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Based on the formula in the book, what F would that be equivalent to?</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fstat <span class="ot">&lt;-</span> (observed_pre <span class="sc">/</span> <span class="dv">1</span>) <span class="sc">/</span> ((<span class="dv">1</span> <span class="sc">-</span> observed_pre) <span class="sc">/</span> (<span class="fu">nrow</span>(d) <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>fstat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 18.09805</code></pre>
-</div>
-</div>
-<p>F-distribution with numerator df = 1 and denominator df = 2151. The dotted line is the critical value and the solid line is the observed value (wayyyy above that).</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Data prep</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="dv">2151</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> .<span class="dv">01</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>f_obs <span class="ot">&lt;-</span> <span class="fl">18.1</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>f_crit <span class="ot">&lt;-</span> <span class="fu">qf</span>(<span class="dv">1</span> <span class="sc">-</span> alpha, df1, df2)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>x_max  <span class="ot">&lt;-</span> <span class="dv">20</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># grid for the curve</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="at">length.out =</span> <span class="dv">2000</span>)</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">df</span>(x, <span class="at">df1 =</span> df1, <span class="at">df2 =</span> df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">ggplot2</a></li></ul>
-<div class="tab-content">
-<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
-<div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(y <span class="sc">~</span> x,</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"l"</span>,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"F(1, 2151)"</span>,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"F"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, x_max),</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> f_crit, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> f_obs,  <span class="at">col =</span> <span class="st">"#E69F00"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter-04_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
-<div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> tableau10[<span class="dv">1</span>]) <span class="sc">+</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> f_crit, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> f_obs, <span class="at">color =</span> <span class="st">"#E69F00"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, x_max)) <span class="sc">+</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"F(1, 2151)"</span>, <span class="at">x =</span> <span class="st">"F"</span>, <span class="at">y =</span> <span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="chapter-04_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>You can get F* (the critical value) from the book. Or we can do it using functions in R (as we did above). Remember that there is nothing sacred about 95% or 99% or any of that.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(.<span class="dv">99</span>, <span class="dv">1</span>, <span class="dv">2151</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 6.646687</code></pre>
-</div>
-</div>
-<p>You can also get the p-value from functions rather than from the book.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(fstat, <span class="dv">1</span>, <span class="dv">2151</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.188091e-05</code></pre>
-</div>
-</div>
-<p>In any case, we will be rejecting the null hypothesis here!</p>
-
-
 </section>
+<section id="deriving-the-ols-estimator" class="level2">
+<h2 class="anchored" data-anchor-id="deriving-the-ols-estimator">Deriving the OLS estimator</h2>
+<section id="an-analogy" class="level3">
+<h3 class="anchored" data-anchor-id="an-analogy">An analogy</h3>
+<p>The logic of isolating <span class="math inline">\(\mathbf{b}\)</span> is exactly analogous to solving a simple scalar equation. To solve:</p>
+<p><span class="math display">\[
+c = ax
+\]</span></p>
+<p>you multiply both sides by <span class="math inline">\(a^{-1}\)</span>:</p>
+<p><span class="math display">\[
+a^{-1}c = a^{-1}ax = x
+\]</span></p>
+<p>The same idea works with matrices. We want to isolate <span class="math inline">\(\mathbf{b}\)</span> in <span class="math inline">\(\mathbf{y} = \mathbf{X}\mathbf{b}\)</span>. The complication is that <span class="math inline">\(\mathbf{X}\)</span> is not square, so it has no inverse — we can’t divide by it directly.</p>
+</section>
+<section id="the-derivation" class="level3">
+<h3 class="anchored" data-anchor-id="the-derivation">The derivation</h3>
+<p>The fix is to pre-multiply both sides by <span class="math inline">\(\mathbf{X}'\)</span>. This produces the square matrix <span class="math inline">\(\mathbf{X}'\mathbf{X}\)</span>, which <em>does</em> have an inverse:</p>
+<p><span class="math display">\[\begin{align}
+\mathbf{y} &amp;= \mathbf{X}\mathbf{b} \\[4pt]
+\mathbf{X}'\mathbf{y} &amp;= \mathbf{X}'\mathbf{X}\mathbf{b} \\[4pt]
+(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y} &amp;= (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{X}\mathbf{b} \\[4pt]
+(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y} &amp;= \mathbf{b}
+\end{align}\]</span></p>
+<p>The last step uses the fact that <span class="math inline">\((\mathbf{X}'\mathbf{X})^{-1}(\mathbf{X}'\mathbf{X}) = \mathbf{I}\)</span>, and <span class="math inline">\(\mathbf{I}\mathbf{b} = \mathbf{b}\)</span>. The result is the <strong>OLS estimator</strong>:</p>
+<p><span class="math display">\[
+\boxed{\mathbf{b} = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y}}
+\]</span></p>
+<p>This formula works whether you have 1 predictor or 100. Adding more predictors just adds columns to <span class="math inline">\(\mathbf{X}\)</span> — the formula itself stays the same.</p>
+</section>
+</section>
+<section id="a-worked-example" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="a-worked-example">A worked example</h2>
+<p>Let’s compute <span class="math inline">\(\mathbf{b}\)</span> step by step using the 10-country dataset.</p>
+<p>First, set up the <span class="math inline">\(\mathbf{y}\)</span> vector and the <span class="math inline">\(\mathbf{X}\)</span> matrix. The constant column of 1s is created with <code>cbind()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">matrix</span>(d<span class="sc">$</span>inctop5, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, d<span class="sc">$</span>agpct)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Step 1:</strong> Compute <span class="math inline">\(\mathbf{X}'\)</span> (the transpose of <span class="math inline">\(\mathbf{X}\)</span>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>XT <span class="ot">&lt;-</span> <span class="fu">t</span>(X)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>XT</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]
+[1,]    1    1    1    1    1    1    1    1    1     1
+[2,]    8    6    8   69   30   53    5   14   14    43</code></pre>
+</div>
+</div>
+<p><strong>Step 2:</strong> Compute <span class="math inline">\(\mathbf{X}'\mathbf{X}\)</span>, which is <span class="math inline">\(2 \times 2\)</span> here:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>XTX <span class="ot">&lt;-</span> XT <span class="sc">%*%</span> X</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>XTX</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     [,1]  [,2]
+[1,]   10   250
+[2,]  250 10900</code></pre>
+</div>
+</div>
+<p><strong>Step 3:</strong> Compute <span class="math inline">\(\mathbf{X}'\mathbf{y}\)</span> (apply the same pre-multiplication to the right-hand side):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>XTy <span class="ot">&lt;-</span> XT <span class="sc">%*%</span> y</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>XTy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       [,1]
+[1,]  207.6
+[2,] 6148.2</code></pre>
+</div>
+</div>
+<p><strong>Step 4:</strong> Compute <span class="math inline">\((\mathbf{X}'\mathbf{X})^{-1}\)</span>. In R, <code>solve()</code> inverts a matrix:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>invXTX <span class="ot">&lt;-</span> <span class="fu">solve</span>(XTX)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>invXTX</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             [,1]          [,2]
+[1,]  0.234408602 -0.0053763441
+[2,] -0.005376344  0.0002150538</code></pre>
+</div>
+</div>
+<p><strong>Step 5:</strong> Multiply to get <span class="math inline">\(\mathbf{b} = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y}\)</span>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> invXTX <span class="sc">%*%</span> XTy</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]
+[1,] 15.6083871
+[2,]  0.2060645</code></pre>
+</div>
+</div>
+<section id="verify-with-lm" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="verify-with-lm">Verify with <code>lm()</code></h3>
+<p>These should match exactly what <code>lm()</code> returns:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(inctop5 <span class="sc">~</span> agpct, <span class="at">data =</span> d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = inctop5 ~ agpct, data = d)
+
+Coefficients:
+(Intercept)        agpct  
+    15.6084       0.2061  </code></pre>
+</div>
+</div>
+<p>They do. The intercept and slope we derived by hand are identical to R’s built-in linear model.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+
+
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;The only “trick” in all of this is computing the inverse <span class="math inline">\((\mathbf{X}'\mathbf{X})^{-1}\)</span>, which becomes numerically involved for larger matrices. Everything else — the transpose, the multiplications — is straightforward even by hand. This is also why <code>lm()</code> doesn’t actually use this formula internally: matrix inversion is numerically unstable for ill-conditioned <span class="math inline">\(\mathbf{X}'\mathbf{X}\)</span>. In practice, R uses QR decomposition instead, which is more stable. But the formula <span class="math inline">\(\mathbf{b} = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y}\)</span> remains the clearest way to understand what OLS is doing.</p></div></div></section>
 </section>
 
 
@@ -962,13 +991,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter-03.html" class="pagination-link" aria-label="Chapter 3">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter 3</span>
+      <a href="./model-selection.html" class="pagination-link" aria-label="Information criteria*">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Information criteria*</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter-05.html" class="pagination-link" aria-label="Chapter 5">
-        <span class="nav-page-text">Chapter 5</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapter-07.html" class="pagination-link" aria-label="Chapter 7">
+        <span class="nav-page-text">Chapter 7</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
