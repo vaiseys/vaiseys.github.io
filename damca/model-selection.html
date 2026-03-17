@@ -974,7 +974,7 @@ P(M_1 | \text{data}) = \frac{\text{BF}_{01}}{1 + \text{BF}_{01}}
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"l"</span>,</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">2</span>,</span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="fu">expression</span>(<span class="st">"Implied BIC p-value for"</span> <span class="sc">~</span> Delta <span class="sc">*</span> <span class="st">"k = 1"</span>),</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"p-value"</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"p-value (log10 scale)"</span>,</span>
 <span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Sample size"</span>,</span>
 <span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxl =</span> <span class="st">"comma"</span>,</span>
 <span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxb =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">45000</span>, <span class="dv">5000</span>),</span>
@@ -1006,7 +1006,7 @@ P(M_1 | \text{data}) = \frac{\text{BF}_{01}}{1 + \text{BF}_{01}}
 <span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="cf">function</span>(z) <span class="fu">sub</span>(<span class="st">"^0</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">"."</span>, <span class="fu">format</span>(<span class="dv">10</span><span class="sc">^</span>z, <span class="at">scientific =</span> <span class="cn">FALSE</span>, <span class="at">trim =</span> <span class="cn">TRUE</span>))) <span class="sc">+</span></span>
 <span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
 <span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">expression</span>(<span class="st">"Implied BIC p-value for"</span> <span class="sc">~</span> Delta <span class="sc">*</span> <span class="st">"k = 1"</span>),</span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"p-value"</span>,</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"p-value (log10 scale)"</span>,</span>
 <span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Sample size"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
