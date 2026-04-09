@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DAMCA Companion</title>
+<title>Notes for chapters 9-11 – DAMCA Companion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapter-01.html" rel="next">
+<link href="./chapter-09.html" rel="next">
+<link href="./chapter-08.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -83,7 +84,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./note-on-anova.html">Notes for chapters 9-11</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -110,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
@@ -188,7 +189,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./note-on-anova.html" class="sidebar-item-text sidebar-link">
+  <a href="./note-on-anova.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Notes for chapters 9-11</span></a>
   </div>
 </li>
@@ -221,21 +222,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">DAMCA Companion</h1>
+<h1 class="title">Notes for chapters 9-11</h1>
 </div>
 
 
@@ -252,20 +247,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introduction" class="level1 unnumbered page-columns page-full">
-<h1 class="unnumbered">Introduction</h1>
-<p>This <strong>under construction</strong> site is the result of my engagement with <a href="https://www.routledge.com/Data-Analysis-A-Model-Comparison-Approach-to-Regression-ANOVA-and-Beyond/Correll-Folberg-Judd-McClelland-Ryan/p/book/9781032572086">Data Analysis: A Model Comparison Approach to Regression, ANOVA, and Beyond</a> by Josh Correll, Abigail M. Folberg, Charles M. Judd, Gary H. McClelland, Carey S. Ryan.</p>
-<p>The book is pretty good<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> and I chose it recently as it “thinks” about models in the unified way I have tried to teach students. I think it’s also pitched at a good level for graduate students who don’t have much stats background and probably for advanced social/behavioral science undergrads (though I haven’t taught them this yet).</p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;I have a few beefs with the book: the interpretation of odds ratios, the discussion of variable transformations via the ladder of powers (no thanks), and the lack of attention to contingency tables come to mind. But overall, the book has been a good interlocutor so far.</p></div></div><p>I wanted to supplement the text myself for three main reasons:</p>
-<ol type="1">
-<li><p>The book itself doesn’t have any code (which is good!) and the accompanying instructor/student resources are written in base R. I wanted to translate things to <strong>tidyverse style</strong> to fit my own and my students’ preferred usage.</p></li>
-<li><p>The book focuses on analytical approaches whereas I find it useful to demonstrate most concepts using <strong>simulations</strong>. I think this is easier for people who don’t have a strong math background.</p></li>
-<li><p>I wanted a reason to fool around systematically with {<a href="https://grantmcdermott.com/tinyplot/">tinyplot</a>}. I am generally a {ggplot2} person, but I am intrigued by this package. And now, thanks to Claude (and a few hours of my own tinkering), I also have {ggplot2} versions of almost all the plots as well.</p></li>
-</ol>
-<p>As this document has grown, I’ve added a several sections and subsections marked with a *, that indicate that I’m adding stuff that’s not in the book. I now have a lot of that content which I hope people will find useful. Starting around Chapter 9 I go pretty feral with respect to the book so I stop marking things as extra sections.</p>
+<p>The book’s chapters on ANOVA approach the material quite differently than is common in sociology and political science. The main difference is that the authors (who are psychologists) approach the material through the vary traditional lens of <strong>contrast coding</strong>, whereas sociologists overwhelming use <strong>dummy coding</strong> (or rarely <strong>effect coding</strong><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>).</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;This is where a category’s coefficients all sum to zero.</p></div></div><p>On my first pass through the material, I tried to make this work but the differences are very great in how they approach the material. Yet we can’t really skip it because understanding ANOVA is important for understanding multilevel models (a weakness for many sociologists).</p>
+<p>For that reason, I recommend that my students skim these chapters for the gist of how contrast coding works but mainly stick with what I outline here. I will flesh out these sections more as I continue to teach the course.</p>
 
 
-</section>
 
 
 </main> <!-- /main -->
@@ -670,10 +656,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./chapter-08.html" class="pagination-link" aria-label="Chapter 8">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter 8</span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter-01.html" class="pagination-link" aria-label="Chapter 1">
-        <span class="nav-page-text">Chapter 1</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapter-09.html" class="pagination-link" aria-label="Chapter 9 (alt)">
+        <span class="nav-page-text">Chapter 9 (alt)</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

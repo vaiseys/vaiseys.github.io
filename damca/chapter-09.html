@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 9 – DAMCA Companion</title>
+<title>Chapter 9 (alt) – DAMCA Companion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapter-08.html" rel="prev">
+<link href="./chapter-10.html" rel="next">
+<link href="./note-on-anova.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -147,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter-09.html">Chapter 9</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter-09.html">Chapter 9 (alt)</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -252,8 +253,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./note-on-anova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Notes for chapters 9-11</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapter-09.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Chapter 9</span></a>
+ <span class="menu-text">Chapter 9 (alt)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter-10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 10 (alt)</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./poisson-and-tables.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Poisson regression and models for tables</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter-11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 11</span></a>
   </div>
 </li>
     </ul>
@@ -285,7 +310,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 9</h1>
+<h1 class="title">Chapter 9 (alt)</h1>
 </div>
 
 
@@ -305,7 +330,7 @@ window.Quarto = {
 <section id="goals" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="goals">Goals</h2>
 <p>The goal of this chapter is show you how to use <strong>categorical predictors</strong> in a sensible way. We will also compare and contrast the book’s way of approaching coding to what is typical in sociology<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;The book makes a strong pitch for the value of <strong>orthogonal contrast coding</strong> versus <strong>dummy coding.</strong> This is the opposite of our convention in sociology and I admit I simply can’t understand the idea that contrast coding is easier. It must be cultural differences! I did try for a while but the availability of <em>post-hoc test</em> calculation functions like <code>car::linearHypothesis()</code> and <code>marginaleffects::hypotheses</code> seem to make contrast coding irrelevant to my use cases at least.</p></div></div></section>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;The book makes a strong pitch for the value of <strong>orthogonal contrast coding</strong> versus <strong>dummy coding.</strong> This is the opposite of our convention in sociology and I admit I simply can’t understand the idea that contrast coding is easier. It must be cultural differences! I did try for a while but the availability of <em>post-hoc test</em> calculation functions like <code>car::linearHypothesis()</code> and <code>marginaleffects::hypotheses()</code> seem to make contrast coding mostly irrelevant to my use cases.</p></div></div></section>
 <section id="set-up" class="level2">
 <h2 class="anchored" data-anchor-id="set-up">Set up</h2>
 <p>As usual, we’ll set packages and our theme.</p>
@@ -317,7 +342,7 @@ window.Quarto = {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               modelsummary,</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               marginaleffects,</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               tinyplot,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               ggplot2)      <span class="co"># for heatmap and ggplot2 tabs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">ggplot2</a></li></ul>
@@ -408,8 +433,8 @@ window.Quarto = {
 
     <script>
 
-      function styleCell_9k4osput783zc1ryu0lx(i, j, css_id) {
-          var table = document.getElementById("tinytable_9k4osput783zc1ryu0lx");
+      function styleCell_otdg3cbjjfmx2z4u2pq6(i, j, css_id) {
+          var table = document.getElementById("tinytable_otdg3cbjjfmx2z4u2pq6");
           var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -418,8 +443,8 @@ window.Quarto = {
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function spanCell_9k4osput783zc1ryu0lx(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_9k4osput783zc1ryu0lx");
+      function spanCell_otdg3cbjjfmx2z4u2pq6(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_otdg3cbjjfmx2z4u2pq6");
         const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
         if (!targetCell) {
           console.warn(`Cell at (${i}, ${j}) not found.`);
@@ -450,20 +475,20 @@ window.Quarto = {
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_fa13ke9ivlxw6oz89xg5',}, 
-          { positions: [ { i: '2', j: 1 },  ], css_id: 'tinytable_css_uukwlix4fn68o5kwxjk5',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 },  ], css_id: 'tinytable_css_5zv1vt1gvzvmlcqhkaa2',}, 
-          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_2ywogcr8wpgds7sf6zu4',}, 
-          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_lljrho667qe98mq0qkt6',}, 
-          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_wse6888vdd2wc451pjra',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_ouk40sxsus9uqv6aveol',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_jwda2dwtllo4qsimw2xs',}, 
+          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_ltyvayaf5zed6o5j0uvu',}, 
+          { positions: [ { i: '2', j: 1 },  ], css_id: 'tinytable_css_0dpu8cjl4bdm7hkfnyot',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 },  ], css_id: 'tinytable_css_4cpztzr46ylnb4p9trcz',}, 
+          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_qyfeouc0v9y1rwtrc7y5',}, 
+          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_93wf14dq88x0yvy0md2u',}, 
+          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_pttvi4i3cpxzcqnm4fsc',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_wh0bwlk6um6hux4r6a5y',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_yi9n4panv2cx7ptwjdv2',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_9k4osput783zc1ryu0lx(cell.i, cell.j, group.css_id);
+                  styleCell_otdg3cbjjfmx2z4u2pq6(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -471,17 +496,17 @@ window.Quarto = {
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_fa13ke9ivlxw6oz89xg5, .table th.tinytable_css_fa13ke9ivlxw6oz89xg5 { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_uukwlix4fn68o5kwxjk5, .table th.tinytable_css_uukwlix4fn68o5kwxjk5 { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_5zv1vt1gvzvmlcqhkaa2, .table th.tinytable_css_5zv1vt1gvzvmlcqhkaa2 { text-align: center; }
-      .table td.tinytable_css_2ywogcr8wpgds7sf6zu4, .table th.tinytable_css_2ywogcr8wpgds7sf6zu4 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_lljrho667qe98mq0qkt6, .table th.tinytable_css_lljrho667qe98mq0qkt6 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_wse6888vdd2wc451pjra, .table th.tinytable_css_wse6888vdd2wc451pjra { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_ouk40sxsus9uqv6aveol, .table th.tinytable_css_ouk40sxsus9uqv6aveol { text-align: left; }
-      .table td.tinytable_css_jwda2dwtllo4qsimw2xs, .table th.tinytable_css_jwda2dwtllo4qsimw2xs { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_ltyvayaf5zed6o5j0uvu, .table th.tinytable_css_ltyvayaf5zed6o5j0uvu { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_0dpu8cjl4bdm7hkfnyot, .table th.tinytable_css_0dpu8cjl4bdm7hkfnyot { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_4cpztzr46ylnb4p9trcz, .table th.tinytable_css_4cpztzr46ylnb4p9trcz { text-align: center; }
+      .table td.tinytable_css_qyfeouc0v9y1rwtrc7y5, .table th.tinytable_css_qyfeouc0v9y1rwtrc7y5 { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_93wf14dq88x0yvy0md2u, .table th.tinytable_css_93wf14dq88x0yvy0md2u { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_pttvi4i3cpxzcqnm4fsc, .table th.tinytable_css_pttvi4i3cpxzcqnm4fsc { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_wh0bwlk6um6hux4r6a5y, .table th.tinytable_css_wh0bwlk6um6hux4r6a5y { text-align: left; }
+      .table td.tinytable_css_yi9n4panv2cx7ptwjdv2, .table th.tinytable_css_yi9n4panv2cx7ptwjdv2 { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_9k4osput783zc1ryu0lx" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_otdg3cbjjfmx2z4u2pq6" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -715,8 +740,8 @@ m_welch  4 11049.24</code></pre>
 2 degree        -0.485    0.0555     -8.74 4.43e- 18</code></pre>
 </div>
 </div>
-<p>This tells us that <em>each additional degree</em> predicts a -0.4849135 difference in <code>tvhours</code>. This treats degree as a <code>continuous</code> predictor, which is not how we implement the ideas in the book<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
-<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;As we’ll see below, this might actually not be an unreasonable model. But it’s not an ANOVA!</p></div></div><p>Here’s how we can estimate a linear model that is equivalent to a one-way ANOVA:</p>
+<p>This tells us that <em>each additional degree</em> predicts a -0.4849135 difference in <code>tvhours</code>. This treats degree as a <code>continuous</code> predictor, which is not how we implement a one-way ANOVA<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;As we’ll see below, this might actually be an reasonable model. But it’s not an ANOVA!</p></div></div><p>Here’s how we can estimate a linear model that <em>is</em> equivalent to a one-way ANOVA:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> degree_fac,</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -737,8 +762,8 @@ m_welch  4 11049.24</code></pre>
 
     <script>
 
-      function styleCell_n3hf3qhs5jzgm7xqdesk(i, j, css_id) {
-          var table = document.getElementById("tinytable_n3hf3qhs5jzgm7xqdesk");
+      function styleCell_nwzw3jthj9sk7r9lgwxf(i, j, css_id) {
+          var table = document.getElementById("tinytable_nwzw3jthj9sk7r9lgwxf");
           var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -747,8 +772,8 @@ m_welch  4 11049.24</code></pre>
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function spanCell_n3hf3qhs5jzgm7xqdesk(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_n3hf3qhs5jzgm7xqdesk");
+      function spanCell_nwzw3jthj9sk7r9lgwxf(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_nwzw3jthj9sk7r9lgwxf");
         const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
         if (!targetCell) {
           console.warn(`Cell at (${i}, ${j}) not found.`);
@@ -779,20 +804,20 @@ m_welch  4 11049.24</code></pre>
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '8', j: 1 },  ], css_id: 'tinytable_css_lm0ec6pdcuuavk509d0p',}, 
-          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_9iau3wmr9lo1agamtapg',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 },  ], css_id: 'tinytable_css_cbt5gci6kdvh3yq7p7q3',}, 
-          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_0cyvgrrvbk9va9z3irmf',}, 
-          { positions: [ { i: '8', j: 0 },  ], css_id: 'tinytable_css_af1thfw1nqj6l9xt2cy6',}, 
-          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_cg1f2qn1tg7dch4ikaxe',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '2', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 }, { i: '6', j: 0 }, { i: '7', j: 0 },  ], css_id: 'tinytable_css_uh6ujo6mcr8fbmnpttge',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_eaco5weiyxirzw9noaew',}, 
+          { positions: [ { i: '8', j: 1 },  ], css_id: 'tinytable_css_1031ldoxfkgvuhaoiiym',}, 
+          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_aqeq6xdlj1vygj0pa2ai',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 },  ], css_id: 'tinytable_css_9yn001al0j06e82y6dg6',}, 
+          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_8c9oncnveo31tzfr8ywk',}, 
+          { positions: [ { i: '8', j: 0 },  ], css_id: 'tinytable_css_r5m4582ypcv6y19irt72',}, 
+          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_tlubmsoxts7qldjq8nwc',}, 
+          { positions: [ { i: '1', j: 0 }, { i: '2', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 }, { i: '6', j: 0 }, { i: '7', j: 0 },  ], css_id: 'tinytable_css_l8aodwb23lynj3dd6cj7',}, 
+          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_v9gpc1syj9d3kpdj8u2k',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_n3hf3qhs5jzgm7xqdesk(cell.i, cell.j, group.css_id);
+                  styleCell_nwzw3jthj9sk7r9lgwxf(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -800,17 +825,17 @@ m_welch  4 11049.24</code></pre>
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_lm0ec6pdcuuavk509d0p, .table th.tinytable_css_lm0ec6pdcuuavk509d0p { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_9iau3wmr9lo1agamtapg, .table th.tinytable_css_9iau3wmr9lo1agamtapg { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_cbt5gci6kdvh3yq7p7q3, .table th.tinytable_css_cbt5gci6kdvh3yq7p7q3 { text-align: center; }
-      .table td.tinytable_css_0cyvgrrvbk9va9z3irmf, .table th.tinytable_css_0cyvgrrvbk9va9z3irmf { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_af1thfw1nqj6l9xt2cy6, .table th.tinytable_css_af1thfw1nqj6l9xt2cy6 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_cg1f2qn1tg7dch4ikaxe, .table th.tinytable_css_cg1f2qn1tg7dch4ikaxe { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_uh6ujo6mcr8fbmnpttge, .table th.tinytable_css_uh6ujo6mcr8fbmnpttge { text-align: left; }
-      .table td.tinytable_css_eaco5weiyxirzw9noaew, .table th.tinytable_css_eaco5weiyxirzw9noaew { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_1031ldoxfkgvuhaoiiym, .table th.tinytable_css_1031ldoxfkgvuhaoiiym { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_aqeq6xdlj1vygj0pa2ai, .table th.tinytable_css_aqeq6xdlj1vygj0pa2ai { text-align: center; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_9yn001al0j06e82y6dg6, .table th.tinytable_css_9yn001al0j06e82y6dg6 { text-align: center; }
+      .table td.tinytable_css_8c9oncnveo31tzfr8ywk, .table th.tinytable_css_8c9oncnveo31tzfr8ywk { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_r5m4582ypcv6y19irt72, .table th.tinytable_css_r5m4582ypcv6y19irt72 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_tlubmsoxts7qldjq8nwc, .table th.tinytable_css_tlubmsoxts7qldjq8nwc { text-align: left; border-bottom: solid black 0.05em; }
+      .table td.tinytable_css_l8aodwb23lynj3dd6cj7, .table th.tinytable_css_l8aodwb23lynj3dd6cj7 { text-align: left; }
+      .table td.tinytable_css_v9gpc1syj9d3kpdj8u2k, .table th.tinytable_css_v9gpc1syj9d3kpdj8u2k { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_n3hf3qhs5jzgm7xqdesk" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_nwzw3jthj9sk7r9lgwxf" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -907,7 +932,7 @@ m_welch  4 11049.24</code></pre>
 5 degree_fac4   0.310     0.117      2.64  8.27e-  3</code></pre>
 </div>
 </div>
-<p>We’ll see below that there are easier ways to do this.</p>
+<p>We’ll see below that there are easier ways to ask these kinds of questions.</p>
 </section>
 <section id="deviance-effect-or-sum-to-zero-coding" class="level4">
 <h4 class="anchored" data-anchor-id="deviance-effect-or-sum-to-zero-coding">Deviance, “effect”, or sum-to-zero coding</h4>
@@ -1099,8 +1124,8 @@ m_welch  4 11049.24</code></pre>
 
     <script>
 
-      function styleCell_0cae1o28x8k0rwg49dc5(i, j, css_id) {
-          var table = document.getElementById("tinytable_0cae1o28x8k0rwg49dc5");
+      function styleCell_8agynp4rzs1v17ytgqte(i, j, css_id) {
+          var table = document.getElementById("tinytable_8agynp4rzs1v17ytgqte");
           var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
           if (cell) {
               console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
@@ -1109,8 +1134,8 @@ m_welch  4 11049.24</code></pre>
               console.warn(`Cell at (${i}, ${j}) not found.`);
           }
       }
-      function spanCell_0cae1o28x8k0rwg49dc5(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_0cae1o28x8k0rwg49dc5");
+      function spanCell_8agynp4rzs1v17ytgqte(i, j, rowspan, colspan) {
+        var table = document.getElementById("tinytable_8agynp4rzs1v17ytgqte");
         const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
         if (!targetCell) {
           console.warn(`Cell at (${i}, ${j}) not found.`);
@@ -1141,14 +1166,14 @@ m_welch  4 11049.24</code></pre>
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 0 }, { i: '5', j: 1 }, { i: '5', j: 2 }, { i: '5', j: 3 }, { i: '5', j: 4 }, { i: '5', j: 5 },  ], css_id: 'tinytable_css_0v5yv8a52t0uuidmpbc7',}, 
-          { positions: [ { i: '0', j: 0 }, { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 },  ], css_id: 'tinytable_css_lpyt06pkv445ghoxc9cc',}, 
+          { positions: [ { i: '5', j: 0 }, { i: '5', j: 1 }, { i: '5', j: 2 }, { i: '5', j: 3 }, { i: '5', j: 4 }, { i: '5', j: 5 },  ], css_id: 'tinytable_css_48lumo6gf88jeb38drk1',}, 
+          { positions: [ { i: '0', j: 0 }, { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 },  ], css_id: 'tinytable_css_dy7hjdq1ro75p9qw3qkx',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_0cae1o28x8k0rwg49dc5(cell.i, cell.j, group.css_id);
+                  styleCell_8agynp4rzs1v17ytgqte(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1156,11 +1181,11 @@ m_welch  4 11049.24</code></pre>
 
     <style>
       /* tinytable css entries after */
-      .table td.tinytable_css_0v5yv8a52t0uuidmpbc7, .table th.tinytable_css_0v5yv8a52t0uuidmpbc7 { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_lpyt06pkv445ghoxc9cc, .table th.tinytable_css_lpyt06pkv445ghoxc9cc { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+      .table td.tinytable_css_48lumo6gf88jeb38drk1, .table th.tinytable_css_48lumo6gf88jeb38drk1 { border-bottom: solid #d3d8dc 0.1em; }
+      .table td.tinytable_css_dy7hjdq1ro75p9qw3qkx, .table th.tinytable_css_dy7hjdq1ro75p9qw3qkx { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_0cae1o28x8k0rwg49dc5" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table table-borderless" id="tinytable_8agynp4rzs1v17ytgqte" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         <thead>
         
               <tr>
@@ -1629,11 +1654,14 @@ m_welch  4 11049.24</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter-08.html" class="pagination-link" aria-label="Chapter 8">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter 8</span>
+      <a href="./note-on-anova.html" class="pagination-link" aria-label="Notes for chapters 9-11">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Notes for chapters 9-11</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./chapter-10.html" class="pagination-link" aria-label="Chapter 10 (alt)">
+        <span class="nav-page-text">Chapter 10 (alt)</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
