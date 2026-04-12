@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Poisson regression and models for tables – DAMCA Companion</title>
+<title>Poisson and tables – DAMCA Companion</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./poisson-and-tables.html">Poisson regression and models for tables</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./poisson-and-tables.html">Poisson and tables</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -254,7 +254,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./note-on-anova.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Notes for chapters 9-11</span></a>
+ <span class="menu-text">Note on ch.&nbsp;9-11</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -272,7 +272,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./poisson-and-tables.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Poisson regression and models for tables</span></a>
+ <span class="menu-text">Poisson and tables</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -294,7 +294,14 @@ window.Quarto = {
   <li><a href="#goals" id="toc-goals" class="nav-link active" data-scroll-target="#goals">Goals</a></li>
   <li><a href="#set-up" id="toc-set-up" class="nav-link" data-scroll-target="#set-up">Set up</a></li>
   <li><a href="#tables" id="toc-tables" class="nav-link" data-scroll-target="#tables">Tables</a></li>
-  <li><a href="#poisson" id="toc-poisson" class="nav-link" data-scroll-target="#poisson">Poisson</a></li>
+  <li><a href="#poisson-models" id="toc-poisson-models" class="nav-link" data-scroll-target="#poisson-models">Poisson models</a>
+  <ul class="collapse">
+  <li><a href="#introduction-to-the-poisson-distribution" id="toc-introduction-to-the-poisson-distribution" class="nav-link" data-scroll-target="#introduction-to-the-poisson-distribution">Introduction to the Poisson distribution</a></li>
+  <li><a href="#modeling-data" id="toc-modeling-data" class="nav-link" data-scroll-target="#modeling-data">Modeling data</a></li>
+  <li><a href="#comparison-to-the-normal-distribution" id="toc-comparison-to-the-normal-distribution" class="nav-link" data-scroll-target="#comparison-to-the-normal-distribution">Comparison to the normal distribution</a></li>
+  <li><a href="#models-with-predictors" id="toc-models-with-predictors" class="nav-link" data-scroll-target="#models-with-predictors">Models with predictors</a></li>
+  </ul></li>
+  <li><a href="#models-for-tables" id="toc-models-for-tables" class="nav-link" data-scroll-target="#models-for-tables">Models for tables</a></li>
   </ul>
 </nav>
     </div>
@@ -303,7 +310,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Poisson regression and models for tables</h1>
+<h1 class="title">Poisson and tables</h1>
 </div>
 
 
@@ -411,8 +418,10 @@ X-squared = 16.893, df = 4, p-value = 0.002027</code></pre>
 </div>
 <p>This doesn’t seem like a “model”—because it’s not. But it turns out we can make it into a model. But we’ll need to first consider a new probability distribution.</p>
 </section>
-<section id="poisson" class="level2">
-<h2 class="anchored" data-anchor-id="poisson">Poisson</h2>
+<section id="poisson-models" class="level2">
+<h2 class="anchored" data-anchor-id="poisson-models">Poisson models</h2>
+<section id="introduction-to-the-poisson-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-to-the-poisson-distribution">Introduction to the Poisson distribution</h3>
 <p>You are, of course, familiar with the normal distribution. That’s the one we’ve been using the whole semester.</p>
 <p>The <strong>Poisson distribution</strong> is a different distribution that is often used for <strong>count outcomes</strong>—that is, for integer variables that can’t go below zero.</p>
 <p>Unlike the normal distribution, which assigns a <em>probability density</em> to all the real numbers from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(\infty\)</span>, the Poisson distribution is a <strong>discrete probability distribution</strong> that assigns a finite probability to all positive integers using a a <strong>probability mass function</strong>.</p>
@@ -455,134 +464,205 @@ P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}
 </div>
 </div>
 </div>
-<p>Let’s look at the unconditional distribution of <code>tvhours</code>.</p>
+<p>Even though the formula might look daunting at first, it’s pretty easy to find the probability of a certain count given a value of <span class="math inline">\(\lambda\)</span>. For example, if we ask “what’s the probability of having 5 job interviews if the mean number of interviews is 3.5 and the distribution follows a Poisson distribution?” we can do this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>(<span class="fl">3.5</span><span class="sc">^</span><span class="dv">5</span> <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">3.5</span>)) <span class="sc">/</span> <span class="fu">factorial</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1321686</code></pre>
+</div>
+</div>
+<p>…which tells us that there’s an 13.2% chance of getting exactly 5 interviews.</p>
+<p>We could also get that this way…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dpois</span>(<span class="dv">5</span>, <span class="fl">3.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1321686</code></pre>
+</div>
+</div>
+<p>Or ask what is the probability of 5 or more…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ppois</span>(<span class="dv">5</span>, <span class="fl">3.5</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1423864</code></pre>
+</div>
+</div>
+<p>You get the idea.</p>
+</section>
+<section id="modeling-data" class="level3">
+<h3 class="anchored" data-anchor-id="modeling-data">Modeling data</h3>
+<p>Before looking at predictors, we can think about how a variable could be modeled using the Poisson. First, let’s look at the unconditional distribution of <code>tvhours</code> in the GSS data.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Data prep</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tvhours) <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(<span class="at">tvhours =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">24</span>, <span class="at">fill =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tvhours) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">complete</span>(<span class="at">tvhours =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">24</span>, <span class="at">fill =</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(n <span class="sc">~</span> tvhours,</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> counts,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"bar"</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxb =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">24</span>, <span class="dv">2</span>),</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> <span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NA</span>, <span class="at">ny =</span> <span class="cn">NULL</span>, <span class="at">lty =</span> <span class="st">"solid"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(n <span class="sc">~</span> tvhours,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> counts,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"bar"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxb =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">24</span>, <span class="dv">2</span>),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> <span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NA</span>, <span class="at">ny =</span> <span class="cn">NULL</span>, <span class="at">lty =</span> <span class="st">"solid"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="poisson-and-tables_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="poisson-and-tables_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The mean of <code>tvhours</code> is 3.3. A Poisson with <span class="math inline">\(\lambda =\)</span> 3.3 looks like this.</p>
+<p>This shows the empirical distribution. The mean of <code>tvhours</code> is 3.3. A Poisson with <span class="math inline">\(\lambda =\)</span> 3.3 looks like this.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Data prep</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mean_tv <span class="ot">&lt;-</span> <span class="fu">mean</span>(d<span class="sc">$</span>tvhours)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>pois_dist <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">24</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fu">dpois</span>(k, mean_tv)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mean_tv <span class="ot">&lt;-</span> <span class="fu">mean</span>(d<span class="sc">$</span>tvhours)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>pois_dist <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">24</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob =</span> <span class="fu">dpois</span>(k, mean_tv)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(prob <span class="sc">~</span> k,</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> pois_dist,</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"bar"</span>,</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxb =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">24</span>, <span class="dv">2</span>),</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> <span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NA</span>, <span class="at">ny =</span> <span class="cn">NULL</span>, <span class="at">lty =</span> <span class="st">"solid"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(prob <span class="sc">~</span> k,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> pois_dist,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"bar"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxb =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">24</span>, <span class="dv">2</span>),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> <span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NA</span>, <span class="at">ny =</span> <span class="cn">NULL</span>, <span class="at">lty =</span> <span class="st">"solid"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="poisson-and-tables_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="poisson-and-tables_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>You can see that the modeled version is a simplified version of the empirical distribution. It doesn’t have as much probability mass out at the right tail, for example. It really doesn’t think that anyone is very likely to watch, say, 20 hours of TV per day.</p>
+</section>
+<section id="comparison-to-the-normal-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="comparison-to-the-normal-distribution">Comparison to the normal distribution</h3>
+<p>We can compare the Poisson distribution of <code>tvhours</code> to a normal distribution with the mean and variance estimated from the data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(tvhours <span class="sc">~</span> sex <span class="sc">+</span> degree_fac,</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">poisson</span>())</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold">
+<summary>Data prep</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">mean</span>(d<span class="sc">$</span>tvhours)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(d<span class="sc">$</span>tvhours)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>distributions <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> <span class="sc">-</span><span class="dv">6</span><span class="sc">:</span><span class="dv">24</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob_Normal =</span> <span class="fu">dnorm</span>(k, mu, sigma),</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">prob_Poisson =</span> <span class="fu">dpois</span>(k, mu)) <span class="sc">|&gt;</span> </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">starts_with</span>(<span class="st">"prob"</span>),</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"dist"</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"prob"</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_prefix =</span> <span class="st">"prob_"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(prob <span class="sc">~</span> k <span class="sc">|</span> dist,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> distributions,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"b"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxb =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">6</span>, <span class="dv">24</span>, <span class="dv">2</span>),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">24</span>),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">1</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">cex =</span> .<span class="dv">8</span>,</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend =</span> <span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">title =</span> <span class="st">"Distribution"</span>),</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">grid =</span> <span class="fu">grid</span>(<span class="at">nx =</span> <span class="cn">NA</span>, <span class="at">ny =</span> <span class="cn">NA</span>, <span class="at">lty =</span> <span class="st">"solid"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="poisson-and-tables_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You can see that two distributions estimated on the same data allocate the probability mass in very different places, with the normal putting a lot of it below zero (which is technically impossible of course).</p>
+<p>We could compare the likelihoods of these two distributions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>norm_tv <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> d)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>pois_tv <span class="ot">&lt;-</span> <span class="fu">glm</span>(tvhours <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> d, <span class="at">family =</span> <span class="fu">poisson</span>())</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(norm_tv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'log Lik.' -5603.863 (df=2)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logLik</span>(pois_tv)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'log Lik.' -5589.428 (df=1)</code></pre>
+</div>
+</div>
+<p>Even using only one parameter, the Poisson does a better job of fitting the unconditional empirical distribution.</p>
+</section>
+<section id="models-with-predictors" class="level3">
+<h3 class="anchored" data-anchor-id="models-with-predictors">Models with predictors</h3>
+<p>Of course we are usually going to want to create models with predictors. We can write a Poisson model like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(tvhours <span class="sc">~</span> sex,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">poisson</span>())</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = tvhours ~ sex + degree_fac, family = poisson(), 
-    data = d)
+glm(formula = tvhours ~ sex, family = poisson(), data = d)
 
 Coefficients:
-               Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)     1.43501    0.03872  37.058  &lt; 2e-16 ***
-sexF            0.06015    0.02411   2.495 0.012608 *  
-degree_facHS   -0.14656    0.03911  -3.747 0.000179 ***
-degree_facAA   -0.45775    0.05654  -8.096  5.7e-16 ***
-degree_facBA   -0.41032    0.04462  -9.195  &lt; 2e-16 ***
-degree_facgrad -0.65570    0.05151 -12.729  &lt; 2e-16 ***
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  1.16678    0.01815   64.28   &lt;2e-16 ***
+sexF         0.04995    0.02401    2.08   0.0375 *  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for poisson family taken to be 1)
 
     Null deviance: 5472.7  on 2143  degrees of freedom
-Residual deviance: 5192.6  on 2138  degrees of freedom
-AIC: 10911
+Residual deviance: 5468.4  on 2142  degrees of freedom
+AIC: 11179
 
 Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: zoo</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'zoo'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    as.Date, as.Date.numeric</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(m1, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(m1, <span class="at">type =</span> <span class="st">"HC1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>lmtest<span class="sc">::</span><span class="fu">coeftest</span>(m1, </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">vcov =</span> sandwich<span class="sc">::</span><span class="fu">vcovHC</span>(m1, <span class="at">type =</span> <span class="st">"HC1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 z test of coefficients:
 
-                Estimate Std. Error z value  Pr(&gt;|z|)    
-(Intercept)     1.435006   0.083485 17.1887 &lt; 2.2e-16 ***
-sexF            0.060146   0.042724  1.4078   0.15919    
-degree_facHS   -0.146565   0.085979 -1.7047   0.08826 .  
-degree_facAA   -0.457745   0.100139 -4.5711 4.852e-06 ***
-degree_facBA   -0.410323   0.092133 -4.4536 8.444e-06 ***
-degree_facgrad -0.655704   0.095073 -6.8968 5.317e-12 ***
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) 1.166782   0.032832 35.5383   &lt;2e-16 ***
+sexF        0.049953   0.043587  1.1461   0.2518    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
+</section>
+</section>
+<section id="models-for-tables" class="level2">
+<h2 class="anchored" data-anchor-id="models-for-tables">Models for tables</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">freq =</span> <span class="fu">n</span>(), </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> <span class="fu">c</span>(degree_fac, sex)) <span class="sc">|&gt;</span> </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sex, degree_fac)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">freq =</span> <span class="fu">n</span>(), </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> <span class="fu">c</span>(degree_fac, sex)) <span class="sc">|&gt;</span> </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sex, degree_fac)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> dcounts,</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">poisson</span>())</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> dcounts,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">poisson</span>())</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -604,13 +684,13 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>dcounts<span class="sc">$</span>m1_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(m1, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>dcounts<span class="sc">$</span>m1_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(m1, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex,</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> dcounts,</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">poisson</span>())</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex,</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> dcounts,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">poisson</span>())</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -633,13 +713,13 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>dcounts<span class="sc">$</span>m2_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(m2, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dcounts<span class="sc">$</span>m2_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(m2, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex <span class="sc">+</span> degree_fac,</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> dcounts,</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">poisson</span>())</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex <span class="sc">+</span> degree_fac,</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> dcounts,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">poisson</span>())</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -667,13 +747,13 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dcounts<span class="sc">$</span>m3_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(m3, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>dcounts<span class="sc">$</span>m3_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(m3, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex <span class="sc">*</span> degree_fac,</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> dcounts,</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">poisson</span>())</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> sex <span class="sc">*</span> degree_fac,</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> dcounts,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">poisson</span>())</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -705,10 +785,10 @@ Number of Fisher Scoring iterations: 2</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>dcounts<span class="sc">$</span>m4_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(m4, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dcounts<span class="sc">$</span>m4_preds <span class="ot">&lt;-</span> <span class="fu">predict</span>(m4, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m4, <span class="at">test =</span> <span class="st">"Rao"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(m3, m4, <span class="at">test =</span> <span class="st">"Rao"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table
 
@@ -722,7 +802,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>xtab <span class="sc">|&gt;</span> <span class="fu">chisq.test</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>xtab <span class="sc">|&gt;</span> <span class="fu">chisq.test</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
