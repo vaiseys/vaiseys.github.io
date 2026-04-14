@@ -281,6 +281,12 @@ window.Quarto = {
  <span class="menu-text">Chapter 11</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter-15.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter 15</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -739,7 +745,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p>We can now model the <em>count</em> of cases in each cell (<code>freq</code>) as some function of the two categorical variables, <code>degree_fac</code> and <code>sex</code>.</p>
-<p>Let’s build up slowly. Think about what this model would mean?</p>
+<p>Let’s build up slowly. Think about what the model below would mean.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>tm_null <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> <span class="dv">1</span>,</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> dcounts,</span>
