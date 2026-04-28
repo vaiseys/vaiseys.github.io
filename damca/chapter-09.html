@@ -399,6 +399,13 @@ window.Quarto = {
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                      <span class="dv">3</span> <span class="sc">~</span> <span class="st">"BA"</span>,</span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                      <span class="dv">4</span> <span class="sc">~</span> <span class="st">"GradProf"</span>),</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"None"</span>, <span class="st">"HS"</span>, <span class="st">"AA"</span>, <span class="st">"BA"</span>, <span class="st">"GradProf"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `mutate()`.
+ℹ In argument: `degree_fac = factor(...)`.
+Caused by warning:
+! `case_match()` was deprecated in dplyr 1.2.0.
+ℹ Please use `recode_values()` instead.</code></pre>
+</div>
 </div>
 </section>
 <section id="two-groups-as-t-test-and-model" class="level2 page-columns page-full">
@@ -407,10 +414,10 @@ window.Quarto = {
 <div class="cell">
 <details class="code-fold">
 <summary>Show plot code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(tvhours <span class="sc">~</span> college_fac,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> d,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"barplot"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(tvhours <span class="sc">~</span> college_fac,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> d,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"barplot"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -422,125 +429,91 @@ window.Quarto = {
 </div>
 <p>We can write this as a regression model where the outcome is a function of a dummy variable, <code>college</code>, where 1 means “B” and 0 means “no BA.”</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> college,</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> college,</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"Two groups"</span> <span class="ot">=</span> m1),</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"Two groups"</span> <span class="ot">=</span> m1),</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <!-- preamble start -->
 
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
     <script>
-
-      function styleCell_okh09018zhglgt7gn8kj(i, j, css_id) {
-          var table = document.getElementById("tinytable_okh09018zhglgt7gn8kj");
-          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
-          if (cell) {
-              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
-              cell.classList.add(css_id);
-          } else {
-              console.warn(`Cell at (${i}, ${j}) not found.`);
-          }
-      }
-      function spanCell_okh09018zhglgt7gn8kj(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_okh09018zhglgt7gn8kj");
-        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
-        if (!targetCell) {
-          console.warn(`Cell at (${i}, ${j}) not found.`);
-        }
-
-        // Get all cells that need to be removed
-        const cellsToRemove = [];
-        for (let r = 0; r < rowspan; r++) {
-          for (let c = 0; c < colspan; c++) {
-            if (r === 0 && c === 0) continue; // Skip the target cell
-            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
-            if (cell) {
-              cellsToRemove.push(cell);
-            }
-          }
-        }
-
-        // Remove all cells
-        cellsToRemove.forEach(cell => cell.remove());
-
-        // Set rowspan and colspan of the target cell if it exists
-        if (targetCell) {
-          targetCell.rowSpan = rowspan;
-          targetCell.colSpan = colspan;
-        }
-      }
+      // Create table-specific functions using external factory
+      const tableFns_0ya0zi0vwe2m2lczqwle = TinyTable.createTableFunctions("tinytable_0ya0zi0vwe2m2lczqwle");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_27r22mqw84stuxmff20o',}, 
-          { positions: [ { i: '2', j: 1 },  ], css_id: 'tinytable_css_vclnw5dl44z33t7uejra',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 },  ], css_id: 'tinytable_css_47loslc50xc00e3clbx5',}, 
-          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_st9kkzoapio12849uffv',}, 
-          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_25w0m8y3njclyoug9ibz',}, 
-          { positions: [ { i: '2', j: 0 },  ], css_id: 'tinytable_css_gbyzlsngp2mbu9dc0p1s',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 },  ], css_id: 'tinytable_css_ngpvdp6edod40h3mew6v',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_hz4at5cj6mnlgykjmz1h',}, 
+          { positions: [ { i: '5', j: 2 } ], css_id: 'tinytable_css_lv027grr8mv0rwk6kzp2',}, 
+          { positions: [ { i: '2', j: 2 } ], css_id: 'tinytable_css_yinah9to89fgcb6kq1sl',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_xgh0p7pfri9s6nwda8qm',}, 
+          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_y1964qh4w0mvuvofpb8h',}, 
+          { positions: [ { i: '5', j: 1 } ], css_id: 'tinytable_css_z4w77trmlh4ha128tzml',}, 
+          { positions: [ { i: '2', j: 1 } ], css_id: 'tinytable_css_et6xji83wb7pi9yolvdn',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 } ], css_id: 'tinytable_css_15mtyj7entgq9bpq0jii',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_xok9rpgacf3260cd7t9k',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_okh09018zhglgt7gn8kj(cell.i, cell.j, group.css_id);
+                  tableFns_0ya0zi0vwe2m2lczqwle.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
-      /* tinytable css entries after */
-      .table td.tinytable_css_27r22mqw84stuxmff20o, .table th.tinytable_css_27r22mqw84stuxmff20o { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_vclnw5dl44z33t7uejra, .table th.tinytable_css_vclnw5dl44z33t7uejra { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_47loslc50xc00e3clbx5, .table th.tinytable_css_47loslc50xc00e3clbx5 { text-align: center; }
-      .table td.tinytable_css_st9kkzoapio12849uffv, .table th.tinytable_css_st9kkzoapio12849uffv { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_25w0m8y3njclyoug9ibz, .table th.tinytable_css_25w0m8y3njclyoug9ibz { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_gbyzlsngp2mbu9dc0p1s, .table th.tinytable_css_gbyzlsngp2mbu9dc0p1s { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_ngpvdp6edod40h3mew6v, .table th.tinytable_css_ngpvdp6edod40h3mew6v { text-align: left; }
-      .table td.tinytable_css_hz4at5cj6mnlgykjmz1h, .table th.tinytable_css_hz4at5cj6mnlgykjmz1h { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    /* tinytable css entries after */
+    #tinytable_0ya0zi0vwe2m2lczqwle td.tinytable_css_lv027grr8mv0rwk6kzp2, #tinytable_0ya0zi0vwe2m2lczqwle th.tinytable_css_lv027grr8mv0rwk6kzp2 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_0ya0zi0vwe2m2lczqwle td.tinytable_css_yinah9to89fgcb6kq1sl, #tinytable_0ya0zi0vwe2m2lczqwle th.tinytable_css_yinah9to89fgcb6kq1sl {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_0ya0zi0vwe2m2lczqwle td.tinytable_css_xgh0p7pfri9s6nwda8qm, #tinytable_0ya0zi0vwe2m2lczqwle th.tinytable_css_xgh0p7pfri9s6nwda8qm { text-align: center }
+    #tinytable_0ya0zi0vwe2m2lczqwle td.tinytable_css_y1964qh4w0mvuvofpb8h, #tinytable_0ya0zi0vwe2m2lczqwle th.tinytable_css_y1964qh4w0mvuvofpb8h {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_0ya0zi0vwe2m2lczqwle td.tinytable_css_z4w77trmlh4ha128tzml, #tinytable_0ya0zi0vwe2m2lczqwle th.tinytable_css_z4w77trmlh4ha128tzml {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_0ya0zi0vwe2m2lczqwle td.tinytable_css_et6xji83wb7pi9yolvdn, #tinytable_0ya0zi0vwe2m2lczqwle th.tinytable_css_et6xji83wb7pi9yolvdn {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_0ya0zi0vwe2m2lczqwle td.tinytable_css_15mtyj7entgq9bpq0jii, #tinytable_0ya0zi0vwe2m2lczqwle th.tinytable_css_15mtyj7entgq9bpq0jii { text-align: left }
+    #tinytable_0ya0zi0vwe2m2lczqwle td.tinytable_css_xok9rpgacf3260cd7t9k, #tinytable_0ya0zi0vwe2m2lczqwle th.tinytable_css_xok9rpgacf3260cd7t9k {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_okh09018zhglgt7gn8kj" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-        <thead>
+      <table class="tinytable" id="tinytable_0ya0zi0vwe2m2lczqwle" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
+        <thead>
               <tr>
-                <th scope="col" data-row="0" data-col="0"> </th>
-                <th scope="col" data-row="0" data-col="1">Two groups</th>
+                <th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">Two groups</th>
               </tr>
         </thead>
         
         <tbody>
                 <tr>
-                  <td data-row="1" data-col="0">(Intercept)</td>
-                  <td data-row="1" data-col="1">3.474 (0.076)</td>
+                  <td data-row="1" data-col="1">(Intercept)</td>
+                  <td data-row="1" data-col="2">3.474 (0.076)</td>
                 </tr>
                 <tr>
-                  <td data-row="2" data-col="0">college</td>
-                  <td data-row="2" data-col="1">-1.216 (0.199)</td>
+                  <td data-row="2" data-col="1">college</td>
+                  <td data-row="2" data-col="2">-1.216 (0.199)</td>
                 </tr>
                 <tr>
-                  <td data-row="3" data-col="0">Num.Obs.</td>
-                  <td data-row="3" data-col="1">2140</td>
+                  <td data-row="3" data-col="1">Num.Obs.</td>
+                  <td data-row="3" data-col="2">2140</td>
                 </tr>
                 <tr>
-                  <td data-row="4" data-col="0">F</td>
-                  <td data-row="4" data-col="1">37.426</td>
+                  <td data-row="4" data-col="1">F</td>
+                  <td data-row="4" data-col="2">37.426</td>
                 </tr>
                 <tr>
-                  <td data-row="5" data-col="0">R2</td>
-                  <td data-row="5" data-col="1">0.017</td>
+                  <td data-row="5" data-col="1">R2</td>
+                  <td data-row="5" data-col="2">0.017</td>
                 </tr>
         </tbody>
       </table>
@@ -550,9 +523,9 @@ window.Quarto = {
 </div>
 <p>Many people would estimate this two-group comparison as a t-test. Here’s how you would do that in R.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(tvhours <span class="sc">~</span> college,</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> d,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">var.equal =</span> <span class="cn">TRUE</span>) <span class="co"># assumes one sigma for both groups</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(tvhours <span class="sc">~</span> college,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> d,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">var.equal =</span> <span class="cn">TRUE</span>) <span class="co"># assumes one sigma for both groups</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Two Sample t-test
@@ -571,9 +544,9 @@ mean in group 0 mean in group 1
 <p>One wrinkle here is that I had to set <code>var.equal = TRUE</code> here in order to make the <code>lm()</code> and the <code>t.test()</code> identical. That’s because the regression model only allows one <span class="math inline">\(\sigma\)</span> (the SD of the residuals).</p>
 <p>The default value of <code>var.equal</code> is <code>FALSE</code>, which allows the the two groups to have different within-group standard deviations. This is often called a <a href="https://en.wikipedia.org/wiki/Welch%27s_t-test">Welch’s t-test</a>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(tvhours <span class="sc">~</span> college,</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> d,</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">var.equal =</span> <span class="cn">FALSE</span>) <span class="co"># allows two different sigmas</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(tvhours <span class="sc">~</span> college,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> d,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">var.equal =</span> <span class="cn">FALSE</span>) <span class="co"># allows two different sigmas</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -592,11 +565,11 @@ mean in group 0 mean in group 1
 <div class="cell">
 <details class="code-fold">
 <summary>Show plot code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(<span class="sc">~</span> tvhours <span class="sc">|</span> college_fac,</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> d,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"density"</span>,</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">2</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend =</span> <span class="st">"topright"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(<span class="sc">~</span> tvhours <span class="sc">|</span> college_fac,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> d,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"density"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">2</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend =</span> <span class="st">"topright"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -614,15 +587,15 @@ X_i &amp;\in \{0, 1\} \\
 \end{align}\]</span></p>
 <p>…and estimate it like this using generalized least squares.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>m_welch <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(tvhours <span class="sc">~</span> college,</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> d,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">weights =</span> nlme<span class="sc">::</span><span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> college),</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">method =</span> <span class="st">"ML"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m_welch <span class="ot">&lt;-</span> nlme<span class="sc">::</span><span class="fu">gls</span>(tvhours <span class="sc">~</span> college,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> d,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">weights =</span> nlme<span class="sc">::</span><span class="fu">varIdent</span>(<span class="at">form =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> college),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">method =</span> <span class="st">"ML"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_welch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m_welch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Generalized least squares fit by maximum likelihood
@@ -658,13 +631,13 @@ Degrees of freedom: 2140 total; 2138 residual</code></pre>
 <p>This looks pretty much like <code>lm()</code> output except for the <code>Variance function</code> part at the top. This tells you that the residual SD of the college group is <code>0.5888609</code> times the size of the non-college group (<code>3.434727</code>).</p>
 <p>Putting this choice in a <em>modeling</em> context means that we can use all the tricks we normally use to decide if we need the more complicated model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(m1, m_welch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(m1, m_welch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        df      AIC
 m1       3 11142.51
 m_welch  4 11026.56</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(m1, m_welch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">BIC</span>(m1, m_welch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        df      BIC
 m1       3 11159.52
@@ -680,9 +653,9 @@ m_welch  4 11049.24</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(tvhours <span class="sc">~</span> degree_fac,</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> d,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"bar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(tvhours <span class="sc">~</span> degree_fac,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> d,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"bar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -698,8 +671,8 @@ m_welch  4 11049.24</code></pre>
 <section id="numeric-version" class="level4">
 <h4 class="anchored" data-anchor-id="numeric-version">Numeric version</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> <span class="fu">group_by</span>(degree) <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> <span class="fu">group_by</span>(degree) <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   degree     n
@@ -716,8 +689,8 @@ m_welch  4 11049.24</code></pre>
 <section id="factor-version" class="level4">
 <h4 class="anchored" data-anchor-id="factor-version">Factor version</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> <span class="fu">group_by</span>(degree_fac) <span class="sc">|&gt;</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> <span class="fu">group_by</span>(degree_fac) <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
   degree_fac     n
@@ -735,9 +708,9 @@ m_welch  4 11049.24</code></pre>
 <p>We want to estimate a separate mean for each group so we want to use the factor version.</p>
 <p>If we accidentally use the numeric version, we get this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>m2_numeric <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> degree,</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> d)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m2_numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>m2_numeric <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> degree,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> d)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m2_numeric)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 5
   term        estimate std.error statistic   p.value
@@ -749,139 +722,105 @@ m_welch  4 11049.24</code></pre>
 <p>This tells us that <em>each additional degree</em> predicts a -0.4849135 difference in <code>tvhours</code>. This treats degree as a <code>continuous</code> predictor, which is not how we implement a one-way ANOVA<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
 <div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;As we’ll see below, this might actually be an reasonable model. But it’s not an ANOVA!</p></div></div><p>Here’s how we can estimate a linear model that <em>is</em> equivalent to a one-way ANOVA:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> degree_fac,</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> degree_fac,</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="dummy-coding" class="level3">
 <h3 class="anchored" data-anchor-id="dummy-coding">Dummy coding</h3>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"ANOVA"</span> <span class="ot">=</span> m2),</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(<span class="fu">list</span>(<span class="st">"ANOVA"</span> <span class="ot">=</span> m2),</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">fmt =</span> <span class="dv">3</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">estimate =</span> <span class="st">"{estimate} ({std.error})"</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">statistic =</span> <span class="cn">NULL</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"F"</span>, <span class="st">"r.squared"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <!-- preamble start -->
 
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
     <script>
-
-      function styleCell_1fh5xmf8oyb6q4jrfty3(i, j, css_id) {
-          var table = document.getElementById("tinytable_1fh5xmf8oyb6q4jrfty3");
-          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
-          if (cell) {
-              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
-              cell.classList.add(css_id);
-          } else {
-              console.warn(`Cell at (${i}, ${j}) not found.`);
-          }
-      }
-      function spanCell_1fh5xmf8oyb6q4jrfty3(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_1fh5xmf8oyb6q4jrfty3");
-        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
-        if (!targetCell) {
-          console.warn(`Cell at (${i}, ${j}) not found.`);
-        }
-
-        // Get all cells that need to be removed
-        const cellsToRemove = [];
-        for (let r = 0; r < rowspan; r++) {
-          for (let c = 0; c < colspan; c++) {
-            if (r === 0 && c === 0) continue; // Skip the target cell
-            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
-            if (cell) {
-              cellsToRemove.push(cell);
-            }
-          }
-        }
-
-        // Remove all cells
-        cellsToRemove.forEach(cell => cell.remove());
-
-        // Set rowspan and colspan of the target cell if it exists
-        if (targetCell) {
-          targetCell.rowSpan = rowspan;
-          targetCell.colSpan = colspan;
-        }
-      }
+      // Create table-specific functions using external factory
+      const tableFns_1whp77sugsi1004y859h = TinyTable.createTableFunctions("tinytable_1whp77sugsi1004y859h");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '8', j: 1 },  ], css_id: 'tinytable_css_4vayqvp4pro9ou5kfjgt',}, 
-          { positions: [ { i: '5', j: 1 },  ], css_id: 'tinytable_css_lf64eps52v62l3g8rawz',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 },  ], css_id: 'tinytable_css_9adki9s8pwkxgsd1s607',}, 
-          { positions: [ { i: '0', j: 1 },  ], css_id: 'tinytable_css_fmohisjrm8w3tcproa8o',}, 
-          { positions: [ { i: '8', j: 0 },  ], css_id: 'tinytable_css_2jjp00asz1x12k9xqz36',}, 
-          { positions: [ { i: '5', j: 0 },  ], css_id: 'tinytable_css_welddzvf585hg1nj5p5z',}, 
-          { positions: [ { i: '1', j: 0 }, { i: '2', j: 0 }, { i: '3', j: 0 }, { i: '4', j: 0 }, { i: '6', j: 0 }, { i: '7', j: 0 },  ], css_id: 'tinytable_css_gkg0g57ndhkmbik5mqrk',}, 
-          { positions: [ { i: '0', j: 0 },  ], css_id: 'tinytable_css_ucwqtw20puab82c8dnsy',}, 
+          { positions: [ { i: '8', j: 2 } ], css_id: 'tinytable_css_9sp7b8bkco5rl5s105oy',}, 
+          { positions: [ { i: '5', j: 2 } ], css_id: 'tinytable_css_bv4mquzhig6owxnckqwn',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_9j3jxwzjsmgx1yspauzq',}, 
+          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_oonv1f155j2evftq0zj2',}, 
+          { positions: [ { i: '8', j: 1 } ], css_id: 'tinytable_css_jnw45f38fimzedl3cdt8',}, 
+          { positions: [ { i: '5', j: 1 } ], css_id: 'tinytable_css_kuanq3hkpsbqx9c1632f',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 } ], css_id: 'tinytable_css_xyjg4hk0s9s4habfxo3v',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_63gr614znb0hez44wvn0',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_1fh5xmf8oyb6q4jrfty3(cell.i, cell.j, group.css_id);
+                  tableFns_1whp77sugsi1004y859h.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
-      /* tinytable css entries after */
-      .table td.tinytable_css_4vayqvp4pro9ou5kfjgt, .table th.tinytable_css_4vayqvp4pro9ou5kfjgt { text-align: center; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_lf64eps52v62l3g8rawz, .table th.tinytable_css_lf64eps52v62l3g8rawz { text-align: center; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_9adki9s8pwkxgsd1s607, .table th.tinytable_css_9adki9s8pwkxgsd1s607 { text-align: center; }
-      .table td.tinytable_css_fmohisjrm8w3tcproa8o, .table th.tinytable_css_fmohisjrm8w3tcproa8o { text-align: center; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
-      .table td.tinytable_css_2jjp00asz1x12k9xqz36, .table th.tinytable_css_2jjp00asz1x12k9xqz36 { text-align: left; border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_welddzvf585hg1nj5p5z, .table th.tinytable_css_welddzvf585hg1nj5p5z { text-align: left; border-bottom: solid black 0.05em; }
-      .table td.tinytable_css_gkg0g57ndhkmbik5mqrk, .table th.tinytable_css_gkg0g57ndhkmbik5mqrk { text-align: left; }
-      .table td.tinytable_css_ucwqtw20puab82c8dnsy, .table th.tinytable_css_ucwqtw20puab82c8dnsy { text-align: left; border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    /* tinytable css entries after */
+    #tinytable_1whp77sugsi1004y859h td.tinytable_css_9sp7b8bkco5rl5s105oy, #tinytable_1whp77sugsi1004y859h th.tinytable_css_9sp7b8bkco5rl5s105oy {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_1whp77sugsi1004y859h td.tinytable_css_bv4mquzhig6owxnckqwn, #tinytable_1whp77sugsi1004y859h th.tinytable_css_bv4mquzhig6owxnckqwn {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_1whp77sugsi1004y859h td.tinytable_css_9j3jxwzjsmgx1yspauzq, #tinytable_1whp77sugsi1004y859h th.tinytable_css_9j3jxwzjsmgx1yspauzq { text-align: center }
+    #tinytable_1whp77sugsi1004y859h td.tinytable_css_oonv1f155j2evftq0zj2, #tinytable_1whp77sugsi1004y859h th.tinytable_css_oonv1f155j2evftq0zj2 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_1whp77sugsi1004y859h td.tinytable_css_jnw45f38fimzedl3cdt8, #tinytable_1whp77sugsi1004y859h th.tinytable_css_jnw45f38fimzedl3cdt8 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_1whp77sugsi1004y859h td.tinytable_css_kuanq3hkpsbqx9c1632f, #tinytable_1whp77sugsi1004y859h th.tinytable_css_kuanq3hkpsbqx9c1632f {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_1whp77sugsi1004y859h td.tinytable_css_xyjg4hk0s9s4habfxo3v, #tinytable_1whp77sugsi1004y859h th.tinytable_css_xyjg4hk0s9s4habfxo3v { text-align: left }
+    #tinytable_1whp77sugsi1004y859h td.tinytable_css_63gr614znb0hez44wvn0, #tinytable_1whp77sugsi1004y859h th.tinytable_css_63gr614znb0hez44wvn0 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_1fh5xmf8oyb6q4jrfty3" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-        <thead>
+      <table class="tinytable" id="tinytable_1whp77sugsi1004y859h" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
+        <thead>
               <tr>
-                <th scope="col" data-row="0" data-col="0"> </th>
-                <th scope="col" data-row="0" data-col="1">ANOVA</th>
+                <th scope="col" data-row="0" data-col="1"> </th>
+                <th scope="col" data-row="0" data-col="2">ANOVA</th>
               </tr>
         </thead>
         
         <tbody>
                 <tr>
-                  <td data-row="1" data-col="0">(Intercept)</td>
-                  <td data-row="1" data-col="1">4.295 (0.244)</td>
+                  <td data-row="1" data-col="1">(Intercept)</td>
+                  <td data-row="1" data-col="2">4.295 (0.244)</td>
                 </tr>
                 <tr>
-                  <td data-row="2" data-col="0">degree_facHS</td>
-                  <td data-row="2" data-col="1">-0.548 (0.265)</td>
+                  <td data-row="2" data-col="1">degree_facHS</td>
+                  <td data-row="2" data-col="2">-0.548 (0.265)</td>
                 </tr>
                 <tr>
-                  <td data-row="3" data-col="0">degree_facAA</td>
-                  <td data-row="3" data-col="1">-1.532 (0.340)</td>
+                  <td data-row="3" data-col="1">degree_facAA</td>
+                  <td data-row="3" data-col="2">-1.532 (0.340)</td>
                 </tr>
                 <tr>
-                  <td data-row="4" data-col="0">degree_facBA</td>
-                  <td data-row="4" data-col="1">-1.416 (0.286)</td>
+                  <td data-row="4" data-col="1">degree_facBA</td>
+                  <td data-row="4" data-col="2">-1.416 (0.286)</td>
                 </tr>
                 <tr>
-                  <td data-row="5" data-col="0">degree_facGradProf</td>
-                  <td data-row="5" data-col="1">-2.037 (0.304)</td>
+                  <td data-row="5" data-col="1">degree_facGradProf</td>
+                  <td data-row="5" data-col="2">-2.037 (0.304)</td>
                 </tr>
                 <tr>
-                  <td data-row="6" data-col="0">Num.Obs.</td>
-                  <td data-row="6" data-col="1">2140</td>
+                  <td data-row="6" data-col="1">Num.Obs.</td>
+                  <td data-row="6" data-col="2">2140</td>
                 </tr>
                 <tr>
-                  <td data-row="7" data-col="0">F</td>
-                  <td data-row="7" data-col="1">20.362</td>
+                  <td data-row="7" data-col="1">F</td>
+                  <td data-row="7" data-col="2">20.362</td>
                 </tr>
                 <tr>
-                  <td data-row="8" data-col="0">R2</td>
-                  <td data-row="8" data-col="1">0.037</td>
+                  <td data-row="8" data-col="1">R2</td>
+                  <td data-row="8" data-col="2">0.037</td>
                 </tr>
         </tbody>
       </table>
@@ -898,9 +837,9 @@ m_welch  4 11049.24</code></pre>
 <h4 class="anchored" data-anchor-id="helmert-coding">Helmert coding</h4>
 <p><strong>Helmert coding</strong> is for ordinal variables and <em>compares each level of the factor to the preceding level</em>. It’s pretty easy to implement in R:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(d<span class="sc">$</span>degree_fac) <span class="ot">&lt;-</span> <span class="fu">contr.helmert</span>(<span class="dv">5</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>m2_helmert <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> degree_fac, <span class="at">data =</span> d)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m2_helmert)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(d<span class="sc">$</span>degree_fac) <span class="ot">&lt;-</span> <span class="fu">contr.helmert</span>(<span class="dv">5</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>m2_helmert <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> degree_fac, <span class="at">data =</span> d)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m2_helmert)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 5
   term        estimate std.error statistic   p.value
@@ -917,16 +856,16 @@ m_welch  4 11049.24</code></pre>
 <h4 class="anchored" data-anchor-id="theoretical-coding">“Theoretical” coding</h4>
 <p>If particular theoretical comparisons are of interest, these can be encoded through orthogonal contrasts. The book explains the rules here.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>my_contrasts <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>( <span class="dv">4</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>,   <span class="co"># LT HS vs. all others</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>     <span class="dv">0</span>,  <span class="dv">3</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>,   <span class="co"># HS vs. AA/BA/Grad</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>     <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>,   <span class="co"># AA vs. BA/Grad</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>     <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>),  <span class="co"># BA vs. Grad</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">5</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(d<span class="sc">$</span>degree_fac) <span class="ot">&lt;-</span> my_contrasts</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>m2_ortho <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> degree_fac, <span class="at">data =</span> d)</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m2_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>my_contrasts <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>( <span class="dv">4</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>,   <span class="co"># LT HS vs. all others</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>     <span class="dv">0</span>,  <span class="dv">3</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>,   <span class="co"># HS vs. AA/BA/Grad</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>     <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>,   <span class="co"># AA vs. BA/Grad</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>     <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>),  <span class="co"># BA vs. Grad</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">5</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(d<span class="sc">$</span>degree_fac) <span class="ot">&lt;-</span> my_contrasts</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>m2_ortho <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> degree_fac, <span class="at">data =</span> d)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m2_ortho)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 5
   term        estimate std.error statistic   p.value
@@ -944,16 +883,16 @@ m_welch  4 11049.24</code></pre>
 <h4 class="anchored" data-anchor-id="deviance-effect-or-sum-to-zero-coding">Deviance, “effect”, or sum-to-zero coding</h4>
 <p>Another way to code these is to code their departures from the <strong>unweighted grand mean</strong>, which is what the mean would be if all groups were of equal size. We can get these deviations most easily using <code>emmeans::emmeans()</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(m2, <span class="sc">~</span> degree_fac) <span class="sc">|&gt;</span> </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  emmeans<span class="sc">::</span><span class="fu">contrast</span>(<span class="st">"eff"</span>,      <span class="co"># "effects" contrasts = deviation from grand mean</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">adjust =</span> <span class="st">"none"</span>)     <span class="co"># no p-value adjustment</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>emmeans<span class="sc">::</span><span class="fu">emmeans</span>(m2, <span class="sc">~</span> degree_fac) <span class="sc">|&gt;</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  emmeans<span class="sc">::</span><span class="fu">contrast</span>(<span class="st">"eff"</span>,      <span class="co"># "effects" contrasts = deviation from grand mean</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">adjust =</span> <span class="st">"none"</span>)     <span class="co"># no p-value adjustment</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> contrast        estimate    SE   df t.ratio p.value
- None effect        1.107 0.207 2135   5.340  &lt;.0001
- HS effect          0.558 0.117 2135   4.783  &lt;.0001
+ None effect        1.107 0.207 2135   5.340 &lt;0.0001
+ HS effect          0.558 0.117 2135   4.783 &lt;0.0001
  AA effect         -0.425 0.203 2135  -2.100  0.0358
  BA effect         -0.309 0.143 2135  -2.158  0.0310
- GradProf effect   -0.930 0.165 2135  -5.653  &lt;.0001</code></pre>
+ GradProf effect   -0.930 0.165 2135  -5.653 &lt;0.0001</code></pre>
 </div>
 </div>
 <p>You can see these estimates sum to zero.</p>
@@ -965,31 +904,31 @@ m_welch  4 11049.24</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Data prep</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>my_means <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(m2, <span class="sc">~</span> degree_fac)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>wgm <span class="ot">&lt;-</span> my_means <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> <span class="fu">pull</span>(emmean) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> my_means <span class="sc">|&gt;</span> </span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ub =</span> emmean <span class="sc">+</span> SE,</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">lb =</span> emmean <span class="sc">-</span> SE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>my_means <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(m2, <span class="sc">~</span> degree_fac)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>wgm <span class="ot">&lt;-</span> my_means <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> <span class="fu">pull</span>(emmean) <span class="sc">|&gt;</span> <span class="fu">mean</span>()</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> my_means <span class="sc">|&gt;</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ub =</span> emmean <span class="sc">+</span> SE,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">lb =</span> emmean <span class="sc">-</span> SE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Show plot code</summary>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(emmean <span class="sc">~</span> degree_fac,</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> preds,</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"pointrange"</span>,</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymax =</span> ub,</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymin =</span> lb,</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">2</span>,</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Level of education"</span>,</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Hours per day"</span>,</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"TV watching by education"</span>,</span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"2024 General Social Survey (estimates +/- 1 SE)"</span>)</span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> wgm),</span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">lw =</span> <span class="dv">2</span>,</span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">lty =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(emmean <span class="sc">~</span> degree_fac,</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> preds,</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"pointrange"</span>,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymax =</span> ub,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymin =</span> lb,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">2</span>,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Level of education"</span>,</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Hours per day"</span>,</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"TV watching by education"</span>,</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"2024 General Social Survey (estimates +/- 1 SE)"</span>)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> wgm),</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">lw =</span> <span class="dv">2</span>,</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">lty =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1006,8 +945,8 @@ m_welch  4 11049.24</code></pre>
 <p>The main reason the authors seem to like orthogonal contrast coding is that it allows you to make the comparisons you want. For example, in the dummy coding results above, you can see that both <code>BA</code> and <code>GradProf</code> are significantly different from the <em>reference category</em> but not whether they are different from <em>each other</em>.</p>
 <p>Rather than requiring us to set up such contrasts in advance, we can simply get them after the model is estimated using <code>marginaleffects</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>marginaleffects<span class="sc">::</span><span class="fu">hypotheses</span>(m2, </span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"degree_facGradProf = degree_facBA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>marginaleffects<span class="sc">::</span><span class="fu">hypotheses</span>(m2, </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"degree_facGradProf = degree_facBA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
                       Hypothesis Estimate Std. Error     z Pr(&gt;|z|)   S 2.5 %
@@ -1033,10 +972,10 @@ m_welch  4 11049.24</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Show plot code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(tvhours <span class="sc">~</span> educ,</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> d,</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"jitter"</span>,</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> .<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(tvhours <span class="sc">~</span> educ,</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> d,</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"jitter"</span>,</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> .<span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1051,56 +990,56 @@ m_welch  4 11049.24</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Data prep</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do the missing models</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>m_educ <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> educ,</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> d)</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>m_educ_nom <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> <span class="fu">factor</span>(educ),</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> d)</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="co"># get prediction grid</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>preds2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">educ =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">college =</span> <span class="fu">if_else</span>(educ <span class="sc">&gt;</span> <span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">degree =</span> <span class="fu">case_match</span>(educ,</span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">0</span><span class="sc">:</span><span class="dv">11</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">12</span><span class="sc">:</span><span class="dv">13</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">14</span><span class="sc">:</span><span class="dv">15</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">16</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">17</span><span class="sc">:</span><span class="dv">20</span> <span class="sc">~</span> <span class="dv">4</span>),</span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">degree_fac =</span> <span class="fu">case_match</span>(degree,</span>
-<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">0</span> <span class="sc">~</span> <span class="st">"None"</span>,</span>
-<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">1</span> <span class="sc">~</span> <span class="st">"HS"</span>,</span>
-<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">2</span> <span class="sc">~</span> <span class="st">"AA"</span>,</span>
-<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">3</span> <span class="sc">~</span> <span class="st">"BA"</span>,</span>
-<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">4</span> <span class="sc">~</span> <span class="st">"GradProf"</span>))</span>
-<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a><span class="co"># add predictions</span></span>
-<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a>preds2<span class="sc">$</span>preds_twogroup <span class="ot">&lt;-</span> <span class="fu">predict</span>(m1, <span class="at">newdata =</span> preds2)</span>
-<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a>preds2<span class="sc">$</span>preds_deg_ANOVA <span class="ot">&lt;-</span> <span class="fu">predict</span>(m2, <span class="at">newdata =</span> preds2)</span>
-<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a>preds2<span class="sc">$</span>preds_deg_numeric <span class="ot">&lt;-</span> <span class="fu">predict</span>(m2_numeric, <span class="at">newdata =</span> preds2)</span>
-<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a>preds2<span class="sc">$</span>preds_ed_numeric <span class="ot">&lt;-</span> <span class="fu">predict</span>(m_educ, <span class="at">newdata =</span> preds2)</span>
-<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a>preds2<span class="sc">$</span>preds_ed_ANOVA <span class="ot">&lt;-</span> <span class="fu">predict</span>(m_educ_nom, <span class="at">newdata =</span> preds2)</span>
-<span id="cb40-31"><a href="#cb40-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-32"><a href="#cb40-32" aria-hidden="true" tabindex="-1"></a><span class="co"># reshape</span></span>
-<span id="cb40-33"><a href="#cb40-33" aria-hidden="true" tabindex="-1"></a>preds2_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(preds2,</span>
-<span id="cb40-34"><a href="#cb40-34" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">starts_with</span>(<span class="st">"preds"</span>),</span>
-<span id="cb40-35"><a href="#cb40-35" aria-hidden="true" tabindex="-1"></a>                            <span class="at">names_prefix =</span> <span class="st">"preds_"</span>,</span>
-<span id="cb40-36"><a href="#cb40-36" aria-hidden="true" tabindex="-1"></a>                            <span class="at">names_to =</span> <span class="st">"model"</span>,</span>
-<span id="cb40-37"><a href="#cb40-37" aria-hidden="true" tabindex="-1"></a>                            <span class="at">values_to =</span> <span class="st">"prediction"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># do the missing models</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>m_educ <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> educ,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> d)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>m_educ_nom <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> <span class="fu">factor</span>(educ),</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> d)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co"># get prediction grid</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>preds2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">educ =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">college =</span> <span class="fu">if_else</span>(educ <span class="sc">&gt;</span> <span class="dv">15</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">degree =</span> <span class="fu">case_match</span>(educ,</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">0</span><span class="sc">:</span><span class="dv">11</span> <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">12</span><span class="sc">:</span><span class="dv">13</span> <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">14</span><span class="sc">:</span><span class="dv">15</span> <span class="sc">~</span> <span class="dv">2</span>,</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">16</span> <span class="sc">~</span> <span class="dv">3</span>,</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">17</span><span class="sc">:</span><span class="dv">20</span> <span class="sc">~</span> <span class="dv">4</span>),</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">degree_fac =</span> <span class="fu">case_match</span>(degree,</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">0</span> <span class="sc">~</span> <span class="st">"None"</span>,</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">1</span> <span class="sc">~</span> <span class="st">"HS"</span>,</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">2</span> <span class="sc">~</span> <span class="st">"AA"</span>,</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">3</span> <span class="sc">~</span> <span class="st">"BA"</span>,</span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>                                 <span class="dv">4</span> <span class="sc">~</span> <span class="st">"GradProf"</span>))</span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a><span class="co"># add predictions</span></span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a>preds2<span class="sc">$</span>preds_twogroup <span class="ot">&lt;-</span> <span class="fu">predict</span>(m1, <span class="at">newdata =</span> preds2)</span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a>preds2<span class="sc">$</span>preds_deg_ANOVA <span class="ot">&lt;-</span> <span class="fu">predict</span>(m2, <span class="at">newdata =</span> preds2)</span>
+<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>preds2<span class="sc">$</span>preds_deg_numeric <span class="ot">&lt;-</span> <span class="fu">predict</span>(m2_numeric, <span class="at">newdata =</span> preds2)</span>
+<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a>preds2<span class="sc">$</span>preds_ed_numeric <span class="ot">&lt;-</span> <span class="fu">predict</span>(m_educ, <span class="at">newdata =</span> preds2)</span>
+<span id="cb41-30"><a href="#cb41-30" aria-hidden="true" tabindex="-1"></a>preds2<span class="sc">$</span>preds_ed_ANOVA <span class="ot">&lt;-</span> <span class="fu">predict</span>(m_educ_nom, <span class="at">newdata =</span> preds2)</span>
+<span id="cb41-31"><a href="#cb41-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-32"><a href="#cb41-32" aria-hidden="true" tabindex="-1"></a><span class="co"># reshape</span></span>
+<span id="cb41-33"><a href="#cb41-33" aria-hidden="true" tabindex="-1"></a>preds2_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(preds2,</span>
+<span id="cb41-34"><a href="#cb41-34" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">starts_with</span>(<span class="st">"preds"</span>),</span>
+<span id="cb41-35"><a href="#cb41-35" aria-hidden="true" tabindex="-1"></a>                            <span class="at">names_prefix =</span> <span class="st">"preds_"</span>,</span>
+<span id="cb41-36"><a href="#cb41-36" aria-hidden="true" tabindex="-1"></a>                            <span class="at">names_to =</span> <span class="st">"model"</span>,</span>
+<span id="cb41-37"><a href="#cb41-37" aria-hidden="true" tabindex="-1"></a>                            <span class="at">values_to =</span> <span class="st">"prediction"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Show plot code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(prediction <span class="sc">~</span> educ,</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> preds2_long,</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">facet =</span> model,</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"s"</span>,</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">2</span>,</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxb =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">8</span>,</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Years of education"</span>,</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Different models of TV by education"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(prediction <span class="sc">~</span> educ,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> preds2_long,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">facet =</span> model,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"s"</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">2</span>,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxb =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">8</span>,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Years of education"</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Different models of TV by education"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1113,137 +1052,103 @@ m_welch  4 11049.24</code></pre>
 <p>These models differ in their level of complexity, their fit to the <em>sample</em> and their risk of overfitting the population data.</p>
 <p>Let’s compare all these models using our old friends, AIC and BIC. We can organize all this information nicely using the {<a href="https://easystats.github.io/performance/">performance</a>} package.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">compare_performance</span>(</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">"t-test"</span> <span class="ot">=</span> m1, </span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"cont. (degree)"</span> <span class="ot">=</span> m2_numeric,</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>       <span class="st">"ANOVA (degree)"</span> <span class="ot">=</span> m2, </span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>       <span class="st">"cont. (educ)"</span> <span class="ot">=</span> m_educ, </span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>       <span class="st">"ANOVA (educ)"</span> <span class="ot">=</span> m_educ_nom),</span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">metrics =</span> <span class="fu">list</span>(<span class="st">"AIC"</span>, <span class="st">"BIC"</span>, <span class="st">"R2"</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Model) <span class="sc">|&gt;</span> </span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  tinytable<span class="sc">::</span><span class="fu">tt</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  tinytable<span class="sc">::</span><span class="fu">format_tt</span>(<span class="at">digits =</span> <span class="dv">3</span>,</span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">num_fmt =</span> <span class="st">"decimal"</span>,</span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">num_zero =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">compare_performance</span>(</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(<span class="st">"t-test"</span> <span class="ot">=</span> m1, </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">"cont. (degree)"</span> <span class="ot">=</span> m2_numeric,</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>       <span class="st">"ANOVA (degree)"</span> <span class="ot">=</span> m2, </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>       <span class="st">"cont. (educ)"</span> <span class="ot">=</span> m_educ, </span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>       <span class="st">"ANOVA (educ)"</span> <span class="ot">=</span> m_educ_nom),</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">metrics =</span> <span class="fu">list</span>(<span class="st">"AIC"</span>, <span class="st">"BIC"</span>, <span class="st">"R2"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Model) <span class="sc">|&gt;</span> </span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  tinytable<span class="sc">::</span><span class="fu">tt</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  tinytable<span class="sc">::</span><span class="fu">format_tt</span>(<span class="at">digits =</span> <span class="dv">3</span>,</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">num_fmt =</span> <span class="st">"decimal"</span>,</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>                       <span class="at">num_zero =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <!-- preamble start -->
 
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
     <script>
-
-      function styleCell_7lnwoeo5os1ntbru57g9(i, j, css_id) {
-          var table = document.getElementById("tinytable_7lnwoeo5os1ntbru57g9");
-          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
-          if (cell) {
-              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
-              cell.classList.add(css_id);
-          } else {
-              console.warn(`Cell at (${i}, ${j}) not found.`);
-          }
-      }
-      function spanCell_7lnwoeo5os1ntbru57g9(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_7lnwoeo5os1ntbru57g9");
-        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
-        if (!targetCell) {
-          console.warn(`Cell at (${i}, ${j}) not found.`);
-        }
-
-        // Get all cells that need to be removed
-        const cellsToRemove = [];
-        for (let r = 0; r < rowspan; r++) {
-          for (let c = 0; c < colspan; c++) {
-            if (r === 0 && c === 0) continue; // Skip the target cell
-            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
-            if (cell) {
-              cellsToRemove.push(cell);
-            }
-          }
-        }
-
-        // Remove all cells
-        cellsToRemove.forEach(cell => cell.remove());
-
-        // Set rowspan and colspan of the target cell if it exists
-        if (targetCell) {
-          targetCell.rowSpan = rowspan;
-          targetCell.colSpan = colspan;
-        }
-      }
+      // Create table-specific functions using external factory
+      const tableFns_hvy5xorfeba0d8gzl0e7 = TinyTable.createTableFunctions("tinytable_hvy5xorfeba0d8gzl0e7");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 0 }, { i: '5', j: 1 }, { i: '5', j: 2 }, { i: '5', j: 3 }, { i: '5', j: 4 }, { i: '5', j: 5 },  ], css_id: 'tinytable_css_oudglkwsvsamkf84tcoe',}, 
-          { positions: [ { i: '0', j: 0 }, { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 },  ], css_id: 'tinytable_css_crqh9babk8lvqobnp5tu',}, 
+          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 }, { i: '5', j: 3 }, { i: '5', j: 4 }, { i: '5', j: 5 }, { i: '5', j: 6 } ], css_id: 'tinytable_css_axvnrt2cawfp7l1c5vyk',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 } ], css_id: 'tinytable_css_v9csamwdoec0ec56xpih',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_7lnwoeo5os1ntbru57g9(cell.i, cell.j, group.css_id);
+                  tableFns_hvy5xorfeba0d8gzl0e7.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
-      /* tinytable css entries after */
-      .table td.tinytable_css_oudglkwsvsamkf84tcoe, .table th.tinytable_css_oudglkwsvsamkf84tcoe { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_crqh9babk8lvqobnp5tu, .table th.tinytable_css_crqh9babk8lvqobnp5tu { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    /* tinytable css entries after */
+    #tinytable_hvy5xorfeba0d8gzl0e7 td.tinytable_css_axvnrt2cawfp7l1c5vyk, #tinytable_hvy5xorfeba0d8gzl0e7 th.tinytable_css_axvnrt2cawfp7l1c5vyk {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_hvy5xorfeba0d8gzl0e7 td.tinytable_css_v9csamwdoec0ec56xpih, #tinytable_hvy5xorfeba0d8gzl0e7 th.tinytable_css_v9csamwdoec0ec56xpih {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_7lnwoeo5os1ntbru57g9" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-        <thead>
+      <table class="tinytable" id="tinytable_hvy5xorfeba0d8gzl0e7" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
+        <thead>
               <tr>
-                <th scope="col" data-row="0" data-col="0">Name</th>
-                <th scope="col" data-row="0" data-col="1">AIC</th>
-                <th scope="col" data-row="0" data-col="2">AIC_wt</th>
-                <th scope="col" data-row="0" data-col="3">BIC</th>
-                <th scope="col" data-row="0" data-col="4">BIC_wt</th>
-                <th scope="col" data-row="0" data-col="5">R2</th>
+                <th scope="col" data-row="0" data-col="1">Name</th>
+                <th scope="col" data-row="0" data-col="2">AIC</th>
+                <th scope="col" data-row="0" data-col="3">AIC_wt</th>
+                <th scope="col" data-row="0" data-col="4">BIC</th>
+                <th scope="col" data-row="0" data-col="5">BIC_wt</th>
+                <th scope="col" data-row="0" data-col="6">R2</th>
               </tr>
         </thead>
         
         <tbody>
                 <tr>
-                  <td data-row="1" data-col="0">t-test</td>
-                  <td data-row="1" data-col="1">11142.515</td>
-                  <td data-row="1" data-col="2">0.000</td>
-                  <td data-row="1" data-col="3">11159.520</td>
-                  <td data-row="1" data-col="4">0.000</td>
-                  <td data-row="1" data-col="5">0.017</td>
+                  <td data-row="1" data-col="1">t-test</td>
+                  <td data-row="1" data-col="2">11142.515</td>
+                  <td data-row="1" data-col="3">0.000</td>
+                  <td data-row="1" data-col="4">11159.520</td>
+                  <td data-row="1" data-col="5">0.000</td>
+                  <td data-row="1" data-col="6">0.017</td>
                 </tr>
                 <tr>
-                  <td data-row="2" data-col="0">cont. (degree)</td>
-                  <td data-row="2" data-col="1">11104.443</td>
-                  <td data-row="2" data-col="2">0.601</td>
-                  <td data-row="2" data-col="3">11121.449</td>
-                  <td data-row="2" data-col="4">0.922</td>
-                  <td data-row="2" data-col="5">0.035</td>
+                  <td data-row="2" data-col="1">cont. (degree)</td>
+                  <td data-row="2" data-col="2">11104.443</td>
+                  <td data-row="2" data-col="3">0.601</td>
+                  <td data-row="2" data-col="4">11121.449</td>
+                  <td data-row="2" data-col="5">0.922</td>
+                  <td data-row="2" data-col="6">0.035</td>
                 </tr>
                 <tr>
-                  <td data-row="3" data-col="0">ANOVA (degree)</td>
-                  <td data-row="3" data-col="1">11105.530</td>
-                  <td data-row="3" data-col="2">0.349</td>
-                  <td data-row="3" data-col="3">11139.541</td>
-                  <td data-row="3" data-col="4">0.000</td>
-                  <td data-row="3" data-col="5">0.037</td>
+                  <td data-row="3" data-col="1">ANOVA (degree)</td>
+                  <td data-row="3" data-col="2">11105.530</td>
+                  <td data-row="3" data-col="3">0.349</td>
+                  <td data-row="3" data-col="4">11139.541</td>
+                  <td data-row="3" data-col="5">0.000</td>
+                  <td data-row="3" data-col="6">0.037</td>
                 </tr>
                 <tr>
-                  <td data-row="4" data-col="0">cont. (educ)</td>
-                  <td data-row="4" data-col="1">11109.396</td>
-                  <td data-row="4" data-col="2">0.050</td>
-                  <td data-row="4" data-col="3">11126.402</td>
-                  <td data-row="4" data-col="4">0.078</td>
-                  <td data-row="4" data-col="5">0.032</td>
+                  <td data-row="4" data-col="1">cont. (educ)</td>
+                  <td data-row="4" data-col="2">11109.396</td>
+                  <td data-row="4" data-col="3">0.050</td>
+                  <td data-row="4" data-col="4">11126.402</td>
+                  <td data-row="4" data-col="5">0.078</td>
+                  <td data-row="4" data-col="6">0.032</td>
                 </tr>
                 <tr>
-                  <td data-row="5" data-col="0">ANOVA (educ)</td>
-                  <td data-row="5" data-col="1">11122.625</td>
-                  <td data-row="5" data-col="2">0.000</td>
-                  <td data-row="5" data-col="3">11247.333</td>
-                  <td data-row="5" data-col="4">0.000</td>
-                  <td data-row="5" data-col="5">0.043</td>
+                  <td data-row="5" data-col="1">ANOVA (educ)</td>
+                  <td data-row="5" data-col="2">11122.625</td>
+                  <td data-row="5" data-col="3">0.000</td>
+                  <td data-row="5" data-col="4">11247.333</td>
+                  <td data-row="5" data-col="5">0.000</td>
+                  <td data-row="5" data-col="6">0.043</td>
                 </tr>
         </tbody>
       </table>

@@ -522,116 +522,82 @@ F-statistic: 80.55 on 33 and 45966 DF,  p-value: &lt; 2.2e-16</code></pre>
 <div class="cell-output-display">
 <!-- preamble start -->
 
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script>
+
     <script>
-
-      function styleCell_82ossz3sovgr08e5y7aq(i, j, css_id) {
-          var table = document.getElementById("tinytable_82ossz3sovgr08e5y7aq");
-          var cell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
-          if (cell) {
-              console.log(`Styling cell at (${i}, ${j}) with class ${css_id}`);
-              cell.classList.add(css_id);
-          } else {
-              console.warn(`Cell at (${i}, ${j}) not found.`);
-          }
-      }
-      function spanCell_82ossz3sovgr08e5y7aq(i, j, rowspan, colspan) {
-        var table = document.getElementById("tinytable_82ossz3sovgr08e5y7aq");
-        const targetCell = table.querySelector(`[data-row="${i}"][data-col="${j}"]`);
-        if (!targetCell) {
-          console.warn(`Cell at (${i}, ${j}) not found.`);
-        }
-
-        // Get all cells that need to be removed
-        const cellsToRemove = [];
-        for (let r = 0; r < rowspan; r++) {
-          for (let c = 0; c < colspan; c++) {
-            if (r === 0 && c === 0) continue; // Skip the target cell
-            const cell = table.querySelector(`[data-row="${i + r}"][data-col="${j + c}"]`);
-            if (cell) {
-              cellsToRemove.push(cell);
-            }
-          }
-        }
-
-        // Remove all cells
-        cellsToRemove.forEach(cell => cell.remove());
-
-        // Set rowspan and colspan of the target cell if it exists
-        if (targetCell) {
-          targetCell.rowSpan = rowspan;
-          targetCell.colSpan = colspan;
-        }
-      }
+      // Create table-specific functions using external factory
+      const tableFns_tgovxxjuvb7joflfvjr4 = TinyTable.createTableFunctions("tinytable_tgovxxjuvb7joflfvjr4");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 0 }, { i: '5', j: 1 }, { i: '5', j: 2 }, { i: '5', j: 3 }, { i: '5', j: 4 },  ], css_id: 'tinytable_css_uptxllklqfn88m948xcu',}, 
-          { positions: [ { i: '0', j: 0 }, { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 },  ], css_id: 'tinytable_css_45583mg7ud78k6dsdmu6',}, 
+          { positions: [ { i: '5', j: 1 }, { i: '5', j: 2 }, { i: '5', j: 3 }, { i: '5', j: 4 }, { i: '5', j: 5 } ], css_id: 'tinytable_css_7g3me20vb7fhu2wpwfbs',}, 
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_5qmatm9nbcgaf9g0nwrs',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  styleCell_82ossz3sovgr08e5y7aq(cell.i, cell.j, group.css_id);
+                  tableFns_tgovxxjuvb7joflfvjr4.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
-      /* tinytable css entries after */
-      .table td.tinytable_css_uptxllklqfn88m948xcu, .table th.tinytable_css_uptxllklqfn88m948xcu { border-bottom: solid #d3d8dc 0.1em; }
-      .table td.tinytable_css_45583mg7ud78k6dsdmu6, .table th.tinytable_css_45583mg7ud78k6dsdmu6 { border-top: solid #d3d8dc 0.1em; border-bottom: solid #d3d8dc 0.05em; }
+    /* tinytable css entries after */
+    #tinytable_tgovxxjuvb7joflfvjr4 td.tinytable_css_7g3me20vb7fhu2wpwfbs, #tinytable_tgovxxjuvb7joflfvjr4 th.tinytable_css_7g3me20vb7fhu2wpwfbs {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_tgovxxjuvb7joflfvjr4 td.tinytable_css_5qmatm9nbcgaf9g0nwrs, #tinytable_tgovxxjuvb7joflfvjr4 th.tinytable_css_5qmatm9nbcgaf9g0nwrs {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
     </style>
     <div class="container">
-      <table class="table table-borderless" id="tinytable_82ossz3sovgr08e5y7aq" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-        <thead>
+      <table class="tinytable" id="tinytable_tgovxxjuvb7joflfvjr4" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
+        <thead>
               <tr>
-                <th scope="col" data-row="0" data-col="0">AIC</th>
-                <th scope="col" data-row="0" data-col="1">AIC_wt</th>
-                <th scope="col" data-row="0" data-col="2">BIC</th>
-                <th scope="col" data-row="0" data-col="3">BIC_wt</th>
-                <th scope="col" data-row="0" data-col="4">PRE</th>
+                <th scope="col" data-row="0" data-col="1">AIC</th>
+                <th scope="col" data-row="0" data-col="2">AIC_wt</th>
+                <th scope="col" data-row="0" data-col="3">BIC</th>
+                <th scope="col" data-row="0" data-col="4">BIC_wt</th>
+                <th scope="col" data-row="0" data-col="5">PRE</th>
               </tr>
         </thead>
         
         <tbody>
                 <tr>
-                  <td data-row="1" data-col="0">214593.707</td>
-                  <td data-row="1" data-col="1">0.000</td>
-                  <td data-row="1" data-col="2">214899.481</td>
-                  <td data-row="1" data-col="3">0.997</td>
-                  <td data-row="1" data-col="4">0.055</td>
+                  <td data-row="1" data-col="1">214593.707</td>
+                  <td data-row="1" data-col="2">0.000</td>
+                  <td data-row="1" data-col="3">214899.481</td>
+                  <td data-row="1" data-col="4">0.997</td>
+                  <td data-row="1" data-col="5">0.055</td>
                 </tr>
                 <tr>
-                  <td data-row="2" data-col="0">214570.267</td>
-                  <td data-row="2" data-col="1">1.000</td>
-                  <td data-row="2" data-col="2">214910.986</td>
-                  <td data-row="2" data-col="3">0.003</td>
-                  <td data-row="2" data-col="4">0.055</td>
+                  <td data-row="2" data-col="1">214570.267</td>
+                  <td data-row="2" data-col="2">1.000</td>
+                  <td data-row="2" data-col="3">214910.986</td>
+                  <td data-row="2" data-col="4">0.003</td>
+                  <td data-row="2" data-col="5">0.055</td>
                 </tr>
                 <tr>
-                  <td data-row="3" data-col="0">214657.462</td>
-                  <td data-row="3" data-col="1">0.000</td>
-                  <td data-row="3" data-col="2">215941.712</td>
-                  <td data-row="3" data-col="3">0.000</td>
-                  <td data-row="3" data-col="4">0.058</td>
+                  <td data-row="3" data-col="1">214657.462</td>
+                  <td data-row="3" data-col="2">0.000</td>
+                  <td data-row="3" data-col="3">215941.712</td>
+                  <td data-row="3" data-col="4">0.000</td>
+                  <td data-row="3" data-col="5">0.058</td>
                 </tr>
                 <tr>
-                  <td data-row="4" data-col="0">214602.943</td>
-                  <td data-row="4" data-col="1">0.000</td>
-                  <td data-row="4" data-col="2">215153.336</td>
-                  <td data-row="4" data-col="3">0.000</td>
-                  <td data-row="4" data-col="4">0.056</td>
+                  <td data-row="4" data-col="1">214602.943</td>
+                  <td data-row="4" data-col="2">0.000</td>
+                  <td data-row="4" data-col="3">215153.336</td>
+                  <td data-row="4" data-col="4">0.000</td>
+                  <td data-row="4" data-col="5">0.056</td>
                 </tr>
                 <tr>
-                  <td data-row="5" data-col="0">214766.603</td>
-                  <td data-row="5" data-col="1">0.000</td>
-                  <td data-row="5" data-col="2">217308.894</td>
-                  <td data-row="5" data-col="3">0.000</td>
-                  <td data-row="5" data-col="4">0.062</td>
+                  <td data-row="5" data-col="1">214766.603</td>
+                  <td data-row="5" data-col="2">0.000</td>
+                  <td data-row="5" data-col="3">217308.894</td>
+                  <td data-row="5" data-col="4">0.000</td>
+                  <td data-row="5" data-col="5">0.062</td>
                 </tr>
         </tbody>
       </table>

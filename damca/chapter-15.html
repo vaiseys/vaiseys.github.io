@@ -378,13 +378,16 @@ window.Quarto = {
 <section id="measures-of-dependence-in-2x2-tables" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="measures-of-dependence-in-2x2-tables">Measures of dependence in 2x2 tables</h2>
 <p>Before diving into logistic regression, it helps to think carefully about what we’re trying to model when we have two binary variables. The fundamental question is: are they <strong>associated</strong>? And if so, how do we measure the strength of that association?</p>
-<p>We’ll work through an example: sociology admissions at Berkeley in 2009, broken down by citizenship status.</p>
+<p>We’ll work through an example: PhD sociology admissions at Berkeley in 2009, broken down by citizenship status.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>berk <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">93</span>, <span class="dv">4</span>, <span class="dv">212</span>, <span class="dv">33</span>),</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">nrow =</span> <span class="dv">2</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="at">admitted =</span> <span class="fu">c</span>(<span class="st">"no"</span>, <span class="st">"yes"</span>),</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">citizenship =</span> <span class="fu">c</span>(<span class="st">"Other"</span>, <span class="st">"U.S."</span>)))</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(berk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>        citizenship
 admitted Other U.S. Sum
@@ -397,8 +400,11 @@ admitted Other U.S. Sum
 <h3 class="anchored" data-anchor-id="marginal-and-conditional-probabilities">Marginal and conditional probabilities</h3>
 <p>The <strong>marginal probability</strong> of admission is the overall rate, ignoring citizenship:</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p_admit <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(berk)[<span class="st">"yes"</span>] <span class="sc">/</span> <span class="fu">sum</span>(berk)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>p_admit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>      yes 
 0.1081871 </code></pre>
@@ -407,9 +413,12 @@ admitted Other U.S. Sum
 <p>Similarly, <span class="math inline">\(P(\text{U.S.}) = 245/342 = .716\)</span>. These are “marginal” because they come from the margins of the table—they don’t condition on anything.</p>
 <p>More interesting are <strong>conditional probabilities</strong>—the probability of admission <em>given</em> citizenship status:</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p_admit_us    <span class="ot">&lt;-</span> berk[<span class="st">"yes"</span>, <span class="st">"U.S."</span>]  <span class="sc">/</span> <span class="fu">colSums</span>(berk)[<span class="st">"U.S."</span>]</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>p_admit_other <span class="ot">&lt;-</span> berk[<span class="st">"yes"</span>, <span class="st">"Other"</span>] <span class="sc">/</span> <span class="fu">colSums</span>(berk)[<span class="st">"Other"</span>]</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">US =</span> p_admit_us, <span class="at">Other =</span> p_admit_other)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>    US.U.S. Other.Other 
  0.13469388  0.04123711 </code></pre>
@@ -428,7 +437,10 @@ admitted Other U.S. Sum
 E_{ij} = \frac{(\text{row total}_i)(\text{col total}_j)}{n}
 \]</span></p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">outer</span>(<span class="fu">rowSums</span>(berk), <span class="fu">colSums</span>(berk)) <span class="sc">/</span> <span class="fu">sum</span>(berk)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>       Other      U.S.
 no  86.50585 218.49415
@@ -439,7 +451,8 @@ yes 10.49415  26.50585</code></pre>
 </section>
 <section id="four-measures-of-dependence" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="four-measures-of-dependence">Four measures of dependence</h3>
-<p><strong>1. Difference in probabilities</strong></p>
+<section id="difference-in-probabilities" class="level4">
+<h4 class="anchored" data-anchor-id="difference-in-probabilities">Difference in probabilities</h4>
 <p><span class="math display">\[
 \pi_{\text{admitted}|\text{U.S.}} - \pi_{\text{admitted}|\text{Other}} = .135 - .041 = .094
 \]</span></p>
@@ -450,8 +463,11 @@ yes 10.49415  26.50585</code></pre>
 0.09345676 </code></pre>
 </div>
 </div>
-<p>Simple and interpretable—a 9.4 percentage-point gap. The problem: the same difference means different things at different baselines. Going from .001 to .020 is a much bigger deal than going from .500 to .519, even though both are “.019 differences.”</p>
-<p><strong>2. Relative risk ratio (RRR)</strong></p>
+<p>Simple and interpretable—about a 9 percentage-point gap. The problem is the same difference means different things at different baselines. Going from .001 to .020 is a much bigger deal than going from .500 to .519, even though both are “.019 differences.”</p>
+</section>
+<section id="relative-risk-ratio-rrr" class="level4">
+<h4 class="anchored" data-anchor-id="relative-risk-ratio-rrr">Relative risk ratio (RRR)</h4>
+<p>Instead of differencing, we can divide the probabilities. This is called the relative risk ratio.</p>
 <p><span class="math display">\[
 \text{RRR} = \frac{\pi_{\text{admitted}|\text{U.S.}}}{\pi_{\text{admitted}|\text{Other}}} = \frac{.135}{.041} = 3.3
 \]</span></p>
@@ -462,7 +478,7 @@ yes 10.49415  26.50585</code></pre>
 3.266327 </code></pre>
 </div>
 </div>
-<p>More informative than a raw difference when probabilities are far from .5. But the RRR for <em>rejection</em>—keeping non-U.S. applicants in the numerator for consistency—is only:</p>
+<p>This is more informative than a raw difference when probabilities are far from .5. But the RRR for <em>rejection</em>—keeping non-U.S. applicants in the numerator for consistency—is only:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span> <span class="sc">-</span> p_admit_other) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> p_admit_us)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -470,8 +486,10 @@ yes 10.49415  26.50585</code></pre>
 1.108004 </code></pre>
 </div>
 </div>
-<p>The same association (<span class="math inline">\(3.3\times\)</span> vs <span class="math inline">\(1.1\times\)</span>) looks very different depending on whether you frame it as success or failure. This asymmetry is a real problem.</p>
-<p><strong>3. Odds ratio</strong></p>
+<p>The same association (<span class="math inline">\(3.3\times\)</span> vs <span class="math inline">\(1.1\times\)</span>) looks very different depending on whether you frame it as success or failure. This asymmetry is a real problem for interpretation.</p>
+</section>
+<section id="odds-ratio" class="level4 page-columns page-full">
+<h4 class="anchored" data-anchor-id="odds-ratio">Odds ratio</h4>
 <p>The <strong>odds</strong> of an event is <span class="math inline">\(\pi / (1 - \pi)\)</span>: probability of success divided by probability of failure. If you’ve ever heard “the odds are 5 to 1 against,” that’s what it means.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>odds_us    <span class="ot">&lt;-</span> p_admit_us    <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> p_admit_us)</span>
@@ -485,14 +503,19 @@ yes 10.49415  26.50585</code></pre>
 </div>
 <p>There’s a convenient shortcut for 2×2 tables using cell counts directly—the product of the two diagonals divided by the product of the other two:</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>(berk[<span class="st">"no"</span>, <span class="st">"Other"</span>] <span class="sc">*</span> berk[<span class="st">"yes"</span>, <span class="st">"U.S."</span>]) <span class="sc">/</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  (berk[<span class="st">"no"</span>, <span class="st">"U.S."</span>]  <span class="sc">*</span> berk[<span class="st">"yes"</span>, <span class="st">"Other"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.619104</code></pre>
 </div>
 </div>
 <p>The odds ratio solves the success-failure asymmetry: the OR for <em>rejection</em> is also 3.6.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> But the OR is still asymmetric in one way: it ranges from 0 to <span class="math inline">\(\infty\)</span>, and the same relationship looks like 3.6 or 0.28 depending on which group you put in the numerator.</p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Odds of rejection for non-U.S.: <span class="math inline">\((.959/.041) = 23.4\)</span>. For U.S.: <span class="math inline">\((.865/.135) = 6.4\)</span>. Ratio: <span class="math inline">\(23.4/6.4 = 3.6\)</span>.</p></div></div><p><strong>4. Log odds ratio</strong></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Odds of rejection for non-U.S.: <span class="math inline">\((.959/.041) = 23.4\)</span>. For U.S.: <span class="math inline">\((.865/.135) = 6.4\)</span>. Ratio: <span class="math inline">\(23.4/6.4 = 3.6\)</span>.</p></div></div></section>
+<section id="log-odds-ratio" class="level4">
+<h4 class="anchored" data-anchor-id="log-odds-ratio">Log odds ratio</h4>
 <p>Taking the natural log solves the remaining problems:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(OR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -532,6 +555,7 @@ yes 10.49415  26.50585</code></pre>
 </div>
 </div>
 <p>The curve is symmetric around <span class="math inline">\(p = .5\)</span>, where <span class="math inline">\(\text{logit}(.5) = 0\)</span>, and it maps the bounded interval <span class="math inline">\((0, 1)\)</span> to the full real line.</p>
+</section>
 </section>
 <section id="summary-of-the-four-measures" class="level3">
 <h3 class="anchored" data-anchor-id="summary-of-the-four-measures">Summary of the four measures</h3>
@@ -576,11 +600,14 @@ yes 10.49415  26.50585</code></pre>
 <h3 class="anchored" data-anchor-id="practice">Practice</h3>
 <p>Here’s a table from the GSS on whether spanking is acceptable, by sex:</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>spank <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">461</span>, <span class="dv">226</span>, <span class="dv">489</span>, <span class="dv">132</span>),</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">nrow =</span> <span class="dv">2</span>,</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="at">spank_ok =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sex =</span> <span class="fu">c</span>(<span class="st">"Male"</span>, <span class="st">"Female"</span>)))</span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(spank)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>        sex
 spank_ok Male Female  Sum
@@ -594,7 +621,7 @@ spank_ok Male Female  Sum
 </section>
 <section id="logistic-regression" class="level2">
 <h2 class="anchored" data-anchor-id="logistic-regression">Logistic regression</h2>
-<p>Let’s show how to do this using a model Let’s get the data, including a couple of binary variables:</p>
+<p>Let’s show how to do this using a model. Let’s get the data, including a couple of binary variables:</p>
 <ul>
 <li><p>`abany’: 1 = agrees that a woman should be able to have an abortion for any reason, 0 otherwise</p></li>
 <li><p><code>notv</code>: a variable built from <code>tvhours</code> that = 1 if the person watches no TV, 0 otherwise</p></li>
@@ -608,19 +635,33 @@ spank_ok Male Female  Sum
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">notv =</span> <span class="fu">if_else</span>(tvhours <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
 <span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">female =</span> <span class="fu">case_match</span>(sex, <span class="dv">2</span> <span class="sc">~</span> <span class="dv">0</span>, <span class="dv">1</span> <span class="sc">~</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `mutate()`.
+ℹ In argument: `abany = case_match(abany, 2 ~ 0, 1 ~ 1)`.
+Caused by warning:
+! `case_match()` was deprecated in dplyr 1.2.0.
+ℹ Please use `recode_values()` instead.</code></pre>
+</div>
 </div>
 <p>Let’s look at the crosstab of college and <code>abany</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> <span class="fu">tabyl</span>(college, abany)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> <span class="fu">tabyl</span>(college, abany) <span class="sc">|&gt;</span> <span class="fu">adorn_totals</span>(<span class="fu">c</span>(<span class="st">"row"</span>, <span class="st">"col"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
-<pre><code> college   0   1
-      No 283 326
-     Yes 141 264</code></pre>
+<pre><code> college   0   1 Total
+      No 283 326   609
+     Yes 141 264   405
+   Total 424 590  1014</code></pre>
 </div>
 </div>
 <p>We can convert this into conditional probabilities.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">m_abany =</span> <span class="fu">mean</span>(abany), <span class="at">.by =</span> college)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">m_abany =</span> <span class="fu">mean</span>(abany), <span class="at">.by =</span> college)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
   college m_abany
@@ -631,10 +672,10 @@ spank_ok Male Female  Sum
 </div>
 <p>We can model <code>abany</code> as a function of college using logistic regression.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(abany <span class="sc">~</span> college,</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(abany <span class="sc">~</span> college,</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>))</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -659,15 +700,15 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 <p>We can turn the <code>college</code> coefficient into an odds ratio by exponentiating it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(m1)[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(m1)[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>collegeYes 
   1.625375 </code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">m_abany =</span> <span class="fu">mean</span>(abany), <span class="at">.by =</span> college)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">m_abany =</span> <span class="fu">mean</span>(abany), <span class="at">.by =</span> college)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 2
   college m_abany
@@ -675,8 +716,8 @@ Number of Fisher Scoring iterations: 4</code></pre>
 1 No        0.535
 2 Yes       0.652</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get difference (default)</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">avg_comparisons</span>(m1, <span class="at">variables =</span> <span class="st">"college"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get difference (default)</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">avg_comparisons</span>(m1, <span class="at">variables =</span> <span class="st">"college"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  Estimate Std. Error    z Pr(&gt;|z|)    S  2.5 % 97.5 %
@@ -686,8 +727,8 @@ Term: college
 Type: response
 Comparison: Yes - No</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get risk ratio, not odds ratio!</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">avg_comparisons</span>(m1, <span class="at">variables =</span> <span class="st">"college"</span>, <span class="at">comparison =</span> <span class="st">"ratio"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get risk ratio, not odds ratio!</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">avg_comparisons</span>(m1, <span class="at">variables =</span> <span class="st">"college"</span>, <span class="at">comparison =</span> <span class="st">"ratio"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  Estimate Std. Error    z Pr(&gt;|z|)     S 2.5 % 97.5 %
@@ -699,10 +740,10 @@ Comparison: mean(Yes) / mean(No)</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(abany <span class="sc">~</span> college <span class="sc">+</span> age, <span class="co"># is this reasonable?</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">binomial</span>())</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(abany <span class="sc">~</span> college <span class="sc">+</span> age, <span class="co"># is this reasonable?</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">binomial</span>())</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -726,7 +767,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(m2, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"age [all]"</span>, <span class="st">"college"</span>)) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(m2, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"age [all]"</span>, <span class="st">"college"</span>)) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -736,7 +777,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">avg_slopes</span>(m2, <span class="at">variables =</span> <span class="st">"college"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">avg_slopes</span>(m2, <span class="at">variables =</span> <span class="st">"college"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  Estimate Std. Error    z Pr(&gt;|z|)    S  2.5 % 97.5 %
@@ -748,10 +789,10 @@ Comparison: Yes - No</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(notv <span class="sc">~</span> college <span class="sc">+</span> age, <span class="co"># is this reasonable?</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">binomial</span>())</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(notv <span class="sc">~</span> college <span class="sc">+</span> age, <span class="co"># is this reasonable?</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> <span class="fu">binomial</span>())</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -775,7 +816,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(m3, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"age [all]"</span>, <span class="st">"college"</span>), <span class="at">back_transform =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpredict</span>(m3, <span class="at">terms =</span> <span class="fu">c</span>(<span class="st">"age [all]"</span>, <span class="st">"college"</span>), <span class="at">back_transform =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -785,15 +826,15 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slopes</span>(m3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slopes</span>(m3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Term Contrast Estimate Std. Error     z Pr(&gt;|z|)    S    2.5 %    97.5 %
- age     dY/dX    -0.00203   0.000993 -2.05   0.0408  4.6 -0.00398 -8.51e-05
- age     dY/dX    -0.00187   0.000869 -2.15   0.0313  5.0 -0.00357 -1.68e-04
+ age     dY/dX    -0.00203   0.000993 -2.05   0.0408  4.6 -0.00398 -8.52e-05
+ age     dY/dX    -0.00187   0.000869 -2.15   0.0313  5.0 -0.00357 -1.67e-04
  age     dY/dX    -0.00105   0.000296 -3.56   &lt;0.001 11.4 -0.00163 -4.73e-04
- age     dY/dX    -0.00216   0.000951 -2.27   0.0234  5.4 -0.00402 -2.92e-04
- age     dY/dX    -0.00148   0.000580 -2.55   0.0107  6.6 -0.00262 -3.44e-04
+ age     dY/dX    -0.00216   0.000951 -2.27   0.0235  5.4 -0.00402 -2.91e-04
+ age     dY/dX    -0.00148   0.000580 -2.55   0.0107  6.6 -0.00262 -3.45e-04
 --- 2018 rows omitted. See ?print.marginaleffects ---
  college Yes - No  0.02866   0.021761  1.32   0.1878  2.4 -0.01399  7.13e-02
  college Yes - No  0.02331   0.017650  1.32   0.1865  2.4 -0.01128  5.79e-02
