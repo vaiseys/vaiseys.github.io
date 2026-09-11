@@ -2,7 +2,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Probability, Inference, and Models",
+    "title": "Statistics for Sociologists",
     "section": "",
     "text": "Preface\nThis book is the first in a two-course sequence designed to help you become competent quantitative researchers in sociology. This includes learning proper decision making, explanation, computation, visualization, and interpretation.\nIt is built around one idea: a statistical model is a compact description of a process, and most of what we call statistics is the business of proposing such descriptions, fitting them, and comparing them against each other.",
     "crumbs": [
@@ -12,7 +12,7 @@
   {
     "objectID": "index.html#who-this-is-for",
     "href": "index.html#who-this-is-for",
-    "title": "Probability, Inference, and Models",
+    "title": "Statistics for Sociologists",
     "section": "Who this is for",
     "text": "Who this is for\nTwo audiences at once.\nSome readers are first-year sociology PhD students who need a working command of probability and inference before going on to the models their research will actually require. Others are undergraduates who have chosen a rigorous data-analysis track and want the real thing rather than a survey of it.\nThe book assumes no prior statistics background. Where something is genuinely hard, it says so and slows down; where something is conventionally taught as hard but is not, it moves.",
     "crumbs": [
@@ -22,7 +22,7 @@
   {
     "objectID": "index.html#what-is-in-scope",
     "href": "index.html#what-is-in-scope",
-    "title": "Probability, Inference, and Models",
+    "title": "Statistics for Sociologists",
     "section": "What is in scope",
     "text": "What is in scope\nProbability, inference, and basic models. We work our way from describing a single variable, through sampling distributions and the logic of inference, to regression models with a couple of predictors and an interaction between them. We finish with outcomes that are not continuous: tables, binary outcomes, and counts.\nWhat is not here is causal inference. Nothing about matching, instrumental variables, difference-in-differences, or research design for identifying an effect. They are the subject of the course that follows this one. Keeping them out is deliberate: the machinery in this book has to be solid before questions about causation can be asked well.",
     "crumbs": [
@@ -32,7 +32,7 @@
   {
     "objectID": "index.html#how-to-read-it",
     "href": "index.html#how-to-read-it",
-    "title": "Probability, Inference, and Models",
+    "title": "Statistics for Sociologists",
     "section": "How to read it",
     "text": "How to read it\nThe code is in tidyverse style, to fit my own and my students’ preferred usage.\nEvery chapter that produces a figure produces it twice, once with tinyplot and once with ggplot2, in tabs you can switch between. Use whichever you prefer; they are the same figure. I wanted a reason to fool around systematically with tinyplot. I am generally a ggplot2 person, but I am intrigued by this package. And now, thanks to Claude (and a few hours of my own tinkering), there are ggplot2 versions of almost all the plots as well.\nMost concepts here are demonstrated using simulations rather than derived analytically. If you want to know how a sample mean behaves, the most direct route is to draw a great many samples and look. I think this is easier for people who don’t have a strong math background, and it happens to be how many working researchers actually think.\nStart with Setting up, which installs what you need and builds the data files the rest of the book uses.",
     "crumbs": [
