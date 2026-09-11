@@ -54,7 +54,7 @@
     "href": "00-setup.html",
     "title": "Setting up",
     "section": "",
-    "text": "What you need\nThis chapter is housekeeping. You install some software, you build three data files, and then you are done with it. Nothing here is on the exam, and you will not need to come back except to look something up.\nInstall these pieces of software, in this order:\nR is the engine; RStudio is the dashboard. You need both, and it is easier if install R first, because RStudio goes looking for it.",
+    "text": "What you need\nThis chapter is housekeeping. You install some software, you build three data files, and then you are done with it. Nothing here is on the exam, and you will not need to come back except to look something up.\nInstall these pieces of software, in this order:\nR is the engine; RStudio is the dashboard. You need both, and it is easier if you install R first, because RStudio goes looking for it.",
     "crumbs": [
       "Foundations",
       "Setting up"
