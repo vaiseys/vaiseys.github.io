@@ -393,19 +393,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This chapter is housekeeping. You install some software, you build three data files, and then you are done with it. Nothing here is on the exam, and you will not need to come back except to look something up.</p>
-<p>Do it carefully anyway. Almost every frustrating hour in a statistics course comes from a setup problem masquerading as a statistics problem.</p>
 <section id="what-you-need" class="level2">
 <h2 class="anchored" data-anchor-id="what-you-need">What you need</h2>
-<p>Two pieces of software, in this order:</p>
+<p>Install these pieces of software, in this order:</p>
 <ol type="1">
 <li><strong>R</strong> — the language everything here is written in. Download it from <a href="https://cran.r-project.org/">cran.r-project.org</a> and install it the way you install anything else.</li>
 <li><strong>RStudio Desktop</strong> — the environment you will actually work in. Get the free version from <a href="https://posit.co/download/rstudio-desktop/">posit.co</a>.</li>
 </ol>
-<p>R is the engine; RStudio is the dashboard. You need both, and you install R first, because RStudio goes looking for it.</p>
+<p>R is the engine; RStudio is the dashboard. You need both, and it is easier if install R first, because RStudio goes looking for it.</p>
 </section>
 <section id="installing-packages" class="level2">
 <h2 class="anchored" data-anchor-id="installing-packages">Installing packages</h2>
-<p>R by itself is fairly bare. Nearly everything useful lives in <strong>packages</strong> that you install once and then load whenever you need them.</p>
+<p>R by itself is fairly spartan. Nearly everything useful lives in <strong>packages</strong> that you install once and then load whenever you need them.</p>
 <p>Run this in the RStudio console. It will take a few minutes and print a great deal of text, most of which you can ignore.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(</span>
@@ -438,7 +437,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="a-place-to-put-things" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="a-place-to-put-things">A place to put things</h2>
-<p>Make a folder for this course. Inside it, make a folder called <code>data</code>. In RStudio, choose <strong>File → New Project → Existing Directory</strong> and point it at the course folder.</p>
+<p>Make a folder for this course somewhere on your machine. Inside it, make a subfolder called <code>data</code>. In RStudio, choose <strong>File → New Project → Existing Directory</strong> and point it at the course folder.</p>
 <p>That project file marks the top of your project, which lets the <code>here</code> package build file paths that work on anyone’s computer:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -447,8 +446,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Code with a hard-coded path on someone’s desktop is code that runs on exactly one computer, until that person reorganizes their desktop.</p></div></div></section>
 <section id="building-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="building-the-data">Building the data</h2>
-<p>Most of the examples in this book use the <strong>General Social Survey</strong>, which has been asking Americans about their lives, beliefs, and circumstances since 1972. The General Social Survey is one of sociology’s greatest assets, and it is free.</p>
-<p>We will build three files from it. Run this once; it takes a minute or two and then you never do it again.</p>
+<p>Most of the examples in this book use the <strong>General Social Survey</strong>, which has been asking Americans about their lives, beliefs, and circumstances since 1972. The General Social Survey is one of sociology’s greatest assets. I have often called it the “Hubble telescope” of sociology.</p>
+<p>We will build three files from it. Run this once; it takes a minute or two and then you won’t have to do it again.</p>
 <section id="looking-at-the-documentation" class="level3">
 <h3 class="anchored" data-anchor-id="looking-at-the-documentation">Looking at the documentation</h3>
 <p>The package ships the codebook as well as the data.</p>
@@ -468,28 +467,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-full-series" class="level3">
 <h3 class="anchored" data-anchor-id="the-full-series">The full series</h3>
-<p>The <code>gssr</code> package ships with the whole cumulative file (every year from 1972 through 2024, stacked together).</p>
+<p>The <code>gssr</code> package ships with the whole cumulative file (every year from 1972 through 2024 in the same file).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(gss_all)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(gss_all, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss-1972-2024.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>That object is large: about 75,700 respondents and just under 7,000 variables. It is large because it is the union of every question the GSS has ever asked, and no single respondent was ever asked more than a fraction of them. Most of it is empty, by design.</p>
+<p>That object is large: about 75,700 respondents and just under 7,000 variables. It is large because it is the union of every question the GSS has ever asked, and no single respondent was ever asked more than a fraction of them. Most of it is empty for that reason.</p>
 </section>
 <section id="a-single-year" class="level3">
 <h3 class="anchored" data-anchor-id="a-single-year">A single year</h3>
-<p>For most purposes that file is more than you want. This is pretty unwieldy so let’s just use the most recent year’s subset. <code>gss_get_yr()</code> fetches a single year directly, keeping only the variables that year actually asked:</p>
+<p>For most purposes that file is more than you want. Often we’ll just use the most recent subset. <code>gss_get_yr()</code> fetches a single year directly, keeping only the variables that year actually asked:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>gss2024 <span class="ot">&lt;-</span> <span class="fu">gss_get_yr</span>(<span class="at">year =</span> <span class="dv">2024</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(gss2024, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>That leaves roughly 3,300 respondents and around 975 variables. That is still a lot of questions, but it is a file you can look at without your computer complaining.</p>
-<p>The cumulative file is a giant object, so this is a good moment to remove it and free up the memory. I’m not actually sure if any of this is necessary!</p>
+<p>For 2024, that leaves roughly 3,300 respondents and around 975 variables. That is still a lot of questions, but it is a file you can look at without your computer complaining.</p>
+<p>The cumulative file is a giant object, so this is a good moment to remove it and free up the memory.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(gss_all)                     <span class="co"># remove big object</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gc</span>()                            <span class="co"># "garbage collector" to free memory</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>(You generally won’t have to do this but it might be helpful just in case.)</p>
 </section>
 <section id="a-panel" class="level3">
 <h3 class="anchored" data-anchor-id="a-panel">A panel</h3>
@@ -503,11 +503,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="why-three-files" class="level3">
 <h3 class="anchored" data-anchor-id="why-three-files">Why three files</h3>
-<p>Because different questions need different data.</p>
+<p>I’m having you make three files because different things are easier to demonstrate using different data.</p>
 <p>Use <strong><code>gss2024.rds</code></strong> when the question is about people at one moment: what proportion of Americans hold some view, whether two characteristics are associated, how one group differs from another. Nearly everything in the first half of this book works this way.</p>
-<p>Use <strong><code>gss-1972-2024.rds</code></strong> when the question involves <em>change over time in the country</em>: whether an attitude has shifted over fifty years, what a trend looks like plotted against time. The cumulative file is also where you go when you need more variation than a single year provides. A regression with a continuous outcome often wants more range than 3,300 respondents from one year will give you.</p>
+<p>Use <strong><code>gss-1972-2024.rds</code></strong> when the question involves <em>change over time in the country</em>: whether an attitude has shifted over fifty years, what a trend looks like plotted against time. The cumulative file is also where you go when you need more variation than a single year provides. A regression with a continuous outcome often wants more range than 3,300 respondents from one year can provide.</p>
 <p>Use <strong><code>gss_panel10_long.rds</code></strong> when the question involves <em>change within a person</em>. The cumulative file can tell you that Americans watched less television in 2014 than in 2010; only the panel can tell you whether the same individuals changed. <a href="07-power-effect-size.html" class="quarto-xref"><span>7&nbsp; Power, effect size, and intervals for parameters</span></a> turns on that distinction.</p>
-<p>Each chapter says which file it is using. When it uses one of the bigger ones, it says why.</p>
 </section>
 </section>
 <section id="did-it-work" class="level2">
@@ -592,7 +591,7 @@ Figure&nbsp;2: Vocabulary test scores, GSS 2024.
 <li><strong><code>here::here()</code> points somewhere strange.</strong> You are probably not in the project. Look at the top-right corner of RStudio; it should name your course project.</li>
 <li><strong>The fonts look different from the book.</strong> Harmless. This book is set in Roboto Condensed, which you may not have installed; the code checks whether it’s there and quietly falls back to your system default if it isn’t. If you want the same look, the font is free from <a href="https://fonts.google.com/specimen/Roboto+Condensed">Google Fonts</a>.</li>
 </ul>
-<p>Bring anything that survives all that to class or office hours. Setup problems are worth solving once, quickly, rather than working around for a semester.</p>
+<p>If all this fails, there’s no shame in checking with an LLM. But at least <em>try</em> to figure out things yourself for a little bit. In any case, setup problems are worth solving early in a course rather than working around for a semester.</p>
 
 
 </section>

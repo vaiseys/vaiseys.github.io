@@ -320,6 +320,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
   <ul class="collapse">
+  <li><a href="#ai-note" id="toc-ai-note" class="nav-link" data-scroll-target="#ai-note">AI note</a></li>
   <li><a href="#who-this-is-for" id="toc-who-this-is-for" class="nav-link" data-scroll-target="#who-this-is-for">Who this is for</a></li>
   <li><a href="#what-is-in-scope" id="toc-what-is-in-scope" class="nav-link" data-scroll-target="#what-is-in-scope">What is in scope</a></li>
   <li><a href="#how-to-read-it" id="toc-how-to-read-it" class="nav-link" data-scroll-target="#how-to-read-it">How to read it</a></li>
@@ -358,23 +359,26 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1>
-<p>This book is the first in a two-course sequence designed to help you become competent quantitative researchers in sociology. This includes learning proper <strong>decision making</strong>, <strong>explanation</strong>, <strong>computation</strong>, <strong>visualization</strong>, and <strong>interpretation</strong>.</p>
+<p>This book is the first in a two-course sequence designed to help you become a competent quantitative researcher in sociology. This includes learning proper <strong>decision making</strong>, <strong>explanation</strong>, <strong>computation</strong>, <strong>visualization</strong>, and <strong>interpretation</strong>.</p>
 <p>It is built around one idea: a statistical model is a <strong>compact description of a process</strong>, and most of what we call statistics is the business of proposing such descriptions, fitting them, and comparing them against each other.</p>
+<section id="ai-note" class="level2">
+<h2 class="anchored" data-anchor-id="ai-note">AI note</h2>
+<p>Most of the words here are mine. I did use Claude to pull together some disparate elements from various iterations of this course over the years and there is still some “Claude-ese” in the verbal connective tissue. I’m working to replace all of that.</p>
+</section>
 <section id="who-this-is-for" class="level2">
 <h2 class="anchored" data-anchor-id="who-this-is-for">Who this is for</h2>
-<p>Two audiences at once.</p>
-<p>Some readers are first-year sociology PhD students who need a working command of probability and inference before going on to the models their research will actually require. Others are undergraduates who have chosen a rigorous data-analysis track and want the real thing rather than a survey of it.</p>
-<p>The book assumes <strong>no prior statistics background</strong>. Where something is genuinely hard, it says so and slows down; where something is conventionally taught as hard but is not, it moves.</p>
+<p>Some readers are first-year sociology PhD students who need a working command of probability and inference before going on to the models their research will actually require. Others are undergraduates who have chosen a rigorous data-analysis track and want the real thing rather than a simplified survey.</p>
+<p>The book assumes <strong>no prior statistics background</strong>. Where something is genuinely hard, I try to go slow. When something is easier, I will go more quickly.</p>
 </section>
 <section id="what-is-in-scope" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-in-scope">What is in scope</h2>
-<p>Probability, inference, and basic models. We work our way from describing a single variable, through sampling distributions and the logic of inference, to regression models with a couple of predictors and an interaction between them. We finish with outcomes that are not continuous: tables, binary outcomes, and counts.</p>
+<p>We will cover probability, inference, and basic models. We work our way from describing a single variable, through sampling distributions and the logic of inference, to regression models with a couple of predictors and an interaction between them. We finish with outcomes that are not continuous: tables, binary outcomes, and counts.</p>
 <p>What is <strong>not</strong> here is causal inference. Nothing about matching, instrumental variables, difference-in-differences, or research design for identifying an effect. They are the subject of the course that follows this one. Keeping them out is deliberate: the machinery in this book has to be solid before questions about causation can be asked well.</p>
 </section>
 <section id="how-to-read-it" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-read-it">How to read it</h2>
 <p>The code is in <strong>tidyverse style</strong>, to fit my own and my students’ preferred usage.</p>
-<p>Every chapter that produces a figure produces it twice, once with <a href="https://grantmcdermott.com/tinyplot/">tinyplot</a> and once with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>, in tabs you can switch between. Use whichever you prefer; they are the same figure. I wanted a reason to fool around systematically with tinyplot. I am generally a ggplot2 person, but I am intrigued by this package. And now, thanks to Claude (and a few hours of my own tinkering), there are ggplot2 versions of almost all the plots as well.</p>
+<p>Every chapter that produces a figure produces it twice, once with <a href="https://grantmcdermott.com/tinyplot/">tinyplot</a> and once with <a href="https://ggplot2.tidyverse.org/">ggplot2</a>, in tabs you can switch between. Use whichever you prefer; they are (basically) the same figure. I wanted a reason to fool around systematically with tinyplot. I am generally a ggplot2 person, but I am intrigued by this package. And now, thanks to Claude (and a few hours of my own tinkering), there are ggplot2 versions of almost all the plots as well.</p>
 <p>Most concepts here are demonstrated using <strong>simulations</strong> rather than derived analytically. If you want to know how a sample mean behaves, the most direct route is to draw a great many samples and look. I think this is easier for people who don’t have a strong math background, and it happens to be how many working researchers actually think.</p>
 <p>Start with <a href="./00-setup.html">Setting up</a>, which installs what you need and builds the data files the rest of the book uses.</p>
 
