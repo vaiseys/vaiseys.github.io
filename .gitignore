@@ -11,3 +11,7 @@ _site/
 
 **/*.quarto_ipynb
 .positai
+
+# Rendered course books, mirrored in by each course project's Makefile.
+# Regenerable build output -- published to gh-pages, never committed to main.
+/teaching/

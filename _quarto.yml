@@ -4,7 +4,7 @@ extensions:
 project:
   type: website
   resources:
-    - damca/
+    - teaching/
     - files/
 
 website:
@@ -18,7 +18,7 @@ website:
         text: About
       - href: cv.qmd
         text: CV
-      - href: damca/
+      - href: teaching/stats-for-soc/
         text: "Teaching"
       - text: "{{<fa solid graduation-cap >}}"
         href: https://scholar.google.com/citations?hl=en&user=cr6RG1QAAAAJ&view_op=list_works&sortby=pubdate
