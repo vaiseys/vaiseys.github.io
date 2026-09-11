@@ -1,0 +1,12 @@
+/* Book styles. Deliberately minimal - the cosmo theme does most of the work. */
+
+.callout {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Keep code blocks from crowding surrounding prose. */
+div.sourceCode {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
