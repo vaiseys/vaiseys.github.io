@@ -365,7 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#why-three-files" id="toc-why-three-files" class="nav-link" data-scroll-target="#why-three-files">Why three files</a></li>
   </ul></li>
   <li><a href="#did-it-work" id="toc-did-it-work" class="nav-link" data-scroll-target="#did-it-work">Did it work?</a></li>
-  <li><a href="#one-wrinkle-labelled-data" id="toc-one-wrinkle-labelled-data" class="nav-link" data-scroll-target="#one-wrinkle-labelled-data">One wrinkle: labelled data</a></li>
+  <li><a href="#one-wrinkle-labeled-data" id="toc-one-wrinkle-labeled-data" class="nav-link" data-scroll-target="#one-wrinkle-labeled-data">One wrinkle: labeled data</a></li>
   <li><a href="#if-something-went-wrong" id="toc-if-something-went-wrong" class="nav-link" data-scroll-target="#if-something-went-wrong">If something went wrong</a></li>
   </ul>
 </nav>
@@ -571,19 +571,19 @@ Figure&nbsp;2: Vocabulary test scores, GSS 2024.
 <p>Every figure in this book appears twice like that: once in <a href="https://grantmcdermott.com/tinyplot/">tinyplot</a>, once in <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. They are (basically) the same figure, so use whichever you find easier to read. Nothing later depends on which one you pick.</p>
 <p>If both tabs produced a plot, your setup works.</p>
 </section>
-<section id="one-wrinkle-labelled-data" class="level2">
-<h2 class="anchored" data-anchor-id="one-wrinkle-labelled-data">One wrinkle: labelled data</h2>
+<section id="one-wrinkle-labeled-data" class="level2">
+<h2 class="anchored" data-anchor-id="one-wrinkle-labeled-data">One wrinkle: labeled data</h2>
 <p>If you ran this for the first time, you probably got a warning about “<code>haven_labelled</code>” object types. This is harmless, but it is why there is an <code>as.numeric()</code> wrapped around <code>wordsum</code> above.</p>
-<p>The GSS arrives as <strong>labelled</strong> data. A variable like <code>sex</code> is stored as a number, with a label attached recording that <code>1</code> means male and <code>2</code> means female. That is useful (it means the codebook travels with the data), but it also means the column is not a plain number or a plain category, and R sometimes needs to be told which one you want.</p>
+<p>The GSS arrives as <strong>labeled</strong> data. A variable like <code>sex</code> is stored as a number, with a label attached recording that <code>1</code> means male and <code>2</code> means female. That is useful (it means the codebook travels with the data), but it also means the column is not a plain number or a plain category, and R sometimes needs to be told which one you want.</p>
 <p>Two things fix nearly every problem this causes:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turn one labelled variable into an ordinary number</span></span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># turn one labeled variable into an ordinary number</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(gss2024<span class="sc">$</span>wordsum)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># or strip the labels from a whole data frame at once</span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>gss_plain <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">zap_labels</span>(gss2024)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We will come back to this in <a href="01-data-variables.html" class="quarto-xref"><span>1&nbsp; Data, variables, and distributions</span></a>, where it matters more. For now, if a variable behaves strangely in a plot or a calculation, labelling is the first thing to suspect.</p>
+<p>We will come back to this in <a href="01-data-variables.html" class="quarto-xref"><span>1&nbsp; Data, variables, and distributions</span></a>, where it matters more. For now, if a variable behaves strangely in a plot or a calculation, labeling is the first thing to suspect.</p>
 </section>
 <section id="if-something-went-wrong" class="level2">
 <h2 class="anchored" data-anchor-id="if-something-went-wrong">If something went wrong</h2>
