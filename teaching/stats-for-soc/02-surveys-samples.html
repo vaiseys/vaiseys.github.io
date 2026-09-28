@@ -459,7 +459,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In real-life surveys, simple random sampling is pretty uncommon. But it’s important as a baseline! The GSS uses a clustered, stratified, multi-stage design, because knocking on randomly scattered doors across a continent is prohibitively expensive. We will treat samples as simple random samples throughout this book. The intuitions transfer; the formulas need adjusting.</p>
+<p>In real-life surveys, simple random sampling is pretty uncommon. But it’s important as a baseline! The GSS, for example, uses a more complicated multi-stage design because it would be far too expensive to send interviewers to randomly scattered addresses all over the country. We’ll treat samples as simple random samples throughout this book anyway. The basic ideas are the same, but the formulas need some adjusting.</p>
 </div>
 </div>
 </section>
@@ -637,7 +637,7 @@ Note
 <h2 data-number="2.3" class="anchored" data-anchor-id="parameters-and-statistics"><span class="header-section-number">2.3</span> Parameters and statistics</h2>
 <p>In our city, 70% is the <strong>population parameter</strong> because exactly 70,000 out of 100,000 people actually have at least one child.</p>
 <p>We can’t afford to ask everyone, though. So what if we asked, say, 1000 randomly selected adults. Then we could compute the proportion of the <em>sample</em> that has a child. This would be a <strong>sample statistic</strong>. We use <em>sample statistics</em> to <strong>make inferences</strong> about <em>population parameters</em>.</p>
-<p>This is the Roman-and-Greek distinction from <a href="01-data-variables.html" class="quarto-xref"><span>Chapter 1</span></a>, now with a purpose. The population mean <span class="math inline">\(\mu\)</span> is a parameter; the sample mean <span class="math inline">\(\bar{x}\)</span> is a statistic. For proportions, the population proportion is <span class="math inline">\(p\)</span> and the sample proportion is <span class="math inline">\(\hat{p}\)</span>, or “p-hat,” where the hat means “estimated from data.”</p>
+<p>This is the Roman vs.&nbsp;Greek distinction from <a href="01-data-variables.html" class="quarto-xref"><span>Chapter 1</span></a>. The population mean <span class="math inline">\(\mu\)</span> is a parameter; the sample mean <span class="math inline">\(\bar{x}\)</span> is a statistic. For proportions, the population proportion is <span class="math inline">\(p\)</span> and the sample proportion is <span class="math inline">\(\hat{p}\)</span>, or “p-hat,” where the hat means “estimated from data.”</p>
 <section id="drawing-a-sample" class="level3" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="drawing-a-sample"><span class="header-section-number">2.3.1</span> Drawing a sample</h3>
 <div class="cell">
@@ -730,7 +730,7 @@ Tip
 6         6        682</code></pre>
 </div>
 </div>
-<p>Every row is identical. <code>mutate()</code> and <code>tibble()</code> are <em>vectorized</em>: they call <code>get_count()</code> once and copy the answer down the column. What we want is for the function to run once per row.</p>
+<p>Every row is the same! That’s because <code>tibble()</code> (like <code>mutate()</code>) calls <code>get_count()</code> just once and then copies the answer all the way down the column. We want the function to run once for every row.</p>
 </section>
 <section id="iterating-with-rowwise" class="level3" data-number="2.4.3">
 <h3 data-number="2.4.3" class="anchored" data-anchor-id="iterating-with-rowwise"><span class="header-section-number">2.4.3</span> Iterating with <code>rowwise()</code></h3>
@@ -1056,7 +1056,7 @@ Warning
 <p>We will explore these issues more formally very soon using the concepts <strong>sampling distribution</strong> and <strong>standard error</strong>. For now, the goal is to understand how to use simulations to build qualitative intuition about sample size.</p>
 </div>
 </div>
-<p>Notice the rate. Each of those sample sizes is roughly four times the one before, and each IQR is roughly half the one before. Precision improves with the <strong>square root</strong> of sample size, so quadrupling the sample halves the spread. Halving your uncertainty costs four times as many interviews, which is why national surveys settle around one or two thousand respondents rather than ten thousand.</p>
+<p>You might notice that each sample size is about four times the one before it, and each IQR is about half the one before it. Precision improves with the <strong>square root</strong> of the sample size, so you need four times as many people to cut the spread in half. (This is one reason most national surveys have a couple thousand respondents rather than tens of thousands.)</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1067,14 +1067,14 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>All three distributions above are centered on 0.7. Sample size does not make an estimate <em>less biased</em>. A small random sample is already unbiased. A <em>biased</em> sample is off-center, and no sample size fixes it. These are different problems with different remedies, and the second is much worse.</p>
+<p>All three distributions above are centered on 0.7. A bigger sample doesn’t make an estimate <em>less biased</em>. Random samples of any size are unbiased; bigger ones are just less noisy. But if your sample is biased (say, because some kinds of people are less likely to answer), making it bigger won’t help.</p>
 </div>
 </div>
 </section>
 <section id="thinking-with-real-data-gss" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="thinking-with-real-data-gss"><span class="header-section-number">2.6</span> Thinking with real data: GSS</h2>
 <p>The General Social Survey is a <strong>repeated cross-sectional</strong> survey that has been fielded every year or other year since 1972. It is the “Hubble Telescope” of sociology!</p>
-<p>You built the file we are about to read in the setup chapter.</p>
+<p>We’ll use the 2024 file you saved in the setup chapter.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>gss2024 <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">zap_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1239,11 +1239,11 @@ Figure&nbsp;2.10: 5,000 simulated samples the size of the GSS. Lines at the 2.5t
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>What this does and does not tell you
+<span class="screen-reader-only">Warning</span>What this doesn’t tell you
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The simulation also assumes simple random sampling from a population that answers honestly, and that everyone selected responded. All three are false to some degree in every real survey. Sampling noise is the <em>smallest</em> of the problems with survey data. It is simply the one we can compute.</p>
+<p>This simulation assumes simple random sampling, that everyone we selected actually responded, and that they all answered honestly. None of these is exactly true in a real survey. Sampling variability is just the part of the problem we can calculate.</p>
 </div>
 </div>
 </section>
@@ -1257,7 +1257,6 @@ Figure&nbsp;2.10: 5,000 simulated samples the size of the GSS. Lines at the 2.5t
 <li>the larger the sample, the more accurately we can <strong>infer</strong> the population proportion</li>
 <li>we can use <strong>simulations</strong> to understand how this works</li>
 </ul>
-<p><a href="05-sampling-distributions.html" class="quarto-xref"><span>Chapter 5</span></a> gives the object we have been drawing a name (the <strong>sampling distribution</strong>) and derives its spread analytically, without simulating anything.</p>
 
 
 </section>

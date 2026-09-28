@@ -410,23 +410,23 @@ window.Quarto = {
 </header>
 
 
-<p><a href="09-likelihood.html" class="quarto-xref"><span>Chapter 9</span></a> showed that the F test and the likelihood ratio test can give different p-values for the same comparison, and explained why: <span class="math inline">\(\chi^2\)</span> is what the <span class="math inline">\(F\)</span> distribution becomes as the denominator degrees of freedom go to infinity, so it has slightly less mass in its tail.</p>
-<p>That was one example. This appendix looks at the pattern systematically, and adds a third statistic (the <strong>Wald</strong> test) that you will meet in the output of most generalized linear models.</p>
+<p>In <a href="09-likelihood.html" class="quarto-xref"><span>Chapter 9</span></a> we saw that the F test and the likelihood ratio test can give different p-values for the same comparison. That’s because the <span class="math inline">\(\chi^2\)</span> distribution is what the <span class="math inline">\(F\)</span> distribution turns into when the denominator degrees of freedom go to infinity, so it has a little less mass in its tail.</p>
+<p>That was just one example. In this appendix we’ll look at this more systematically. We’ll also add a third statistic, the <strong>Wald</strong> test, which you’ll see in the output of most generalized linear models.</p>
 <section id="three-ways-to-test-the-same-thing" class="level2" data-number="B.1">
 <h2 data-number="B.1" class="anchored" data-anchor-id="three-ways-to-test-the-same-thing"><span class="header-section-number">B.1</span> Three ways to test the same thing</h2>
-<p>Consider the simplest possible comparison: an intercept-only model against one with a single predictor. Three statistics are available.</p>
-<p>The <strong>F statistic</strong> compares reductions in sum of squared error, scaled by the error that remains:</p>
+<p>Let’s take the simplest possible comparison: an intercept-only model vs.&nbsp;a model with one predictor. There are three statistics we could use.</p>
+<p>The <strong>F statistic</strong> compares the reduction in SSE to the SSE that’s left over:</p>
 <p><span class="math display">\[F = \frac{(\text{SSE}_C - \text{SSE}_A)/1}{\text{SSE}_A/(n-2)}\]</span></p>
-<p>referred to an <span class="math inline">\(F\)</span> distribution with 1 and <span class="math inline">\(n - 2\)</span> degrees of freedom.</p>
-<p>The <strong>Wald</strong> statistic takes that same quantity and refers it to a <span class="math inline">\(\chi^2\)</span> distribution instead, ignoring the fact that the denominator was estimated.</p>
-<p>The <strong>likelihood ratio</strong> statistic compares log-likelihoods, which for the normal model reduces to a function of the ratio of the two error sums:</p>
+<p>We compare it to an <span class="math inline">\(F\)</span> distribution with 1 and <span class="math inline">\(n - 2\)</span> degrees of freedom.</p>
+<p>The <strong>Wald</strong> statistic takes that same number and compares it to a <span class="math inline">\(\chi^2\)</span> distribution instead. This ignores the fact that the denominator was estimated.</p>
+<p>The <strong>likelihood ratio</strong> statistic compares log-likelihoods. For the normal model, this turns out to be a function of the ratio of the two SSEs:</p>
 <p><span class="math display">\[G^2 = n \log\left(\frac{\text{SSE}_C}{\text{SSE}_A}\right)\]</span></p>
-<p>also referred to <span class="math inline">\(\chi^2\)</span> with one degree of freedom.</p>
-<p>All three test the same null hypothesis. None of them agrees exactly with the others.</p>
+<p>We also compare this one to a <span class="math inline">\(\chi^2\)</span> distribution with one degree of freedom.</p>
+<p>All three test the same null hypothesis, but none of them gives exactly the same answer.</p>
 </section>
 <section id="watching-them-converge" class="level2" data-number="B.2">
 <h2 data-number="B.2" class="anchored" data-anchor-id="watching-them-converge"><span class="header-section-number">B.2</span> Watching them converge</h2>
-<p>We can hold the association constant and vary only the sample size. <code>MASS::mvrnorm()</code> with <code>empirical = TRUE</code> generates data whose sample correlation is <em>exactly</em> what we ask for, which removes sampling noise and isolates the effect of <span class="math inline">\(n\)</span>.</p>
+<p>We can keep the association the same and just change the sample size. <code>MASS::mvrnorm()</code> with <code>empirical = TRUE</code> makes data where the sample correlation is <em>exactly</em> what we ask for. That gets rid of sampling noise, so the only thing changing is <span class="math inline">\(n\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create dataset with exact known correlation</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># then extract F, G^2, and the F, Wald, and LRT chi-square p-values</span></span>
@@ -495,8 +495,8 @@ window.Quarto = {
 4    33  3.44  3.48 0.073  0.0635 0.0622</code></pre>
 </div>
 </div>
-<p>Note that <code>f</code> and <code>g2</code> are not the same statistic. The F statistic scales the reduction in SSE by the error that remains; <span class="math inline">\(G^2\)</span> is a function of the <em>ratio</em> of the two error sums. They happen to be close here, and they get closer as <span class="math inline">\(n\)</span> grows, but they are computed differently and referred to different distributions.</p>
-<p>Every one of these datasets has exactly the same association (<span class="math inline">\(R^2 = 0.1\)</span>), so any difference between the columns is a property of the <em>test</em>, not of the data.</p>
+<p>Note that <code>f</code> and <code>g2</code> are not the same statistic. They’re close here (and they get closer as <span class="math inline">\(n\)</span> gets bigger), but they’re calculated differently and compared to different distributions.</p>
+<p>Every one of these datasets has exactly the same association (<span class="math inline">\(R^2 = .1\)</span>), so any difference between the columns comes from the <em>test</em>, not the data.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
@@ -556,7 +556,7 @@ Figure&nbsp;B.2: Three p-values for the same association, as sample size grows.
 </div>
 </div>
 </div>
-<p>The same three curves are easier to compare on a log scale, which spreads out the small p-values instead of squashing them against zero.</p>
+<p>The three curves are easier to compare on a log scale, which spreads out the small p-values so they aren’t all squashed down near zero.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
@@ -624,9 +624,9 @@ Figure&nbsp;B.4: The same three p-values, logged.
 </div>
 </div>
 </div>
-<p>Two things are visible.</p>
-<p><strong>The F test is the most conservative.</strong> Its p-value is always the largest of the three, because it alone accounts for the fact that the denominator of the F ratio was estimated from the data rather than known.</p>
-<p><strong>The gap closes as <span class="math inline">\(n\)</span> grows.</strong> By the right edge of the plot the three curves are nearly indistinguishable. All three are asymptotically equivalent; they differ in small samples, where the difference can flip a conclusion.</p>
+<p>We can see two things here.</p>
+<p><strong>The F test is the most conservative.</strong> Its p-value is always the biggest of the three, because it’s the only one that accounts for the fact that the denominator was estimated from the data.</p>
+<p><strong>The gap gets smaller as <span class="math inline">\(n\)</span> goes up.</strong> By the right side of the plot, you can barely tell the three curves apart. They’re all the same as <span class="math inline">\(n\)</span> goes to infinity, but in small samples they can lead to different conclusions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mytests <span class="sc">|&gt;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">80</span>)) <span class="sc">|&gt;</span></span>
@@ -642,13 +642,12 @@ Figure&nbsp;B.4: The same three p-values, logged.
 4    80  8.67  8.43 0.0043 0.0032 0.0037</code></pre>
 </div>
 </div>
-<p>At <span class="math inline">\(n = 30\)</span> none of the three clears 0.05. At <span class="math inline">\(n = 40\)</span> all of them do. In between there is a stretch where the choice of test decides the verdict. That is a good reason not to treat 0.05 as the important thing, as <a href="06-hypothesis-testing.html" class="quarto-xref"><span>Chapter 6</span></a> argued.</p>
+<p>At <span class="math inline">\(n = 30\)</span>, none of the three is below .05. At <span class="math inline">\(n = 40\)</span>, all of them are. In between, which test you use can decide whether you reject the null. This is another reason not to take .05 too seriously (see <a href="06-hypothesis-testing.html" class="quarto-xref"><span>Chapter 6</span></a>).</p>
 </section>
 <section id="which-to-use" class="level2" data-number="B.3">
 <h2 data-number="B.3" class="anchored" data-anchor-id="which-to-use"><span class="header-section-number">B.3</span> Which to use</h2>
-<p>For the normal linear model, use <strong>F</strong>. It is exact rather than asymptotic, and its conservatism in small samples is a feature.</p>
-<p>For generalized linear models, the F test is unavailable and the choice is between Wald and likelihood ratio. Wald is what appears by default in <code>summary()</code> output because it is cheap. It needs only the fitted model. The likelihood ratio test requires fitting both models, and is generally better behaved, particularly when coefficients are large.</p>
-<p>When they disagree noticeably, trust the likelihood ratio test.</p>
+<p>For the normal linear model, use <strong>F</strong>. It’s exact rather than a large-sample approximation, and being a bit conservative in small samples is a good thing.</p>
+<p>For generalized linear models, we can’t use the F test, so we have to choose between Wald and the likelihood ratio test. Wald is what you get by default in <code>summary()</code> output because it’s easy to calculate (it only needs the one fitted model). The likelihood ratio test needs both models, but it usually works better, especially when coefficients are large. If the two give noticeably different answers, I’d go with the likelihood ratio test.</p>
 
 
 </section>

@@ -421,8 +421,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ragg"</span>,            <span class="co"># a better graphics device, used for every figure here</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"nlme"</span>,            <span class="co"># one model in the group-comparison chapter needs this</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"lmtest"</span>,          <span class="co"># robust standard errors</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"sandwich"</span>         <span class="co"># robust standard errors</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"sandwich"</span>,        <span class="co"># robust standard errors</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pwr"</span>,             <span class="co"># power calculations</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ggrepel"</span>          <span class="co"># non-overlapping labels on plots</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The General Social Survey lives in its own package, which is not on CRAN. Install Kieran Healy’s <code>gssr</code> package using the code below. You only have to do this once.</p>
 <div class="cell">
@@ -443,7 +445,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>On your machine that resolves to something like <code>C:/Users/you/soc522/data/gss2024.rds</code>; on mine it resolves to something else entirely. The code stays the same. This is why you will never see a line like <code>setwd("C:/Users/steve/Desktop/...")</code> in this book.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Code with a hard-coded path on someone’s desktop is code that runs on exactly one computer, until that person reorganizes their desktop.</p></div></div></section>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Code with a hard-coded path only runs on one computer (and only until that person reorganizes their desktop!).</p></div></div></section>
 <section id="building-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="building-the-data">Building the data</h2>
 <p>Most of the examples in this book use the <strong>General Social Survey</strong>, which has been asking Americans about their lives, beliefs, and circumstances since 1972. The General Social Survey is one of sociology’s greatest assets. I have often called it the “Hubble telescope” of sociology.</p>
@@ -499,7 +501,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(gss_panel10_long, here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss_panel10_long.rds"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>One row per person per wave, about 6,100 rows in all.</p>
+<p>There is one row per person per wave, about 6,100 rows in all.</p>
 </section>
 <section id="why-three-files" class="level3">
 <h3 class="anchored" data-anchor-id="why-three-files">Why three files</h3>
@@ -520,8 +522,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 3309  976</code></pre>
 </div>
 </div>
-<p>Roughly 3,300 rows and several hundred columns. Each <strong>row</strong> is a respondent; each <strong>column</strong> is a variable (usually a question they were asked).</p>
-<p>Now a first figure, as a check that the plotting side of your setup works. Here is the distribution of <code>wordsum</code>, a ten-word vocabulary test the GSS has fielded for decades:</p>
+<p>You should see roughly 3,300 rows and about 975 columns. Each <strong>row</strong> is a respondent; each <strong>column</strong> is a variable (usually a question they were asked).</p>
+<p>Now let’s make a first figure to check that the plotting side of your setup works. Here is the distribution of <code>wordsum</code>, a ten-word vocabulary test the GSS has fielded for decades:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
@@ -566,7 +568,7 @@ Figure&nbsp;2: Vocabulary test scores, GSS 2024.
 </div>
 </div>
 </div>
-<p>Every figure in this book appears twice like that: once in <a href="https://grantmcdermott.com/tinyplot/">tinyplot</a>, once in <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. They are the same figure. Use whichever you find easier to read, and switch freely; nothing later depends on which one you picked.</p>
+<p>Every figure in this book appears twice like that: once in <a href="https://grantmcdermott.com/tinyplot/">tinyplot</a>, once in <a href="https://ggplot2.tidyverse.org/">ggplot2</a>. They are (basically) the same figure, so use whichever you find easier to read. Nothing later depends on which one you pick.</p>
 <p>If both tabs produced a plot, your setup works.</p>
 </section>
 <section id="one-wrinkle-labelled-data" class="level2">
@@ -589,7 +591,7 @@ Figure&nbsp;2: Vocabulary test scores, GSS 2024.
 <li><strong>A package will not install.</strong> Read the last few lines of the output, not the first. The real error is usually at the bottom.</li>
 <li><strong><code>gssr</code> is not found.</strong> It is not on CRAN. You need the <code>repos =</code> argument shown above.</li>
 <li><strong><code>here::here()</code> points somewhere strange.</strong> You are probably not in the project. Look at the top-right corner of RStudio; it should name your course project.</li>
-<li><strong>The fonts look different from the book.</strong> Harmless. This book is set in Roboto Condensed, which you may not have installed; the code checks whether it’s there and quietly falls back to your system default if it isn’t. If you want the same look, the font is free from <a href="https://fonts.google.com/specimen/Roboto+Condensed">Google Fonts</a>.</li>
+<li><strong>The fonts look different from the book.</strong> This is harmless. This book is set in Roboto Condensed, which you may not have installed; the code checks whether it’s there and quietly falls back to your system default if it isn’t. If you want the same look, the font is free from <a href="https://fonts.google.com/specimen/Roboto+Condensed">Google Fonts</a>.</li>
 </ul>
 <p>If all this fails, there’s no shame in checking with an LLM. But at least <em>try</em> to figure out things yourself for a little bit. In any case, setup problems are worth solving early in a course rather than working around for a semester.</p>
 

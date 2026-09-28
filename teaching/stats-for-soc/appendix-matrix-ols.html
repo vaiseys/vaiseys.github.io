@@ -428,8 +428,7 @@ window.Quarto = {
 </header>
 
 
-<p>This appendix shows how the algebra of ordinary least squares can be expressed compactly in matrix notation, and then verifies the result numerically in R.</p>
-<p>Nothing in the main text depends on it. But understanding the matrix form will serve you well when you meet multiple regression again, generalized linear models, or most of modern applied statistics. Plus it’s kind of a rite of passage. Just let it wash over you.</p>
+<p>The goal of this appendix is to show how the algebra of ordinary least squares can be expressed compactly using matrix notation, and then to verify the result numerically in R. Nothing in the main text depends on it. But understanding the matrix form will serve you well when you encounter multiple regression, generalized linear models, and most of modern applied statistics. Plus it’s kind of a rite of passage. Just let it wash over you…</p>
 <section id="review-matrix-basics" class="level2 page-columns page-full" data-number="A.1">
 <h2 data-number="A.1" class="anchored" data-anchor-id="review-matrix-basics"><span class="header-section-number">A.1</span> Review: matrix basics</h2>
 <p>A <strong>matrix</strong> is a rectangular table of numbers arranged in rows and columns. We write matrices in bold: <span class="math inline">\(\mathbf{A}\)</span>. A matrix with <span class="math inline">\(n\)</span> rows and <span class="math inline">\(p\)</span> columns is called an <span class="math inline">\(n \times p\)</span> matrix.</p>
@@ -453,7 +452,7 @@ window.Quarto = {
 \mathbf{A}^{-1}\mathbf{A} = \mathbf{A}\mathbf{A}^{-1} = \mathbf{I}
 \]</span></p>
 <p>Not every square matrix has an inverse (just as you can’t divide by zero in scalar algebra), but <span class="math inline">\(\mathbf{X}'\mathbf{X}\)</span> will have one as long as no predictor is an exact linear combination of the others.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;This is the extreme case of the collinearity discussed in <a href="11-multiple-regression.html" class="quarto-xref"><span>Chapter 11</span></a>. There, correlated predictors inflated standard errors; here, a <em>perfectly</em> correlated predictor makes the inverse impossible and the model unfittable.</p></div></div></section>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;This is the most extreme version of the collinearity we talked about in <a href="11-multiple-regression.html" class="quarto-xref"><span>Chapter 11</span></a>. There, correlated predictors made the standard errors bigger. Here, a <em>perfectly</em> correlated predictor means the inverse doesn’t exist and we can’t fit the model at all.</p></div></div></section>
 </section>
 <section id="the-regression-model-in-matrix-form" class="level2" data-number="A.2">
 <h2 data-number="A.2" class="anchored" data-anchor-id="the-regression-model-in-matrix-form"><span class="header-section-number">A.2</span> The regression model in matrix form</h2>
@@ -488,7 +487,7 @@ y_i = b_0 + b_1 x_i + \varepsilon_i
 <section id="visualizing-residuals" class="level2 page-columns page-full" data-number="A.3">
 <h2 data-number="A.3" class="anchored" data-anchor-id="visualizing-residuals"><span class="header-section-number">A.3</span> Visualizing residuals</h2>
 <p>The error <span class="math inline">\(\varepsilon_i\)</span> for each observation is the vertical distance between the observed <span class="math inline">\(y_i\)</span> and the model’s prediction <span class="math inline">\(\hat{y}_i\)</span>. Here is what that looks like with a small dataset on income inequality and the share of employment in agriculture for 10 countries.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;This is part of a dataset from a class the author took in 2002. The outcome is the income share of the top 5% and the predictor is the percentage of workers employed in agriculture.</p></div></div><div class="cell">
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;This is part of a dataset from a class I took in 2002 (I think). The outcome is the income share of the top 5% and the predictor is the percentage of workers employed in agriculture.</p></div></div><div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">country =</span> <span class="fu">c</span>(<span class="st">"Israel"</span>, <span class="st">"Canada"</span>, <span class="st">"Denmark"</span>, <span class="st">"Zambia"</span>, <span class="st">"Panama"</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Morocco"</span>, <span class="st">"Sweden"</span>, <span class="st">"Argentina"</span>, <span class="st">"Japan"</span>, <span class="st">"Tunisia"</span>),</span>
@@ -610,7 +609,7 @@ a^{-1}c = a^{-1}ax = x
 [2,]  250 10900</code></pre>
 </div>
 </div>
-<p><strong>Step 3:</strong> Compute <span class="math inline">\(\mathbf{X}'\mathbf{y}\)</span>, applying the same pre-multiplication to the right-hand side:</p>
+<p><strong>Step 3:</strong> Compute <span class="math inline">\(\mathbf{X}'\mathbf{y}\)</span> (apply the same pre-multiplication to the right-hand side):</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>XTy <span class="ot">&lt;-</span> XT <span class="sc">%*%</span> y</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>XTy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

@@ -688,7 +688,7 @@ Figure&nbsp;17.6: A Poisson distribution with lambda set to the sample mean.
 </div>
 </div>
 <p>You can see that the modeled version is a simplified version of the empirical distribution. It doesn’t have as much probability mass out at the right tail, for example. It really doesn’t think that anyone is very likely to watch, say, 20 hours of TV per day.</p>
-<p>That is the trade we are making whenever we reach for a theoretical distribution. Assumptions take us away from the data, but it’s often worth it: here we are describing 25 distinct counts with a single number.</p>
+<p>Assumptions take us away from the data, but it’s often worth it! Here we’re describing 25 different counts with just one number.</p>
 </section>
 <section id="comparison-to-the-normal-distribution" class="level3 page-columns page-full" data-number="17.1.2">
 <h3 data-number="17.1.2" class="anchored" data-anchor-id="comparison-to-the-normal-distribution"><span class="header-section-number">17.1.2</span> Comparison to the normal distribution</h3>
@@ -828,7 +828,7 @@ y_i &amp;\sim \text{Poisson}(\lambda_i) \\
 <p>All of the ways of writing nudge you toward different intuition.</p>
 <section id="doing-it-manually" class="level3" data-number="17.2.1">
 <h3 data-number="17.2.1" class="anchored" data-anchor-id="doing-it-manually"><span class="header-section-number">17.2.1</span> Doing it manually</h3>
-<p>We’ve seen how to solve for parameters like this before. Here are the mean number of siblings for people who attend religious services weekly and less often:</p>
+<p>We’ve seen how to solve for parameters like this before. Here’s the mean number of siblings for people who go to religious services weekly and for everyone else:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -849,7 +849,7 @@ y_i &amp;\sim \text{Poisson}(\lambda_i) \\
 2 less      2.81</code></pre>
 </div>
 </div>
-<p>Just as in <a href="16-logistic-regression.html" class="quarto-xref"><span>Chapter 16</span></a>, we don’t have the model, we have the result of an unknown model. Only now the link is the log rather than the logit, so we solve <span class="math inline">\(2.81 = e^{\alpha}\)</span> and <span class="math inline">\(3.36 = e^{\alpha + \beta}\)</span>:</p>
+<p>Just as in <a href="16-logistic-regression.html" class="quarto-xref"><span>Chapter 16</span></a>, we don’t have the model, we have the result of an unknown model. The only difference is that now the link is the log instead of the logit, so we solve <span class="math inline">\(2.81 = e^{\alpha}\)</span> and <span class="math inline">\(3.36 = e^{\alpha + \beta}\)</span>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> sibs <span class="sc">|&gt;</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(church) <span class="sc">|&gt;</span></span>
@@ -911,7 +911,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 <div class="callout-body-container callout-body">
 <p>Fit <code>glm(tvhours ~ college, family = poisson())</code> where <code>college</code> is 1 for a bachelor’s degree or more. According to that model, what is the probability that someone with (and without) a college degree watches 4 or more hours of TV per day?</p>
-<p>You will need <code>dpois()</code> and the fitted <span class="math inline">\(\lambda\)</span> for each group.</p>
+<p>(Hint: you’ll need <code>dpois()</code> and the fitted <span class="math inline">\(\lambda\)</span> for each group.)</p>
 </div>
 </div>
 </section>
@@ -945,19 +945,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>A difference that disappears
+<span class="screen-reader-only">Warning</span>Use robust standard errors
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>On the model’s own standard errors, the sex difference in television watching is “statistically significant”; on standard errors that acknowledge overdispersion, it is not.</p>
-<p>Poisson regression on overdispersed data manufactures significance. Since count data are nearly always overdispersed, <strong>report robust standard errors by default</strong>, or fit a model that estimates the dispersion, such as a negative binomial.</p>
+<p>With the regular Poisson standard errors, the sex difference in TV watching is “statistically significant.” With robust standard errors, it isn’t. If the data are overdispersed, the Poisson standard errors will be too small. Count data are almost always overdispersed, so <strong>use robust standard errors by default</strong> (or use a model that estimates the dispersion, like the negative binomial).</p>
 </div>
 </div>
 </section>
 </section>
 <section id="why-not-just-log-the-outcome" class="level2" data-number="17.3">
 <h2 data-number="17.3" class="anchored" data-anchor-id="why-not-just-log-the-outcome"><span class="header-section-number">17.3</span> Why not just log the outcome?</h2>
-<p>There is an older habit you will meet constantly in published work: take a count, add a small constant, log it, and run an ordinary regression. The constant is there because <code>log(0)</code> is undefined, and counts contain zeros.</p>
+<p>You’ll see this a lot in published work: people take a count, add a small number to it, log it, and then run a regular regression. They add the small number because <code>log(0)</code> is undefined and counts often include zeros.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">zeros =</span> <span class="fu">sum</span>(d<span class="sc">$</span>tvhours <span class="sc">==</span> <span class="dv">0</span>), <span class="at">share =</span> <span class="fu">mean</span>(d<span class="sc">$</span>tvhours <span class="sc">==</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -965,7 +964,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 198.00000000   0.09235075 </code></pre>
 </div>
 </div>
-<p>So we cannot log the variable as it stands, and must add something first. But <em>what</em> something? The usual choices are 1, or 0.1, or 0.01, and the decision feels like a rounding convention. It determines the answer.</p>
+<p>So we can’t log <code>tvhours</code> without adding something first. But what should we add? People usually pick 1, .1, or .01, and it seems like it shouldn’t matter much. But it does!</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -987,26 +986,84 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 4    0.001     -0.1648              -15.2</code></pre>
 </div>
 </div>
-<p>Nothing about the data changed, and the estimated effect of a step in education moved by a lot. The reason is what the transformation does to the zeros: with a constant of 0.001, every respondent who watches no television is placed at -6.9, an enormous distance below someone who watches one hour.</p>
-<p>Use a count model instead. The Poisson gets the log without adding anything to anything, because the log lives in the <em>link function</em> and applies to the expected count rather than to individual zeros.</p>
-</section>
-<section id="family-and-link-are-separate-choices" class="level2" data-number="17.4">
-<h2 data-number="17.4" class="anchored" data-anchor-id="family-and-link-are-separate-choices"><span class="header-section-number">17.4</span> Family and link are separate choices</h2>
-<p>A GLM has two components you choose independently: the <strong>family</strong>, which says what distribution the outcome follows, and the <strong>link</strong>, which says how the linear predictor connects to that distribution’s mean. We have used <code>poisson()</code> with its default log link, but nothing forces that pairing.</p>
+<p>The data are exactly the same, but the estimated effect of education changes a lot. That’s because of what the transformation does to the zeros. With a constant of .001, everyone who watches no TV ends up at -6.9, which is really far below someone who watches one hour.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Data prep</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weirdtv =</span> <span class="fu">log</span>(tvhours <span class="sc">+</span> .<span class="dv">001</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">ggplot2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>m_log      <span class="ot">&lt;-</span> <span class="fu">glm</span>(tvhours <span class="sc">~</span> degree, <span class="at">data =</span> d, <span class="at">family =</span> <span class="fu">poisson</span>())</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>m_identity <span class="ot">&lt;-</span> <span class="fu">glm</span>(tvhours <span class="sc">~</span> degree, <span class="at">data =</span> d, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>m_gaussian <span class="ot">&lt;-</span> <span class="fu">glm</span>(tvhours <span class="sc">~</span> degree, <span class="at">data =</span> d, <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model       =</span> <span class="fu">c</span>(<span class="st">"Poisson, log link"</span>, <span class="st">"Poisson, identity link"</span>, <span class="st">"Gaussian, identity"</span>),</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">coefficient =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">coef</span>(m_log)[<span class="dv">2</span>], <span class="fu">coef</span>(m_identity)[<span class="dv">2</span>], <span class="fu">coef</span>(m_gaussian)[<span class="dv">2</span>]), <span class="dv">4</span>),</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">logLik      =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">as.numeric</span>(<span class="fu">logLik</span>(m_log)),</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">as.numeric</span>(<span class="fu">logLik</span>(m_identity)),</span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">as.numeric</span>(<span class="fu">logLik</span>(m_gaussian))), <span class="dv">1</span>)</span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(weirdtv <span class="sc">~</span> tvhours,</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> d,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"p"</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"tvhours"</span>,</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"log(tvhours + .001)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-weirdtv-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weirdtv-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="17-counts_files/figure-html/fig-weirdtv-tinyplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weirdtv-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.9: What adding .001 and logging does to tvhours.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(<span class="at">x =</span> tvhours, <span class="at">y =</span> weirdtv)) <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"tvhours"</span>, <span class="at">y =</span> <span class="st">"log(tvhours + .001)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-weirdtv-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weirdtv-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="17-counts_files/figure-html/fig-weirdtv-ggplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weirdtv-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;17.10: What adding .001 and logging does to tvhours.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>My advice: just say no. Use a count model instead! The Poisson model uses the log without having to add anything, because the log is in the <em>link function</em>. It applies to the expected count, not to the individual zeros.</p>
+</section>
+<section id="family-and-link-are-separate-choices" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="family-and-link-are-separate-choices"><span class="header-section-number">17.4</span> Family and link are separate choices</h2>
+<p>Remember that a GLM has two parts that you can choose separately: the <strong>family</strong> (the distribution of the outcome) and the <strong>link</strong> (how the linear predictor connects to the mean of that distribution). We’ve been using <code>poisson()</code> with its default log link, but we don’t have to.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>m_log      <span class="ot">&lt;-</span> <span class="fu">glm</span>(tvhours <span class="sc">~</span> degree, <span class="at">data =</span> d, <span class="at">family =</span> <span class="fu">poisson</span>())</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>m_identity <span class="ot">&lt;-</span> <span class="fu">glm</span>(tvhours <span class="sc">~</span> degree, <span class="at">data =</span> d, <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>m_gaussian <span class="ot">&lt;-</span> <span class="fu">glm</span>(tvhours <span class="sc">~</span> degree, <span class="at">data =</span> d, <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">model       =</span> <span class="fu">c</span>(<span class="st">"Poisson, log link"</span>, <span class="st">"Poisson, identity link"</span>, <span class="st">"Gaussian, identity"</span>),</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">coefficient =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">coef</span>(m_log)[<span class="dv">2</span>], <span class="fu">coef</span>(m_identity)[<span class="dv">2</span>], <span class="fu">coef</span>(m_gaussian)[<span class="dv">2</span>]), <span class="dv">4</span>),</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">logLik      =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">as.numeric</span>(<span class="fu">logLik</span>(m_log)),</span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">as.numeric</span>(<span class="fu">logLik</span>(m_identity)),</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">as.numeric</span>(<span class="fu">logLik</span>(m_gaussian))), <span class="dv">1</span>)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                   model coefficient  logLik
@@ -1015,7 +1072,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 3     Gaussian, identity     -0.4913 -5565.3</code></pre>
 </div>
 </div>
-<p>The last model is OLS: a Gaussian family with an identity link is exactly <code>lm()</code>. Everything in Parts II and III was a generalized linear model; we simply had no reason to say so. The link changes what a coefficient means (multiplicative under the log, additive under the identity), and here the family matters more than the link, since both Poisson models fit far better than the Gaussian one.</p>
+<p>The last model is just OLS. A Gaussian family with an identity link is exactly what <code>lm()</code> does! So all the models earlier in the book were GLMs too; we just didn’t call them that. The link changes what a coefficient means (multiplicative with the log link, additive with the identity link). In this case, though, the family matters more than the link, since both Poisson models fit a lot better than the Gaussian one.</p>
 </section>
 <section id="models-for-tables" class="level2 page-columns page-full" data-number="17.5">
 <h2 data-number="17.5" class="anchored" data-anchor-id="models-for-tables"><span class="header-section-number">17.5</span> Models for tables</h2>
@@ -1023,10 +1080,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>xtab <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(sex, degree_fac)</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>xtab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>xtab <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(sex, degree_fac)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>xtab</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> sex none  HS  AA  BA grad
@@ -1038,12 +1095,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">freq =</span> <span class="fu">n</span>(),</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> <span class="fu">c</span>(degree_fac, sex)) <span class="sc">|&gt;</span></span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sex, degree_fac)</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>dcounts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">freq =</span> <span class="fu">n</span>(),</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> <span class="fu">c</span>(degree_fac, sex)) <span class="sc">|&gt;</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(sex, degree_fac)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>dcounts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 x 3
@@ -1064,16 +1121,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>We can now model the <em>count</em> of cases in each cell (<code>freq</code>) as some function of the two categorical variables, <code>degree_fac</code> and <code>sex</code>.</p>
 <p>Let’s build up slowly. Think about what the model below would mean.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>tm_null <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> <span class="dv">1</span>,</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> dcounts,</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">family =</span> <span class="fu">poisson</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>tm_null <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> <span class="dv">1</span>,</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> dcounts,</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">family =</span> <span class="fu">poisson</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>It assumes that <code>freq</code> would be the same in all 10 cells. We can confirm this as follows:<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;We have to specify option <code>type = "response"</code> in the <code>predict()</code> function because without it we’ll get the prediction in <em>log counts</em> because that’s how the model thinks. This option says “we want it in the original units.”</p></div></div><div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> dcounts <span class="sc">|&gt;</span></span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_null =</span> <span class="fu">predict</span>(tm_null, <span class="at">type =</span> <span class="st">"response"</span>))</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>dcounts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> dcounts <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_null =</span> <span class="fu">predict</span>(tm_null, <span class="at">type =</span> <span class="st">"response"</span>))</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>dcounts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 x 4
    degree_fac sex    freq pred_null
@@ -1092,15 +1149,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>This model would allow the male and female cells to have different counts:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>tm_sex <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> sex,</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> dcounts,</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">poisson</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>tm_sex <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> sex,</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> dcounts,</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">poisson</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> dcounts <span class="sc">|&gt;</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_sex =</span> <span class="fu">predict</span>(tm_sex, <span class="at">type =</span> <span class="st">"response"</span>))</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>dcounts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> dcounts <span class="sc">|&gt;</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_sex =</span> <span class="fu">predict</span>(tm_sex, <span class="at">type =</span> <span class="st">"response"</span>))</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>dcounts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 x 5
    degree_fac sex    freq pred_null pred_sex
@@ -1119,15 +1176,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>This is a little better but not matching <code>freq</code> very well! Let’s add <code>degree</code> also:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>tm_both <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> sex <span class="sc">+</span> degree_fac,</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> dcounts,</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">family =</span> <span class="fu">poisson</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>tm_both <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> sex <span class="sc">+</span> degree_fac,</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> dcounts,</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">family =</span> <span class="fu">poisson</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> dcounts <span class="sc">|&gt;</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_both =</span> <span class="fu">predict</span>(tm_both, <span class="at">type =</span> <span class="st">"response"</span>))</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>dcounts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> dcounts <span class="sc">|&gt;</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_both =</span> <span class="fu">predict</span>(tm_both, <span class="at">type =</span> <span class="st">"response"</span>))</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>dcounts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 x 6
    degree_fac sex    freq pred_null pred_sex pred_both
@@ -1146,7 +1203,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>This is closer but not quite there. Why? Because it assumes that <code>sex</code> can affect the number of people in a cell and <code>degree</code> can affect the number of people in a cell but they don’t influence each other’s effects! Let’s take a closer look:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tm_both)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tm_both)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1177,15 +1234,15 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <p>Note that this model only uses 6 degrees of freedom—intercept, female dummy, four education dummies—to represent a table with 10 cells. So it’s an attempt to approximate 10 numbers with 6 numbers.</p>
 <p>We can get the full table—what we call the <strong>saturated model</strong>—by allowing the factors to interact:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>tm_sat <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> sex <span class="sc">*</span> degree_fac,</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> dcounts,</span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">poisson</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>tm_sat <span class="ot">&lt;-</span> <span class="fu">glm</span>(freq <span class="sc">~</span> sex <span class="sc">*</span> degree_fac,</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> dcounts,</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">poisson</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> dcounts <span class="sc">|&gt;</span></span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_sat =</span> <span class="fu">predict</span>(tm_sat, <span class="at">type =</span> <span class="st">"response"</span>))</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>dcounts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>dcounts <span class="ot">&lt;-</span> dcounts <span class="sc">|&gt;</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_sat =</span> <span class="fu">predict</span>(tm_sat, <span class="at">type =</span> <span class="st">"response"</span>))</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>dcounts</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 x 7
    degree_fac sex    freq pred_null pred_sex pred_both pred_sat
@@ -1205,7 +1262,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <p>You can see that the model “predictions” are exactly the same as the data. This is because we used 10 parameters to recover 10 cell counts.</p>
 <p>If we compare the saturated model to the independence model, we are asking the same question as the old-school <span class="math inline">\(\chi^2\)</span> test.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn4"><p><sup>4</sup>&nbsp;As the sample goes to infinity, the <em>likelihood ratio</em> <span class="math inline">\(\chi^2\)</span> test and the Pearson’s <span class="math inline">\(\chi^2\)</span> test are the same. But in finite samples, we have to use <strong>Rao’s score test</strong> to get the exact same values from <code>anova()</code>.</p></div></div><div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(tm_both, tm_sat, <span class="at">test =</span> <span class="st">"Rao"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(tm_both, tm_sat, <span class="at">test =</span> <span class="st">"Rao"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table
 
@@ -1220,7 +1277,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>Compare to the original:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>xtab <span class="sc">|&gt;</span> <span class="fu">chisq.test</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>xtab <span class="sc">|&gt;</span> <span class="fu">chisq.test</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Pearson's Chi-squared test
@@ -1230,48 +1287,48 @@ X-squared = 16.893, df = 4, p-value = 0.002027</code></pre>
 </div>
 </div>
 <p>And that is how even tables can be models!</p>
-<p>The gain is everything a model gives you and a test does not: coefficients, intervals, the ability to add predictors, and comparison by AIC or BIC.</p>
+<p>What do we get out of this? Everything a model gives you that a test doesn’t: coefficients, confidence intervals, the ability to add more predictors, and comparisons with AIC and BIC.</p>
 </section>
 <section id="an-example-from-the-literature" class="level2" data-number="17.6">
 <h2 data-number="17.6" class="anchored" data-anchor-id="an-example-from-the-literature"><span class="header-section-number">17.6</span> An example from the literature</h2>
 <p>These <strong>loglinear models for tables</strong> were actually super important for sociology in the 1970s and 1980s. You don’t see them much anymore, but here is a 2006 example.</p>
-<p>Loglinear models come into their own with three or more variables, where “are these independent?” stops being a single question.</p>
+<p>Loglinear models are most useful when you have three or more variables, because then there’s more than one way for the variables to be related.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>lizardo <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"lizardo2006.csv"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(family_income, network_size, culture_consumption), factor))</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">cells =</span> <span class="fu">nrow</span>(lizardo), <span class="at">respondents =</span> <span class="fu">sum</span>(lizardo<span class="sc">$</span>n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>lizardo <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"lizardo2006.csv"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">c</span>(family_income, network_size, culture_consumption), factor))</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">cells =</span> <span class="fu">nrow</span>(lizardo), <span class="at">respondents =</span> <span class="fu">sum</span>(lizardo<span class="sc">$</span>n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      cells respondents 
          27         927 </code></pre>
 </div>
 </div>
-<p>With three variables there are several ways they might be related: all mutually independent, or one pair associated but not others, or all three pairs associated. Each is a model, and we can compare them against the saturated model, the one that reproduces the table exactly.</p>
+<p>For example, all three could be independent, or one pair could be associated but not the others, or all three pairs could be associated. Each of these is a model, and we can compare each one to the saturated model (the one that reproduces the table exactly).</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>saturated <span class="ot">&lt;-</span> <span class="fu">glm</span>(n <span class="sc">~</span> family_income <span class="sc">*</span> network_size <span class="sc">*</span> culture_consumption,</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> lizardo, <span class="at">family =</span> <span class="fu">poisson</span>())</span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>candidates <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"all independent"</span> <span class="ot">=</span> <span class="st">"n ~ family_income + network_size + culture_consumption"</span>,</span>
-<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"income-network, network-culture"</span> <span class="ot">=</span> <span class="st">"n ~ (family_income*network_size) + (network_size*culture_consumption)"</span>,</span>
-<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"income-culture, culture-network"</span> <span class="ot">=</span> <span class="st">"n ~ (family_income*culture_consumption) + (culture_consumption*network_size)"</span>,</span>
-<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"income-culture, income-network"</span>  <span class="ot">=</span> <span class="st">"n ~ (family_income*culture_consumption) + (family_income*network_size)"</span>,</span>
-<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"all three pairs"</span> <span class="ot">=</span> <span class="st">"n ~ (family_income*culture_consumption) + (family_income*network_size) + (culture_consumption*network_size)"</span></span>
-<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="fu">names</span>(candidates), \(nm) {</span>
-<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">as.formula</span>(candidates[[nm]]), <span class="at">data =</span> lizardo, <span class="at">family =</span> <span class="fu">poisson</span>())</span>
-<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a>  g2  <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="fu">as.numeric</span>(<span class="fu">logLik</span>(saturated)) <span class="sc">-</span> <span class="fu">as.numeric</span>(<span class="fu">logLik</span>(fit)))</span>
-<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">model =</span> nm,</span>
-<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">df  =</span> <span class="fu">df.residual</span>(fit),</span>
-<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">G2  =</span> <span class="fu">round</span>(g2, <span class="dv">2</span>),</span>
-<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">p   =</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(g2, <span class="fu">df.residual</span>(fit)), <span class="dv">3</span>),</span>
-<span id="cb63-19"><a href="#cb63-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">AIC =</span> <span class="fu">round</span>(<span class="fu">AIC</span>(fit), <span class="dv">1</span>),</span>
-<span id="cb63-20"><a href="#cb63-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">BIC =</span> <span class="fu">round</span>(<span class="fu">BIC</span>(fit), <span class="dv">1</span>))</span>
-<span id="cb63-21"><a href="#cb63-21" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">|&gt;</span></span>
-<span id="cb63-22"><a href="#cb63-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>saturated <span class="ot">&lt;-</span> <span class="fu">glm</span>(n <span class="sc">~</span> family_income <span class="sc">*</span> network_size <span class="sc">*</span> culture_consumption,</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> lizardo, <span class="at">family =</span> <span class="fu">poisson</span>())</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>candidates <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"all independent"</span> <span class="ot">=</span> <span class="st">"n ~ family_income + network_size + culture_consumption"</span>,</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"income-network, network-culture"</span> <span class="ot">=</span> <span class="st">"n ~ (family_income*network_size) + (network_size*culture_consumption)"</span>,</span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"income-culture, culture-network"</span> <span class="ot">=</span> <span class="st">"n ~ (family_income*culture_consumption) + (culture_consumption*network_size)"</span>,</span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"income-culture, income-network"</span>  <span class="ot">=</span> <span class="st">"n ~ (family_income*culture_consumption) + (family_income*network_size)"</span>,</span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"all three pairs"</span> <span class="ot">=</span> <span class="st">"n ~ (family_income*culture_consumption) + (family_income*network_size) + (culture_consumption*network_size)"</span></span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="fu">names</span>(candidates), \(nm) {</span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">as.formula</span>(candidates[[nm]]), <span class="at">data =</span> lizardo, <span class="at">family =</span> <span class="fu">poisson</span>())</span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>  g2  <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="fu">as.numeric</span>(<span class="fu">logLik</span>(saturated)) <span class="sc">-</span> <span class="fu">as.numeric</span>(<span class="fu">logLik</span>(fit)))</span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">model =</span> nm,</span>
+<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">df  =</span> <span class="fu">df.residual</span>(fit),</span>
+<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">G2  =</span> <span class="fu">round</span>(g2, <span class="dv">2</span>),</span>
+<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">p   =</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(g2, <span class="fu">df.residual</span>(fit)), <span class="dv">3</span>),</span>
+<span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">AIC =</span> <span class="fu">round</span>(<span class="fu">AIC</span>(fit), <span class="dv">1</span>),</span>
+<span id="cb66-20"><a href="#cb66-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">BIC =</span> <span class="fu">round</span>(<span class="fu">BIC</span>(fit), <span class="dv">1</span>))</span>
+<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">|&gt;</span></span>
+<span id="cb66-22"><a href="#cb66-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>                            model df     G2     p   AIC   BIC
@@ -1282,16 +1339,14 @@ X-squared = 16.893, df = 4, p-value = 0.002027</code></pre>
 5                 all three pairs  8   6.46 0.596 182.7 207.3</code></pre>
 </div>
 </div>
-<p>Read the <code>p</code> column as a <strong>goodness-of-fit</strong> test in reverse: a large p-value means the model is <em>not</em> detectably worse than the saturated one, so it describes the table adequately.</p>
-<p>Complete independence fails badly. The model allowing income–network and network–culture associations fits fine, and so does the model with all three pairs. AIC splits them almost evenly; BIC prefers the simpler of the two, as it usually does.</p>
-<p>The substantive reading is that network size is doing the connecting work. Once it is associated with both income and culture, no direct income–culture association is needed to describe the table.</p>
+<p>The <code>p</code> column is a <strong>goodness-of-fit</strong> test. A large p-value means we can’t tell the model apart from the saturated model, so it describes the table pretty well.</p>
+<p>The model where everything is independent fits really badly. The model with income–network and network–culture associations fits fine, and so does the model with all three pairs. AIC can’t really choose between them, but BIC prefers the simpler one (as usual).</p>
+<p>Substantively, this means network size is what links income and culture. Once we let network size be associated with both of them, we don’t need a direct association between income and culture to describe the table.</p>
 </section>
 <section id="coda" class="level2" data-number="17.7">
 <h2 data-number="17.7" class="anchored" data-anchor-id="coda"><span class="header-section-number">17.7</span> Coda</h2>
-<p>That is the end of the models in this book.</p>
-<p>We began, in <a href="04-prediction-error.html" class="quarto-xref"><span>Chapter 4</span></a>, with a prediction and an error term. That picture carried us through regression, multiple predictors, and interactions. Then the outcome became binary and the error term dissolved; then the outcome became a count and we changed distributions again. What survived every one of those transitions was the model comparison: a compact model, an augmented model, and a principled way of asking whether the extra complexity earned its place.</p>
-<p>That question (<em>is this more complicated description worth it?</em>) is the one piece of machinery that has appeared in every chapter since. Everything else has been a matter of choosing the right distribution for the outcome in front of you.</p>
-<p>What we have deliberately not asked is whether any of these relationships is <strong>causal</strong>. Every coefficient in this book describes how outcomes differ across cases that differ in some measured way. None of them tells you what would happen if you intervened. That question needs different tools, different designs, and a different kind of care, and it is where the next course begins.</p>
+<p>That’s it for the models in this book! We started in <a href="04-prediction-error.html" class="quarto-xref"><span>Chapter 4</span></a> with a simple model: a prediction plus some “weirdness.” We used that through regression, multiple predictors, and interactions. Then we moved to binary outcomes and counts, where the weirdness went away and we had to use different distributions. But the basic question stayed the same the whole time: is a more complicated model worth it?</p>
+<p>What we <em>haven’t</em> asked is whether any of these relationships are <strong>causal</strong>. Every coefficient in this book describes how outcomes differ across cases that are different in some way we measured. None of them tells us what would happen if we intervened. That’s where the next course picks up.</p>
 </section>
 <section id="recap" class="level2" data-number="17.8">
 <h2 data-number="17.8" class="anchored" data-anchor-id="recap"><span class="header-section-number">17.8</span> Recap</h2>

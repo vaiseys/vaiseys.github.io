@@ -466,29 +466,26 @@ window.Quarto = {
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">newdata =</span> grid_x)</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We want to do better if we can, so maybe we should make the model more complicated? Here’s us trying to use more and more complex models (i.e., higher degree polynomials) to improve the fit.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(y <span class="sc">~</span> x, <span class="at">data =</span> demo, <span class="at">type =</span> <span class="st">"p"</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">range</span>(<span class="fu">c</span>(demo<span class="sc">$</span>y, grid_x<span class="sc">$</span>fit5)),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)) {</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(grid_x<span class="sc">$</span>x, grid_x[[<span class="fu">paste0</span>(<span class="st">"fit"</span>, k)]], <span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">lty =</span> k)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(y <span class="sc">~</span> x, <span class="at">data =</span> demo, <span class="at">type =</span> <span class="st">"p"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"True (dotted) and modeled (solid) relationship"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"darkgray"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(grid_x<span class="sc">$</span>x, grid_x<span class="sc">$</span>fit1, <span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">col =</span> tableau10[<span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
-<div id="fig-overfit-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-truefit-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-overfit-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="10-comparing-models_files/figure-html/fig-overfit-tinyplot-1.png" class="img-fluid figure-img" width="1050">
+<div aria-describedby="fig-truefit-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-truefit-tinyplot-1.png" class="img-fluid figure-img" width="1050">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overfit-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10.1: Ten points from a straight line, fitted with polynomials of increasing degree. The dotted line is the true process.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-truefit-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.1: Ten points from a known process. The dotted line is the true relationship and the solid line is the fitted one.
 </figcaption>
 </figure>
 </div>
@@ -497,16 +494,75 @@ Figure&nbsp;10.1: Ten points from a straight line, fitted with polynomials of in
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), \(k)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> grid_x<span class="sc">$</span>x, <span class="at">fit =</span> grid_x[[<span class="fu">paste0</span>(<span class="st">"fit"</span>, k)]],</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">degree =</span> <span class="fu">paste</span>(<span class="st">"degree"</span>, k))) <span class="sc">|&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(demo, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> long, <span class="fu">aes</span>(<span class="at">y =</span> fit, <span class="at">linetype =</span> degree)) <span class="sc">+</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"y"</span>, <span class="at">linetype =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(demo, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> tableau10[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="fl">0.5</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">color =</span> <span class="st">"darkgray"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> grid_x, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> fit1),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> tableau10[<span class="dv">1</span>], <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"True (dotted) and modeled (solid) relationship"</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-truefit-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-truefit-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-truefit-ggplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-truefit-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.2: Ten points from a known process. The dotted line is the true relationship and the solid line is the fitted one.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>I have drawn the data and the fitted regression line, which, of course, isn’t <em>exactly</em> the same as the actual data generating process. The estimated regression line consistently overestimates the value of <span class="math inline">\(Y_i\)</span> that would come from the true model.</p>
+<p>We want to do better if we can, so maybe we should make the model more complicated? Here’s us trying to use more and more complex models (i.e., higher degree polynomials) to improve the fit.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">ggplot2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(y <span class="sc">~</span> x, <span class="at">data =</span> demo, <span class="at">type =</span> <span class="st">"p"</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">range</span>(<span class="fu">c</span>(demo<span class="sc">$</span>y, grid_x<span class="sc">$</span>fit5)),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"x"</span>, <span class="at">ylab =</span> <span class="st">"y"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>)) {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(grid_x<span class="sc">$</span>x, grid_x[[<span class="fu">paste0</span>(<span class="st">"fit"</span>, k)]], <span class="at">lwd =</span> <span class="fl">1.5</span>, <span class="at">lty =</span> k)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-overfit-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-overfit-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-overfit-tinyplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overfit-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.3: Ten points from a straight line, fitted with polynomials of increasing degree. The dotted line is the true process.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>long <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>), \(k)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">x =</span> grid_x<span class="sc">$</span>x, <span class="at">fit =</span> grid_x[[<span class="fu">paste0</span>(<span class="st">"fit"</span>, k)]],</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">degree =</span> <span class="fu">paste</span>(<span class="st">"degree"</span>, k))) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list_rbind</span>()</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(demo, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">slope =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> long, <span class="fu">aes</span>(<span class="at">y =</span> fit, <span class="at">linetype =</span> degree)) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"x"</span>, <span class="at">y =</span> <span class="st">"y"</span>, <span class="at">linetype =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-overfit-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -514,7 +570,7 @@ Figure&nbsp;10.1: Ten points from a straight line, fitted with polynomials of in
 <img src="10-comparing-models_files/figure-html/fig-overfit-ggplot-1.png" class="img-fluid figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-overfit-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10.2: Ten points from a straight line, fitted with polynomials of increasing degree. The dotted line is the true process.
+Figure&nbsp;10.4: Ten points from a straight line, fitted with polynomials of increasing degree. The dotted line is the true process.
 </figcaption>
 </figure>
 </div>
@@ -524,13 +580,13 @@ Figure&nbsp;10.2: Ten points from a straight line, fitted with polynomials of in
 </div>
 </div>
 <p>The polynomials end up “chasing” weird data points in ways that actually make our true understanding worse. This is called <strong>overfitting</strong> and it’s the main reason we don’t want to make models too complicated.</p>
-<p>In sample, it looks like progress:</p>
+<p>If we just look at in-sample fit, the more complicated models look better and better:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">degree =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">RSS =</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, \(k) <span class="fu">round</span>(<span class="fu">deviance</span>(<span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, k), <span class="at">data =</span> demo)), <span class="dv">3</span>)),</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">R2  =</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, \(k) <span class="fu">round</span>(<span class="fu">summary</span>(<span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, k), <span class="at">data =</span> demo))<span class="sc">$</span>r.squared, <span class="dv">3</span>))</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">degree =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">RSS =</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, \(k) <span class="fu">round</span>(<span class="fu">deviance</span>(<span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, k), <span class="at">data =</span> demo)), <span class="dv">3</span>)),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">R2  =</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, \(k) <span class="fu">round</span>(<span class="fu">summary</span>(<span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, k), <span class="at">data =</span> demo))<span class="sc">$</span>r.squared, <span class="dv">3</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  degree   RSS    R2
 1      1 7.266 0.376
@@ -546,78 +602,79 @@ Figure&nbsp;10.2: Ten points from a straight line, fitted with polynomials of in
 <p>The number “2” in the AIC formula isn’t arbitrary. It’s because adding extra parameters is <em>expected</em> to make the deviance worse out of sample at <em>precisely the rate of two per “extra” parameter</em>.</p>
 <p>Here’s a simulation based loosely on the one in Richard McElreath’s <em>Statistical Rethinking</em>. The steps are:</p>
 <ol type="1">
-<li>Draw a sample of size N from a known process (the same as the model above); call this the <em>training set</em>. We do this at two sample sizes, N = 20 and N = 100.</li>
+<li>Draw a sample of size N from a known process (the same as the model above); call this the <em>training set</em>.</li>
 <li>Estimate a series of regression models on the training set, ranging from a linear model to a 5th degree polynomial.</li>
 <li>Assess how well these models predict <em>another</em> data set of the same N drawn from the <em>same process</em>.</li>
 </ol>
+<p>Here are the results for two situations, N = 20 and N = 100 (not that the N really matters here).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>get_tt_devs <span class="ot">&lt;-</span> <span class="cf">function</span>(n, b0, b1, s, k) {</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="at">length =</span> n)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> b0 <span class="sc">+</span> b1<span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, s)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, k))</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  ll_train <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(fit))</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  test_y <span class="ot">&lt;-</span> b0 <span class="sc">+</span> b1<span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, s)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  pred_y <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  test_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(test_y <span class="sc">~</span> pred_y)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  ll_test <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(test_fit))</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">train =</span> ll_train,</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">test =</span> ll_test)</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>mysims <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">simnum =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>,</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">100</span>)</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>mysims <span class="ot">&lt;-</span> mysims <span class="sc">|&gt;</span></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outs =</span> <span class="fu">list</span>(<span class="fu">get_tt_devs</span>(</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n, <span class="at">b0 =</span> <span class="dv">0</span>, <span class="at">b1 =</span> .<span class="dv">5</span>, <span class="at">s =</span> <span class="dv">1</span>, <span class="at">k =</span> k))) <span class="sc">|&gt;</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_wider</span>(outs) <span class="sc">|&gt;</span></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(k, n) <span class="sc">|&gt;</span></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(train, test),</span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">sd =</span> sd),</span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}_{.fn}"</span>),</span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(k, n),</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"sample"</span>, <span class="st">".value"</span>),</span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_sep =</span> <span class="st">"_"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ymax =</span> mean <span class="sc">+</span> sd<span class="sc">/</span><span class="fu">sqrt</span>(n),</span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>         <span class="at">ymin =</span> mean <span class="sc">-</span> sd<span class="sc">/</span><span class="fu">sqrt</span>(n),</span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>         <span class="at">nfac =</span> <span class="fu">ordered</span>(n, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"n = 20"</span>, <span class="st">"n = 100"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>get_tt_devs <span class="ot">&lt;-</span> <span class="cf">function</span>(n, b0, b1, s, k) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="at">length =</span> n)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> b0 <span class="sc">+</span> b1<span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, s)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, k))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  ll_train <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(fit))</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  test_y <span class="ot">&lt;-</span> b0 <span class="sc">+</span> b1<span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, s)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  pred_y <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  test_fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(test_y <span class="sc">~</span> pred_y)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  ll_test <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="sc">-</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(test_fit))</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">train =</span> ll_train,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">test =</span> ll_test)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>mysims <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">simnum =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>,</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">100</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>mysims <span class="ot">&lt;-</span> mysims <span class="sc">|&gt;</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">outs =</span> <span class="fu">list</span>(<span class="fu">get_tt_devs</span>(</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> n, <span class="at">b0 =</span> <span class="dv">0</span>, <span class="at">b1 =</span> .<span class="dv">5</span>, <span class="at">s =</span> <span class="dv">1</span>, <span class="at">k =</span> k))) <span class="sc">|&gt;</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_wider</span>(outs) <span class="sc">|&gt;</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(k, n) <span class="sc">|&gt;</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(train, test),</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">mean =</span> mean, <span class="at">sd =</span> sd),</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">.names =</span> <span class="st">"{.col}_{.fn}"</span>),</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(k, n),</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"sample"</span>, <span class="st">".value"</span>),</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_sep =</span> <span class="st">"_"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ymax =</span> mean <span class="sc">+</span> sd<span class="sc">/</span><span class="fu">sqrt</span>(n),</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>         <span class="at">ymin =</span> mean <span class="sc">-</span> sd<span class="sc">/</span><span class="fu">sqrt</span>(n),</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>         <span class="at">nfac =</span> <span class="fu">ordered</span>(n, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"n = 20"</span>, <span class="st">"n = 100"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">ggplot2</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
-<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(mean <span class="sc">~</span> k <span class="sc">|</span> sample,</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> mysims,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymin =</span> ymin,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymax =</span> ymax,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="fu">type_pointrange</span>(<span class="at">dodge =</span> .<span class="dv">01</span>),</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"In- and out-of-sample deviance"</span>,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Deviance"</span>,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"# of betas (true model = 1)"</span>,</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">facet =</span> nfac,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">facet.args =</span> <span class="fu">list</span>(<span class="at">free =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(mean <span class="sc">~</span> k <span class="sc">|</span> sample,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> mysims,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymin =</span> ymin,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ymax =</span> ymax,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="fu">type_pointrange</span>(<span class="at">dodge =</span> .<span class="dv">01</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"In- and out-of-sample deviance"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Deviance"</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"# of betas (true model = 1)"</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">facet =</span> nfac,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">facet.args =</span> <span class="fu">list</span>(<span class="at">free =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-traintest-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -625,20 +682,20 @@ Figure&nbsp;10.2: Ten points from a straight line, fitted with polynomials of in
 <img src="10-comparing-models_files/figure-html/fig-traintest-tinyplot-1.png" class="img-fluid figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-traintest-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10.3: In- and out-of-sample deviance as models get more complex, at two sample sizes. The true model has one beta.
+Figure&nbsp;10.5: In- and out-of-sample deviance as models get more complex, at two sample sizes. The true model has one beta.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mysims, <span class="fu">aes</span>(<span class="at">x =</span> k, <span class="at">y =</span> mean, <span class="at">color =</span> sample)) <span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> ymin, <span class="at">ymax =</span> ymax),</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.2</span>)) <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> nfac, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"# of betas (true model = 1)"</span>, <span class="at">y =</span> <span class="st">"Deviance"</span>, <span class="at">color =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mysims, <span class="fu">aes</span>(<span class="at">x =</span> k, <span class="at">y =</span> mean, <span class="at">color =</span> sample)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_pointrange</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> ymin, <span class="at">ymax =</span> ymax),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.2</span>)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> nfac, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"# of betas (true model = 1)"</span>, <span class="at">y =</span> <span class="st">"Deviance"</span>, <span class="at">color =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-traintest-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -646,7 +703,7 @@ Figure&nbsp;10.3: In- and out-of-sample deviance as models get more complex, at 
 <img src="10-comparing-models_files/figure-html/fig-traintest-ggplot-1.png" class="img-fluid figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-traintest-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10.4: In- and out-of-sample deviance as models get more complex, at two sample sizes. The true model has one beta.
+Figure&nbsp;10.6: In- and out-of-sample deviance as models get more complex, at two sample sizes. The true model has one beta.
 </figcaption>
 </figure>
 </div>
@@ -655,14 +712,14 @@ Figure&nbsp;10.4: In- and out-of-sample deviance as models get more complex, at 
 </div>
 </div>
 </div>
-<p>Increasingly complex models do an increasingly <em>good</em> job of fitting the <em>training</em> (in-sample) data but an increasingly <em>bad</em> job of fitting the <em>test</em> (out-of-sample) data. The size of that penalty is the point:</p>
+<p>This graph shows how this works for the two sample sizes. As you can see, increasingly complex models do an increasingly <em>good</em> job of fitting the <em>training</em> (in-sample) data but do an increasingly <em>bad</em> job of fitting the <em>test</em> (out-of-sample) data. In fact, the deviance difference is 2 per excess parameter. Here are the gaps between the test and training deviance:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mysims <span class="sc">|&gt;</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(k, nfac, sample, mean) <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> sample, <span class="at">values_from =</span> mean) <span class="sc">|&gt;</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gap =</span> <span class="fu">round</span>(test <span class="sc">-</span> train, <span class="dv">2</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(k, nfac, gap) <span class="sc">|&gt;</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> nfac, <span class="at">values_from =</span> gap)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mysims <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(k, nfac, sample, mean) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> sample, <span class="at">values_from =</span> mean) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">gap =</span> <span class="fu">round</span>(test <span class="sc">-</span> train, <span class="dv">2</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(k, nfac, gap) <span class="sc">|&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> nfac, <span class="at">values_from =</span> gap)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 x 3
       k `n = 20` `n = 100`
@@ -674,15 +731,81 @@ Figure&nbsp;10.4: In- and out-of-sample deviance as models get more complex, at 
 5     5     8.17      7.43</code></pre>
 </div>
 </div>
-<p>At the true model (<span class="math inline">\(k = 1\)</span>) the gap is essentially zero, and every extra parameter adds about 2 deviance units out of sample. This is why the AIC’s penalty is <span class="math inline">\(2k\)</span>.</p>
+<p>Each extra parameter adds about 2 to the gap. This is why the AIC’s penalty is <span class="math inline">\(2k\)</span>.</p>
 </section>
 <section id="implied-p-value" class="level3" data-number="10.1.4">
 <h3 data-number="10.1.4" class="anchored" data-anchor-id="implied-p-value"><span class="header-section-number">10.1.4</span> Implied <em>p</em>-value</h3>
 <p>If we’re considering two models, one more complicated and one less complicated, we can think about the <em>implied p-value</em> of the comparison. That is, we can ask what the p-value would be to make the same decision of rejecting the simpler model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(<span class="dv">2</span>, <span class="at">df =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(<span class="dv">2</span>, <span class="at">df =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1572992</code></pre>
+</div>
+</div>
+<p>The same logic works when the models differ by more than one parameter.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Data prep</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>aic_to_p <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta_k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(<span class="dv">2</span> <span class="sc">*</span> delta_k, <span class="at">df =</span> delta_k)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">ggplot2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-4-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(p <span class="sc">~</span> delta_k,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> aic_to_p,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"b"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"AIC model preference and implied p-value"</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Implied LRT p-value"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="fu">expression</span>(Delta <span class="sc">*</span> <span class="st">"k"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-aicp-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-aicp-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-aicp-tinyplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-aicp-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.7: The p-value implied by preferring the model with the lower AIC.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-4-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-4-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(aic_to_p, <span class="fu">aes</span>(<span class="at">x =</span> delta_k, <span class="at">y =</span> p)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> tableau10[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> tableau10[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"AIC model preference and implied p-value"</span>,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Implied LRT p-value"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">expression</span>(Delta <span class="sc">*</span> <span class="st">"k"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-aicp-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-aicp-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-aicp-ggplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-aicp-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.8: The p-value implied by preferring the model with the lower AIC.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <p>As we see here, the implied p-value for a one-parameter comparison is much more “liberal” than any p-value that one would choose.</p>
@@ -691,22 +814,22 @@ Figure&nbsp;10.4: In- and out-of-sample deviance as models get more complex, at 
 <h3 data-number="10.1.5" class="anchored" data-anchor-id="example-use"><span class="header-section-number">10.1.5</span> Example use</h3>
 <p>Let’s do a very simple model comparison using AIC.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mod_c <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> states)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>mod_a <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad, <span class="at">data =</span> states)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">AIC_c =</span> <span class="fu">AIC</span>(mod_c), <span class="at">AIC_a =</span> <span class="fu">AIC</span>(mod_a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mod_c <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> states)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>mod_a <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad, <span class="at">data =</span> states)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">AIC_c =</span> <span class="fu">AIC</span>(mod_c), <span class="at">AIC_a =</span> <span class="fu">AIC</span>(mod_a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   AIC_c    AIC_a 
 174.3291 155.6309 </code></pre>
 </div>
 </div>
 <p>As you can see, AIC prefers the model that conditions our expectations of <code>life_exp</code> on <code>hs_grad</code>.</p>
-<p>Now turn AIC loose on the overfitting demo, where we know the true model is the straight line:</p>
+<p>Let’s also try AIC on the overfitting example from above, where we know the true model is a straight line:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">degree =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">AIC =</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, \(k) <span class="fu">round</span>(<span class="fu">AIC</span>(<span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, k), <span class="at">data =</span> demo)), <span class="dv">2</span>))</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">degree =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">AIC =</span> <span class="fu">map_dbl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, \(k) <span class="fu">round</span>(<span class="fu">AIC</span>(<span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, k), <span class="at">data =</span> demo)), <span class="dv">2</span>))</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  degree   AIC
 1      1 31.19
@@ -716,7 +839,7 @@ Figure&nbsp;10.4: In- and out-of-sample deviance as models get more complex, at 
 5      5 33.54</code></pre>
 </div>
 </div>
-<p>AIC stops the runaway that RSS could not, and rates degrees 2, 4, and 5 worse than the straight line. But it prefers <strong>degree 3</strong>, which is wrong. With ten observations and noise as large as the signal, no criterion can reliably identify a true model. AIC is a better guide than in-sample fit.</p>
+<p>AIC doesn’t just keep rewarding more complicated models the way RSS does. It rates degrees 2, 4, and 5 worse than the straight line. But it prefers <strong>degree 3</strong>, which is wrong! With only ten observations and this much noise, no method is going to reliably find the true model. But AIC is still a better guide than in-sample fit.</p>
 </section>
 </section>
 <section id="bic" class="level2 page-columns page-full" data-number="10.2">
@@ -724,6 +847,7 @@ Figure&nbsp;10.4: In- and out-of-sample deviance as models get more complex, at 
 <p>The <strong>BIC</strong> or <strong>Bayesian Information Criterion</strong> is like the AIC, but different. In practice, it’s the same as the AIC except with a larger penalty term. It also gets used in the same basic way: take the model with the lower BIC.</p>
 <section id="definition-1" class="level3" data-number="10.2.1">
 <h3 data-number="10.2.1" class="anchored" data-anchor-id="definition-1"><span class="header-section-number">10.2.1</span> Definition</h3>
+<p>Here is the formula for the BIC:</p>
 <p><span class="math display">\[\text{BIC} = D + k\log n\]</span></p>
 <p>Whereas the AIC always has a penalty term of two times the number of parameters, the BIC has a penalty term that’s the <em>natural log of the sample size</em> times the number of parameters. So for a regression on a model with N = 300, adding an additional parameter would have to decrease the deviance by more than 5.7 for that to be considered an improvement.</p>
 </section>
@@ -736,22 +860,81 @@ Figure&nbsp;10.4: In- and out-of-sample deviance as models get more complex, at 
 <p>The different penalty term comes here because the BIC is set up to do a different job. The difference between two models’ BICs is a large-sample approximation to a <em>Bayes’ Factor</em> (BF). The BF is how much more likely one model is compared to another. So if, say, the BF of <span class="math inline">\(M_1\)</span> vs.&nbsp;<span class="math inline">\(M_0\)</span> is 4, that means that <span class="math inline">\(M_1\)</span> is four times more likely to be the true model. If those are the <em>only</em> two models we are considering, then <span class="math inline">\(M_1\)</span> has an 80% chance of being the true model.</p>
 <p>We can convert the difference between two BICs into a BF<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> as follows:</p>
 <div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;This formula (and this whole section) assumes we have no prior preference for either model before looking at the data. That’s not something we’re going to discuss further here. But go read the paper!</p></div></div><p><span class="math display">\[\text{BF}_{10} = \exp \left( -\frac{1}{2} \Delta \text{BIC} \right)\]</span></p>
-<p>And if we’re only considering two models, we can convert Bayes’ factors into posterior probabilities as follows:</p>
-<p><span class="math display">\[P(M_1 | \text{data}) = \frac{\text{BF}_{01}}{1 + \text{BF}_{01}}\]</span></p>
+<p>Just to build your intuition, here’s a graph showing the relationship between BIC difference and BF.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>delta_bic <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">0</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>bayes_factor <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> delta_bic)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> bayes_factor <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> bayes_factor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>delta_bic <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">0</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>bayes_factor <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> delta_bic)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>posterior <span class="ot">&lt;-</span> bayes_factor <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> bayes_factor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">ggplot2</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-5-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-1" role="tab" aria-controls="tabset-5-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-5-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-5-2" role="tab" aria-controls="tabset-5-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
-<div id="tabset-3-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-3-1-tab">
+<div id="tabset-5-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-5-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(posterior <span class="sc">~</span> delta_bic, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Difference in BIC"</span>, <span class="at">ylab =</span> <span class="st">"Posterior probability"</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.5</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(bayes_factor <span class="sc">~</span> delta_bic,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">2</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">10</span>),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"BIC difference and Bayes Factor"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="fu">expression</span>(<span class="st">"BF"</span>[<span class="st">"01"</span>]),</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="fu">expression</span>(<span class="st">"BIC"</span>[<span class="dv">1</span>] <span class="sc">-</span> <span class="st">"BIC"</span>[<span class="dv">0</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-bic-bfcurve-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bic-bfcurve-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-bic-bfcurve-tinyplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bic-bfcurve-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.9: BIC differences and Bayes factors.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-5-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-5-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(delta_bic, bayes_factor), <span class="fu">aes</span>(<span class="at">x =</span> delta_bic, <span class="at">y =</span> bayes_factor)) <span class="sc">+</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> tableau10[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_reverse</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"BIC difference and Bayes Factor"</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fu">expression</span>(<span class="st">"BF"</span>[<span class="st">"01"</span>]),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">expression</span>(<span class="st">"BIC"</span>[<span class="dv">1</span>] <span class="sc">-</span> <span class="st">"BIC"</span>[<span class="dv">0</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-bic-bfcurve-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bic-bfcurve-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-bic-bfcurve-ggplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bic-bfcurve-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.10: BIC differences and Bayes factors.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>And if we’re only considering two models, we can convert Bayes’ factors into posterior probabilities as follows:</p>
+<p><span class="math display">\[P(M_1 | \text{data}) = \frac{\text{BF}_{01}}{1 + \text{BF}_{01}}\]</span></p>
+<p>The graph below shows how BIC differences become posterior model probabilities.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">ggplot2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-6-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-6-1-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(posterior <span class="sc">~</span> delta_bic, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Difference in BIC"</span>, <span class="at">ylab =</span> <span class="st">"Posterior probability"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.5</span>, <span class="at">lty =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-bic-bf-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -759,19 +942,19 @@ Figure&nbsp;10.4: In- and out-of-sample deviance as models get more complex, at 
 <img src="10-comparing-models_files/figure-html/fig-bic-bf-tinyplot-1.png" class="img-fluid figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bic-bf-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10.5: How BIC differences become posterior model probabilities.
+Figure&nbsp;10.11: How BIC differences become posterior model probabilities.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </div>
-<div id="tabset-3-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-3-2-tab">
+<div id="tabset-6-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-6-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(delta_bic, posterior), <span class="fu">aes</span>(<span class="at">x =</span> delta_bic, <span class="at">y =</span> posterior)) <span class="sc">+</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Difference in BIC"</span>, <span class="at">y =</span> <span class="st">"Posterior probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(delta_bic, posterior), <span class="fu">aes</span>(<span class="at">x =</span> delta_bic, <span class="at">y =</span> posterior)) <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fl">0.5</span>, <span class="at">linetype =</span> <span class="st">"dotted"</span>) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Difference in BIC"</span>, <span class="at">y =</span> <span class="st">"Posterior probability"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-bic-bf-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -779,7 +962,7 @@ Figure&nbsp;10.5: How BIC differences become posterior model probabilities.
 <img src="10-comparing-models_files/figure-html/fig-bic-bf-ggplot-1.png" class="img-fluid figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bic-bf-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;10.6: How BIC differences become posterior model probabilities.
+Figure&nbsp;10.12: How BIC differences become posterior model probabilities.
 </figcaption>
 </figure>
 </div>
@@ -789,12 +972,12 @@ Figure&nbsp;10.6: How BIC differences become posterior model probabilities.
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta_BIC =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">6</span>, <span class="sc">-</span><span class="dv">10</span>),</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">bayes_factor =</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">6</span>, <span class="sc">-</span><span class="dv">10</span>)), <span class="dv">1</span>),</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">posterior =</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">6</span>, <span class="sc">-</span><span class="dv">10</span>)) <span class="sc">/</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                    (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">6</span>, <span class="sc">-</span><span class="dv">10</span>))), <span class="dv">3</span>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta_BIC =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">6</span>, <span class="sc">-</span><span class="dv">10</span>),</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">bayes_factor =</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">6</span>, <span class="sc">-</span><span class="dv">10</span>)), <span class="dv">1</span>),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">posterior =</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">6</span>, <span class="sc">-</span><span class="dv">10</span>)) <span class="sc">/</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                    (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">exp</span>(<span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">6</span>, <span class="sc">-</span><span class="dv">10</span>))), <span class="dv">3</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  delta_BIC bayes_factor posterior
 1         0          1.0     0.500
@@ -803,24 +986,238 @@ Figure&nbsp;10.6: How BIC differences become posterior model probabilities.
 4       -10        148.4     0.993</code></pre>
 </div>
 </div>
-<p>Based on these, you can see that BIC differences of 10 or more are very strong evidence that one model is a much better fit than the other.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<p>Based on these graphs, you can see that BIC differences of 10 or more are very strong evidence that one model is a much better fit than the other.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
 <div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;Of course, you need to make sure that any models you compare are reasonable candidates. For example, models where the future predicts the past might be a great fit to the data, but they should never be estimated in the first place! So things like the AIC and BIC don’t in any way exempt you from having to think scientifically.</p></div></div></section>
 <section id="implied-p-values" class="level3" data-number="10.2.4">
 <h3 data-number="10.2.4" class="anchored" data-anchor-id="implied-p-values"><span class="header-section-number">10.2.4</span> Implied <em>p</em>-values</h3>
-<p>As discussed above, we don’t use AIC and BIC to control Type I error like we do for null hypothesis tests. Nevertheless, here are the p-values implied by the “take the lower” BIC decision rule, for a one-parameter comparison at different sample sizes.</p>
+<p>As I discussed above, we don’t use AIC and BIC to control Type I error like we do for null hypothesis tests. Nevertheless, here are the p-values implied by the “take the lower” BIC decision rule.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">2000</span>),</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">deviance_drop_needed =</span> <span class="fu">round</span>(<span class="fu">log</span>(<span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">2000</span>)), <span class="dv">2</span>),</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">implied_p =</span> <span class="fu">round</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(<span class="fu">log</span>(<span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">2000</span>)), <span class="at">df =</span> <span class="dv">1</span>), <span class="dv">4</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>     n deviance_drop_needed implied_p
-1   20                 3.00    0.0835
-2   50                 3.91    0.0479
-3  100                 4.61    0.0319
-4 1000                 6.91    0.0086
-5 2000                 7.60    0.0058</code></pre>
+<details class="code-fold">
+<summary>Data prep</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>bic_to_p <span class="ot">&lt;-</span> <span class="fu">expand_grid</span>(</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta_k =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">100</span>, <span class="dv">400</span>, <span class="dv">1600</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(<span class="fu">log</span>(n) <span class="sc">*</span> delta_k, <span class="at">df =</span> delta_k),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">logp =</span> <span class="fu">log10</span>(p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">ggplot2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-7-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-7-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(p <span class="sc">~</span> delta_k <span class="sc">|</span> <span class="fu">factor</span>(n),</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> bic_to_p,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"b"</span>,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"BIC model preference and implied p-value"</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub  =</span> <span class="st">"Reference lines at .05 and .01"</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"LRT p-value"</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">08</span>),</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="fu">expression</span>(Delta <span class="sc">*</span> <span class="st">"k"</span>),</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend =</span> <span class="fu">list</span>(<span class="st">"bottomright!"</span>, <span class="at">title =</span> <span class="st">"N"</span>))</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> .<span class="dv">05</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"darkgray"</span>)</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> .<span class="dv">01</span>), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"darkgray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-bicp-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bicp-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-bicp-tinyplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bicp-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.13: The p-value implied by preferring the model with the lower BIC.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-7-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-7-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bic_to_p, <span class="fu">aes</span>(<span class="at">x =</span> delta_k, <span class="at">y =</span> p, <span class="at">color =</span> <span class="fu">factor</span>(n))) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> .<span class="dv">05</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"darkgray"</span>) <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> .<span class="dv">01</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"darkgray"</span>) <span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, .<span class="dv">08</span>)) <span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"BIC model preference and implied p-value"</span>,</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Reference lines at .05 and .01"</span>,</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"LRT p-value"</span>,</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">expression</span>(Delta <span class="sc">*</span> <span class="st">"k"</span>),</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"N"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-bicp-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bicp-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-bicp-ggplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bicp-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.14: The p-value implied by preferring the model with the lower BIC.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>This is more complicated than the AIC graph because the results depend on the sample size. But in any case, you can see that the implied p-values are much stricter.</p>
+<p>We can make this a little easier to see by looking at the same information with base-10 log p-value on the y-axis.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-8-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-1" role="tab" aria-controls="tabset-8-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-8-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-8-2" role="tab" aria-controls="tabset-8-2" aria-selected="false">ggplot2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-8-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-8-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(logp <span class="sc">~</span> delta_k <span class="sc">|</span> <span class="fu">factor</span>(n),</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> bic_to_p,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"b"</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"BIC model preference and implied log p-value"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub  =</span> <span class="st">"Reference lines at .05, .01, and .001"</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"LRT log10 p-value"</span>,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="fu">expression</span>(Delta <span class="sc">*</span> <span class="st">"k"</span>),</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend =</span> <span class="fu">list</span>(<span class="st">"bottomright!"</span>, <span class="at">title =</span> <span class="st">"N"</span>))</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> <span class="fu">log10</span>(.<span class="dv">05</span>)),  <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"darkgray"</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> <span class="fu">log10</span>(.<span class="dv">01</span>)),  <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"darkgray"</span>)</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plt_add</span>(<span class="at">type =</span> <span class="fu">type_hline</span>(<span class="at">h =</span> <span class="fu">log10</span>(.<span class="dv">001</span>)), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"darkgray"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-biclogp-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-biclogp-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-biclogp-tinyplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-biclogp-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.15: The same implied p-values, on a log scale.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-8-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-8-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bic_to_p, <span class="fu">aes</span>(<span class="at">x =</span> delta_k, <span class="at">y =</span> logp, <span class="at">color =</span> <span class="fu">factor</span>(n))) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">log10</span>(.<span class="dv">05</span>),  <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"darkgray"</span>) <span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">log10</span>(.<span class="dv">01</span>),  <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"darkgray"</span>) <span class="sc">+</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">log10</span>(.<span class="dv">001</span>), <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"darkgray"</span>) <span class="sc">+</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"BIC model preference and implied log p-value"</span>,</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Reference lines at .05, .01, and .001"</span>,</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"LRT log10 p-value"</span>,</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fu">expression</span>(Delta <span class="sc">*</span> <span class="st">"k"</span>),</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"N"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-biclogp-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-biclogp-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-biclogp-ggplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-biclogp-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.16: The same implied p-values, on a log scale.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Finally, since right now we’re focused primarily on comparing models with only one parameter difference, let’s look at the implied p-value difference for such comparisons with different sample sizes.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Data prep</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>bic_to_p1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">n =</span> <span class="fu">seq</span>(<span class="dv">100</span>, <span class="dv">45000</span>, <span class="dv">100</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">p =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pchisq</span>(<span class="fu">log</span>(n), <span class="at">df =</span> <span class="dv">1</span>),</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">logp =</span> <span class="fu">log10</span>(p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false">ggplot2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-9-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-9-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(logp <span class="sc">~</span> n,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> bic_to_p1,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">2</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="fu">expression</span>(<span class="st">"Implied BIC p-value for"</span> <span class="sc">~</span> Delta <span class="sc">*</span> <span class="st">"k = 1"</span>),</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"p-value (log10 scale)"</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Sample size"</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxl =</span> <span class="st">"comma"</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">xaxb =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">45000</span>, <span class="dv">5000</span>),</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxb =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">2</span>),</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxl =</span> <span class="cf">function</span>(z) {</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">sub</span>(<span class="st">"^0</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">"."</span>, <span class="fu">format</span>(<span class="dv">10</span><span class="sc">^</span>z, <span class="at">scientific =</span> <span class="cn">FALSE</span>, <span class="at">trim =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    })</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in tinylabel(args$at, labeller): unable to translate '&lt;U+20AC&gt;' to
+native encoding</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in tinylabel(args$at, labeller): unable to translate '&lt;U+00A3&gt;' to
+native encoding</code></pre>
+</div>
+<div class="cell-output-display">
+<div id="fig-bicp1-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bicp1-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-bicp1-tinyplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bicp1-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.17: The p-value implied by BIC for a one-parameter comparison, by sample size.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-9-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-9-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bic_to_p1, <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> logp)) <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> tableau10[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span>comma,</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">45000</span>, <span class="dv">5000</span>)) <span class="sc">+</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="sc">-</span><span class="dv">3</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="sc">-</span><span class="dv">1</span>),</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="cf">function</span>(z) <span class="fu">sub</span>(<span class="st">"^0</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">"."</span>, <span class="fu">format</span>(<span class="dv">10</span><span class="sc">^</span>z, <span class="at">scientific =</span> <span class="cn">FALSE</span>, <span class="at">trim =</span> <span class="cn">TRUE</span>))) <span class="sc">+</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">expression</span>(<span class="st">"Implied BIC p-value for"</span> <span class="sc">~</span> Delta <span class="sc">*</span> <span class="st">"k = 1"</span>),</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"p-value (log10 scale)"</span>,</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Sample size"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-bicp1-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bicp1-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-comparing-models_files/figure-html/fig-bicp1-ggplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bicp1-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.18: The p-value implied by BIC for a one-parameter comparison, by sample size.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <p>In all these cases, it’s easy to see that using the BIC as a model selection decision rule is functionally equivalent to choosing a much smaller <span class="math inline">\(\alpha\)</span> level than is conventional in social and behavioral science. For that reason, I think it’s a good choice for self-discipline.</p>
@@ -829,7 +1226,7 @@ Figure&nbsp;10.6: How BIC differences become posterior model probabilities.
 <h3 data-number="10.2.5" class="anchored" data-anchor-id="example-use-1"><span class="header-section-number">10.2.5</span> Example use</h3>
 <p>In R, getting the BIC is just as easy as getting the AIC.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">BIC_c =</span> <span class="fu">BIC</span>(mod_c), <span class="at">BIC_a =</span> <span class="fu">BIC</span>(mod_a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">BIC_c =</span> <span class="fu">BIC</span>(mod_c), <span class="at">BIC_a =</span> <span class="fu">BIC</span>(mod_a))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   BIC_c    BIC_a 
 178.1532 161.3670 </code></pre>
@@ -841,24 +1238,24 @@ Figure&nbsp;10.6: How BIC differences become posterior model probabilities.
 <section id="concluding-thoughts" class="level2" data-number="10.3">
 <h2 data-number="10.3" class="anchored" data-anchor-id="concluding-thoughts"><span class="header-section-number">10.3</span> Concluding thoughts</h2>
 <p>AIC and BIC are useful ways to think about model selection without having to commit either to full null-hypothesis significance testing (which has some issues, especially when you think about it) or to full Bayesian statistics (which is pretty complex for beginners).</p>
-<p>These approaches have another advantage, which is that we can use them to compare <strong>non-nested</strong> models. All the models we’ve seen so far have been <strong>nested</strong>, which means the simpler model is a subset of the more complex model. You can only use <span class="math inline">\(F\)</span> tests and LRTs to compare nested models.</p>
-<p>Suppose you want to know whether life expectancy is better described by graduation rates or by the murder rate. Neither model contains the other.</p>
+<p>These approaches have another advantage that we might not quite be ready to appreciate, which is that we can use them to compare <strong>non-nested</strong> models. All the models we’ve seen so far have been <strong>nested</strong>, which means the simpler model is a subset of the more complex model. You can only use <span class="math inline">\(F\)</span> tests and LRTs to compare nested models.</p>
+<p>For example, is life expectancy better predicted by graduation rates or by the murder rate? Neither model is nested in the other.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>by_grad   <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad, <span class="at">data =</span> states)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>by_murder <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> Murder,  <span class="at">data =</span> states)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="fu">c</span>(<span class="st">"graduation"</span>, <span class="st">"murder"</span>),</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">AIC =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">AIC</span>(by_grad), <span class="fu">AIC</span>(by_murder)), <span class="dv">1</span>),</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">BIC =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">BIC</span>(by_grad), <span class="fu">BIC</span>(by_murder)), <span class="dv">1</span>)</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>by_grad   <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad, <span class="at">data =</span> states)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>by_murder <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> Murder,  <span class="at">data =</span> states)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="fu">c</span>(<span class="st">"graduation"</span>, <span class="st">"murder"</span>),</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">AIC =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">AIC</span>(by_grad), <span class="fu">AIC</span>(by_murder)), <span class="dv">1</span>),</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">BIC =</span> <span class="fu">round</span>(<span class="fu">c</span>(<span class="fu">BIC</span>(by_grad), <span class="fu">BIC</span>(by_murder)), <span class="dv">1</span>)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       model   AIC   BIC
 1 graduation 155.6 161.4
 2     murder 129.3 135.0</code></pre>
 </div>
 </div>
-<p>An F test cannot compare these. The murder-rate model has the lower AIC and BIC by a wide margin, and information criteria are the only tool in this book that can tell us so.</p>
+<p>We can’t use an F test to compare these, but we can compare their AICs and BICs. The murder-rate model is better by a wide margin.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">

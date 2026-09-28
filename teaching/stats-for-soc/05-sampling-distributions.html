@@ -418,15 +418,15 @@ window.Quarto = {
 </header>
 
 
-<p>We will use simulations to understand sampling distributions. <a href="02-surveys-samples.html" class="quarto-xref"><span>Chapter 2</span></a> built the object without naming it; <a href="04-prediction-error.html" class="quarto-xref"><span>Chapter 4</span></a> ended by needing it. Now we name it, work out how wide it is without simulating, and turn that width into a statement about what we do and don’t know.</p>
+<p>We will use simulations to understand sampling distributions. We already saw these in <a href="02-surveys-samples.html" class="quarto-xref"><span>Chapter 2</span></a> without giving them a name, and at the end of <a href="04-prediction-error.html" class="quarto-xref"><span>Chapter 4</span></a> I said we’d need them. Now we’ll define them properly and use them to say how uncertain our estimates are.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>gss <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">zap_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="the-sampling-distribution" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="the-sampling-distribution"><span class="header-section-number">5.1</span> The sampling distribution</h2>
-<p>The <strong>sampling distribution</strong> is the distribution that we would get if we did simulations like these infinite times. (Again, <strong><em>not</em></strong> infinite sample size but infinite simulations of a given sample size!) Thanks to the CLT, we know exactly how these would look.</p>
-<p>That example was from a Bernoulli distribution but this works for any distribution. Mean estimates from repeated samples would form a normal distribution with a known mean and standard deviation.</p>
+<p>The <strong>sampling distribution</strong> is the distribution that we would get if we did simulations like these infinite times. (Again, <strong><em>not</em></strong> infinite sample size but infinite simulations of a given sample size!) Thanks to the CLT, we know exactly how these would look!</p>
+<p>The simulations in <a href="02-surveys-samples.html" class="quarto-xref"><span>Chapter 2</span></a> used a Bernoulli distribution, but this works for any distribution. Mean estimates from repeated samples would form a normal distribution with a known mean and standard deviation.</p>
 <p>We need some skewed data to show that we get a normal sampling distribution for the mean (with a big enough sample) no matter what the shape of the underlying distribution. We’ll use the GSS classic, <code>tvhours</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tv <span class="ot">&lt;-</span> gss<span class="sc">$</span>tvhours[<span class="sc">!</span><span class="fu">is.na</span>(gss<span class="sc">$</span>tvhours)]</span>
@@ -437,7 +437,7 @@ window.Quarto = {
 2152.000000    3.302509    3.298709 </code></pre>
 </div>
 </div>
-<p>Consider this sample a population for now and take repeated samples (with replacement) from it. First step is to write a function that grabs a sample and computes the mean.</p>
+<p>Consider this sample a population for now and take repeated samples (with replacement) from it. First step is to write a function that grabs a sample and computes the mean. Don’t be afraid of writing your own functions. Once you get the hang of it, it’s pretty useful and straightforward.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> gss <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(tvhours))</span>
@@ -451,7 +451,7 @@ window.Quarto = {
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now make a simulation “skeleton” to plug the results into. For starters this is just a tibble with 1000 rows and an index number.</p>
+<p>Now I like to make a simulation “skeleton” that I can plug results into. For starters this is just a tibble with 1000 rows and an index number. Then I add the sampled means to the skeleton. If you’re trying this at home, it’s good to vary the sample size so you can see how the simulated sampling distribution behaves. Here I will use the full sample size.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">522</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -512,7 +512,7 @@ Figure&nbsp;5.2: Simulated sampling distribution of the mean.
 <p>The expected <em>mean</em> of the sampling distribution is just <span class="math inline">\(\bar{x}\)</span>, the sample mean. This is the best guess we can make.</p>
 <p>The <em>standard deviation of the sampling distribution</em> has a special name: the <strong>standard error</strong>. The formula is</p>
 <p><span class="math display">\[\text{SE} = \frac{\text{SD}}{\sqrt{n}}\]</span></p>
-<p>We can read it straight off the simulation, or use the formula:</p>
+<p>We can get this from the simulation or from the formula:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">from_simulation =</span> <span class="fu">sd</span>(sims<span class="sc">$</span>m),</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">from_formula    =</span> <span class="fu">sd</span>(tv) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(tv)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -534,7 +534,7 @@ Note
 <p>This is one of the many cases where there is an <strong>analytic solution</strong> to a problem we could address through simulation. How well do the empirical values match?</p>
 </div>
 </div>
-<p>For a proportion the logic is identical, since a Bernoulli variable has <span class="math inline">\(\text{SD} = \sqrt{p(1-p)}\)</span>:</p>
+<p>For a proportion it works the same way. Remember that the SD of a Bernoulli variable is <span class="math inline">\(\sqrt{p(1-p)}\)</span>, so:</p>
 <p><span class="math display">\[\text{SE}_{\hat{p}} = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>support <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(gss<span class="sc">$</span>abany[<span class="sc">!</span><span class="fu">is.na</span>(gss<span class="sc">$</span>abany)] <span class="sc">==</span> <span class="dv">1</span>)</span>
@@ -551,7 +551,7 @@ Note
 </div>
 </div>
 <p>The “hat” over <span class="math inline">\(\text{SD}\)</span> and <span class="math inline">\(p\)</span> is a way to say explicitly that it is an estimate from a sample. This is pronounced, for example, “p-hat.”</p>
-<p>Notice too that the <span class="math inline">\(\sqrt{n}\)</span> in the denominator is exactly why quadrupling the sample halved the spread back in <a href="02-surveys-samples.html" class="quarto-xref"><span>Chapter 2</span></a>.</p>
+<p>(The <span class="math inline">\(\sqrt{n}\)</span> in the denominator is why quadrupling the sample size cut the spread in half back in <a href="02-surveys-samples.html" class="quarto-xref"><span>Chapter 2</span></a>.)</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -562,14 +562,14 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><a href="04-prediction-error.html" class="quarto-xref"><span>Chapter 4</span></a> promised that the normal assumption would eventually do real work. This is where. The standard error tells us how <em>wide</em> the sampling distribution is; the CLT tells us what <strong>shape</strong> it has. Only together do they let us turn a width into a probability.</p>
+<p>In <a href="04-prediction-error.html" class="quarto-xref"><span>Chapter 4</span></a> I said that the normality assumption would matter eventually. This is where it comes in. The standard error tells us how <em>wide</em> the sampling distribution is, and the CLT tells us what <strong>shape</strong> it is. We need both to get from a width to a probability.</p>
 </div>
 </div>
 </section>
 <section id="margin-of-error" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="margin-of-error"><span class="header-section-number">5.3</span> Margin of error</h2>
 <p>When we report an estimate (for example an estimated vote proportion from a poll), we want also to report our uncertainty about that estimate because it comes from a sample.</p>
-<p>Most people encounter this “in the wild” as the <strong>margin of error</strong>. This is conventionally calculated as plus or minus two <em>standard errors</em>.</p>
+<p>Most people encounter this “in the wild” as the <strong>margin of error</strong>. This is conventionally calculated as plus or minus two <em>standard errors</em> (for reasons we will discuss below).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>moe <span class="ot">&lt;-</span> <span class="fl">1.96</span> <span class="sc">*</span> se_p</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -591,7 +591,7 @@ Note
 0.5778296 0.6193667 </code></pre>
 </div>
 </div>
-<p>Support for legal abortion for any reason is estimated at 59.9%, with a 95% confidence interval running from about 57.8% to 61.9%.</p>
+<p>So we estimate that 59.9% of American adults support legal abortion for any reason, with a 95% confidence interval from about 57.8% to 61.9%.</p>
 <section id="width-of-the-confidence-interval" class="level3" data-number="5.4.1">
 <h3 data-number="5.4.1" class="anchored" data-anchor-id="width-of-the-confidence-interval"><span class="header-section-number">5.4.1</span> Width of the confidence interval</h3>
 <p>The width we choose for a confidence interval is a function of how “conservative” we want to be. For example, in a yes/no poll, we are 100% sure that <span class="math inline">\(p\)</span> is between 0 and 1. But that’s not very useful.</p>
@@ -638,7 +638,7 @@ Tip
 <p>What most people say is “we are 95% sure the true value is between the lower and upper bound of the confidence interval.” But that’s not <em>quite</em> accurate.</p>
 <p>It’s more correct to say that, if we did the same study infinite times, 95% of the computed intervals would contain the true value.</p>
 <p>The confidence level refers to our confidence in the <em>procedure</em>, not the specific interval, since that is calculated from just one dataset.</p>
-<p>We can watch this happen. Return to the population from <a href="02-surveys-samples.html" class="quarto-xref"><span>Chapter 2</span></a>, where we know the truth is exactly 0.7:</p>
+<p>We can see this with a simulation. Let’s go back to the population from <a href="02-surveys-samples.html" class="quarto-xref"><span>Chapter 2</span></a>, where we know the true value is exactly .7:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">522</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -722,7 +722,7 @@ Figure&nbsp;5.4: One hundred 95% confidence intervals from the same population. 
 </div>
 </div>
 </div>
-<p>97 of these 100 intervals contain the true value. The ones that miss aren’t mistakes; nothing was done wrong in those studies. With more repetitions the rate settles where it should:</p>
+<p>97 of these 100 intervals contain the true value. The ones that miss aren’t anyone’s fault. That’s just what happens about 5% of the time! If we do this a lot more times, we get very close to 95%:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">522</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -741,8 +741,8 @@ Figure&nbsp;5.4: One hundred 95% confidence intervals from the same population. 
 </section>
 <section id="looking-ahead" class="level2" data-number="5.6">
 <h2 data-number="5.6" class="anchored" data-anchor-id="looking-ahead"><span class="header-section-number">5.6</span> Looking ahead</h2>
-<p>The confidence interval is closely linked to the idea of the <strong>hypothesis test</strong>. This uses the <em>sample data</em> to test if there is enough evidence to assert that the <em>population</em> differs from some specific reference value. That is <a href="06-hypothesis-testing.html" class="quarto-xref"><span>Chapter 6</span></a>.</p>
-<p>The same logic applies to any estimate with a standard error, including the parameters of a fitted model. That needs one refinement, because when <span class="math inline">\(\sigma\)</span> is itself estimated the normal distribution is slightly too optimistic and the <span class="math inline">\(t\)</span> distribution takes over. That is <a href="07-power-effect-size.html" class="quarto-xref"><span>Chapter 7</span></a>.</p>
+<p>The confidence interval is closely linked to the idea of the <strong>hypothesis test</strong>. This uses the <em>sample data</em> to test if there is enough evidence to assert that the <em>population</em> differs from some specific reference value. We’ll get to that in <a href="06-hypothesis-testing.html" class="quarto-xref"><span>Chapter 6</span></a>.</p>
+<p>The same logic works for any estimate that has a standard error, including the parameters of a model. There’s one wrinkle, though. When we have to estimate <span class="math inline">\(\sigma\)</span> from the data, the normal distribution is a little too optimistic, so we use the <span class="math inline">\(t\)</span> distribution instead. We’ll see that in <a href="07-power-effect-size.html" class="quarto-xref"><span>Chapter 7</span></a>.</p>
 </section>
 <section id="recap" class="level2" data-number="5.7">
 <h2 data-number="5.7" class="anchored" data-anchor-id="recap"><span class="header-section-number">5.7</span> Recap</h2>

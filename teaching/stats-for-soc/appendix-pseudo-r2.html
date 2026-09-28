@@ -411,18 +411,18 @@ window.Quarto = {
 </header>
 
 
-<p><a href="09-likelihood.html" class="quarto-xref"><span>Chapter 9</span></a> showed that for a linear model the Cox-Snell formula recovers ordinary <span class="math inline">\(R^2\)</span> exactly, while the naive proportional reduction in deviance does not. This appendix follows that up: what happens to these measures once the outcome is no longer continuous, and why the competing versions disagree.</p>
+<p>In <a href="09-likelihood.html" class="quarto-xref"><span>Chapter 9</span></a> we saw that for a linear model, the Cox-Snell formula gives exactly the same answer as ordinary <span class="math inline">\(R^2\)</span>, but the naive proportional reduction in deviance doesn’t. In this appendix we’ll look at what happens to these measures when the outcome isn’t continuous, and why the different versions don’t agree.</p>
 <section id="two-formulas" class="level2" data-number="C.1">
 <h2 data-number="C.1" class="anchored" data-anchor-id="two-formulas"><span class="header-section-number">C.1</span> Two formulas</h2>
-<p>For models fitted by maximum likelihood there is no sum of squared error to reduce, so <span class="math inline">\(R^2\)</span> has to be rebuilt out of deviance. Different people rebuilt it differently.</p>
-<p><strong>Proportional reduction in deviance</strong> (McFadden’s), which mimics PRE directly:</p>
+<p>For models fit by maximum likelihood, there’s no SSE, so we have to build something like <span class="math inline">\(R^2\)</span> out of the deviance instead. Different people have done this in different ways.</p>
+<p><strong>Proportional reduction in deviance</strong> (McFadden’s) works just like PRE:</p>
 <p><span class="math display">\[\text{PRD} = \frac{D_0 - D_1}{D_0}\]</span></p>
-<p><strong>Cox and Snell’s</strong>, which comes from the likelihood ratio and rescales by sample size:</p>
+<p><strong>Cox and Snell’s</strong> is based on the likelihood ratio and adjusts for the sample size:</p>
 <p><span class="math display">\[R^2_{CS} = 1 - \exp\left(\frac{-(D_0 - D_1)}{n}\right)\]</span></p>
 </section>
 <section id="the-linear-model-gives-us-a-reference-point" class="level2" data-number="C.2">
 <h2 data-number="C.2" class="anchored" data-anchor-id="the-linear-model-gives-us-a-reference-point"><span class="header-section-number">C.2</span> The linear model gives us a reference point</h2>
-<p>Before asking how these behave on a binary outcome, it helps to see them where we already know the right answer.</p>
+<p>Before we look at a binary outcome, let’s see what these do when we already know the right answer.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(state.x77) <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">life_exp =</span> <span class="st">`</span><span class="at">Life Exp</span><span class="st">`</span>, <span class="at">hs_grad =</span> <span class="st">`</span><span class="at">HS Grad</span><span class="st">`</span>)</span>
@@ -441,13 +441,13 @@ window.Quarto = {
   0.1215190   0.3389757   0.3389757 </code></pre>
 </div>
 </div>
-<p>Cox-Snell is exactly <span class="math inline">\(R^2\)</span>. PRD is not close.</p>
-<p><strong>Cox-Snell is a genuine generalization</strong> of <span class="math inline">\(R^2\)</span>, and it reduces to it when the model is linear. PRD is a different construction that happens to resemble PRE, and for a linear model it is simply wrong. As <a href="09-likelihood.html" class="quarto-xref"><span>Chapter 9</span></a> explains, the trouble is the <span class="math inline">\(\sigma\)</span> estimate: as RSS goes to zero, <span class="math inline">\(\sigma\)</span> goes to zero and the likelihood diverges, so the ratio of deviances doesn’t behave.</p>
-<p>Neither, though, will recover the <span class="math inline">\(R^2\)</span> you would have obtained had a binary outcome not been dichotomized in the first place. That’s what the rest of this appendix shows.</p>
+<p>Cox-Snell is exactly the same as <span class="math inline">\(R^2\)</span>, but PRD isn’t even close.</p>
+<p>So <strong>Cox-Snell is a real generalization</strong> of <span class="math inline">\(R^2\)</span>. When the model is linear, it gives you <span class="math inline">\(R^2\)</span>. PRD just looks like PRE, and for a linear model it’s wrong. As we saw in <a href="09-likelihood.html" class="quarto-xref"><span>Chapter 9</span></a>, the problem is the <span class="math inline">\(\sigma\)</span> estimate: as RSS goes to zero, <span class="math inline">\(\sigma\)</span> goes to zero and the likelihood goes to infinity, so the ratio of deviances doesn’t work.</p>
+<p>But neither one can tell you what the <span class="math inline">\(R^2\)</span> would have been if a binary outcome hadn’t been dichotomized in the first place. That’s what the rest of this appendix shows.</p>
 </section>
 <section id="a-controlled-comparison" class="level2" data-number="C.3">
 <h2 data-number="C.3" class="anchored" data-anchor-id="a-controlled-comparison"><span class="header-section-number">C.3</span> A controlled comparison</h2>
-<p>We can construct data where the truth is known. Generate two variables with an exact correlation, so the latent <span class="math inline">\(R^2\)</span> is fixed at a value we choose, then dichotomize the outcome and see what the measures report.</p>
+<p>We can make up data where we know the truth. We’ll generate two variables with an exact correlation, so we know the “latent” <span class="math inline">\(R^2\)</span>. Then we’ll dichotomize the outcome and see what the two measures say.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create dataset with exact known correlation</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># convert outcome to binary and see if PRD = Cox-Snell</span></span>
@@ -581,9 +581,9 @@ Figure&nbsp;C.2: Cox-Snell against sample size, at three levels of true latent a
 12 0.8     1000 0.553 0.535</code></pre>
 </div>
 </div>
-<p><strong>The two measures disagree with each other.</strong> At a latent <span class="math inline">\(R^2\)</span> of 0.1, Cox-Snell runs about a third larger than PRD. At 0.8 the ordering reverses for most sample sizes, with PRD the larger of the two. There is no fixed relationship you can use to convert one into the other, and not even a consistent direction.</p>
-<p><strong>Neither recovers the latent <span class="math inline">\(R^2\)</span>.</strong> When the truth is 0.8, both report values in the neighbourhood of 0.5, well short of it. Dichotomizing an outcome throws information away, and no summary statistic can retrieve it. Note that this is a different failure from the linear-model case above: there, Cox-Snell was exactly right and PRD was wrong. Here Cox-Snell is behaving correctly as a likelihood-based measure; it is the <em>dichotomization</em> that has destroyed the information.</p>
-<p><strong>Cox-Snell cannot reach 1.</strong> Its maximum is bounded below one for a binary outcome, a defect that motivated yet another version (Nagelkerke’s), which rescales Cox-Snell by its own maximum. That fixes the ceiling and introduces its own oddities.</p>
+<p><strong>The two measures don’t agree.</strong> When the latent <span class="math inline">\(R^2\)</span> is .1, Cox-Snell is about a third bigger than PRD. At .8, PRD is usually the bigger one. So you can’t convert one into the other, and one isn’t even consistently bigger than the other.</p>
+<p><strong>Neither one recovers the latent <span class="math inline">\(R^2\)</span>.</strong> When the truth is .8, both give values between about .5 and .7. When you dichotomize an outcome, you throw information away, and no summary statistic can get it back. (This is a different problem from the linear model above, where Cox-Snell was exactly right and PRD was wrong. Here, Cox-Snell is doing what it’s supposed to do. It’s the <em>dichotomization</em> that lost the information.)</p>
+<p><strong>Cox-Snell can’t reach 1.</strong> For a binary outcome, its maximum is less than 1. That’s why there’s yet another version (Nagelkerke’s), which rescales Cox-Snell by its maximum. But that has its own problems.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -594,8 +594,8 @@ Figure&nbsp;C.2: Cox-Snell against sample size, at three levels of true latent a
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Report a pseudo-<span class="math inline">\(R^2\)</span> if a reader expects one, and <strong>say which one it is</strong>. Never compare a pseudo-<span class="math inline">\(R^2\)</span> against an ordinary <span class="math inline">\(R^2\)</span> from a different model, and never compare pseudo-<span class="math inline">\(R^2\)</span> values computed by different formulas.</p>
-<p>For comparing models fitted to the same data, the information criteria of <a href="10-comparing-models.html" class="quarto-xref"><span>Chapter 10</span></a> are better behaved and easier to defend. For describing how much a predictor matters, the average marginal effects of <a href="16-logistic-regression.html" class="quarto-xref"><span>Chapter 16</span></a> are more informative than any single-number summary of fit.</p>
+<p>If your readers expect a pseudo-<span class="math inline">\(R^2\)</span>, go ahead and report one, but <strong>say which one it is</strong>. Don’t compare a pseudo-<span class="math inline">\(R^2\)</span> to an ordinary <span class="math inline">\(R^2\)</span> from a different model, and don’t compare pseudo-<span class="math inline">\(R^2\)</span> values from different formulas.</p>
+<p>To compare models fit to the same data, I’d use the information criteria from <a href="10-comparing-models.html" class="quarto-xref"><span>Chapter 10</span></a> instead. And to describe how much a predictor matters, the average marginal effects from <a href="16-logistic-regression.html" class="quarto-xref"><span>Chapter 16</span></a> tell you a lot more than any single measure of fit.</p>
 </div>
 </div>
 

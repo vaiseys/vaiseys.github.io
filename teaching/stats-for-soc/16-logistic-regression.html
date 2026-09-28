@@ -447,7 +447,7 @@ window.Quarto = {
 </header>
 
 
-<p>Every model so far has had a continuous outcome. From here it does not, and something has to give.</p>
+<p>So far, every model in this book has had a continuous outcome. Now we’re going to look at binary (yes/no) outcomes, and that changes things.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -460,9 +460,9 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p>Since <a href="04-prediction-error.html" class="quarto-xref"><span>Chapter 4</span></a>, every model has had the shape</p>
 <p><span class="math display">\[y_i = (\text{prediction}) + \epsilon_i\]</span></p>
-<p>with <span class="math inline">\(\epsilon_i\)</span> the person’s <strong>weirdness</strong>, their own departure from what the model expects. That picture has served us for twelve chapters. It cannot survive here.</p>
-<p>Suppose the model predicts 0.6 for someone whose answer is 1. Their “weirdness” would be 0.4. For someone else with the same prediction who answered 0, it would be −0.6. There are only ever two possible values, and they are determined entirely by the prediction and the answer. Weirdness is no longer a quantity a person <em>carries</em>; it is just bookkeeping.</p>
-<p>So we change what the model claims. Instead of</p>
+<p>where <span class="math inline">\(\epsilon_i\)</span> is each person’s <strong>weirdness</strong> (how different they are from what the model expects). But that doesn’t really work anymore.</p>
+<p>Suppose the model predicts .6 for someone whose answer is 1. Their “weirdness” would be .4. For someone else with the same prediction who answered 0, it would be -.6. Those are the only two possible values, and they’re completely determined by the prediction and the answer. So “weirdness” isn’t really something a person has anymore.</p>
+<p>So we change what the model says. Instead of saying the outcome is</p>
 <blockquote class="blockquote">
 <p>a systematic part, plus each person’s own departure from it</p>
 </blockquote>
@@ -470,16 +470,16 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>a systematic part that determines the <strong>probability</strong> of each outcome, and then the outcome is a draw from that distribution</p>
 </blockquote>
-<p>Nothing is added to a prediction. The prediction <em>is</em> a probability, and the randomness lives in the Bernoulli draw from <a href="01-data-variables.html" class="quarto-xref"><span>Chapter 1</span></a> rather than in an error term.</p>
-<p>The additive error term was never fundamental. It was what the <strong>normal</strong> distribution happens to permit, since a normal outcome can be written as its mean plus a symmetric disturbance. Take away normality and that convenience goes with it. What generalizes is not “prediction plus weirdness” but <strong>“the model specifies a distribution for <span class="math inline">\(y\)</span>; the predictors govern its parameters.”</strong> The linear models of Parts II and III were special cases all along.</p>
+<p>We don’t add anything to the prediction. The prediction <em>is</em> a probability, and the randomness comes from the Bernoulli distribution (see <a href="01-data-variables.html" class="quarto-xref"><span>Chapter 1</span></a>), not from an error term.</p>
+<p>It turns out the “weirdness” term was never that fundamental. It works for the <strong>normal</strong> distribution because a normal outcome can be written as its mean plus some random noise. Without normality, that doesn’t work. The more general idea is that <strong>the model specifies a distribution for <span class="math inline">\(y\)</span>, and the predictors determine its parameters.</strong> The linear models we’ve been using so far were a special case of this all along!</p>
 </div>
 </div>
 <section id="from-tables-to-models" class="level2" data-number="16.1">
 <h2 data-number="16.1" class="anchored" data-anchor-id="from-tables-to-models"><span class="header-section-number">16.1</span> From tables to models</h2>
 <p>Last time we looked at (in)dependence between two variables. We can also think of this as a simple model:</p>
 <p><span class="math display">\[\text{admission} = f(\text{citizenship})\]</span></p>
-<p>If we were only analyzing 2x2 tables, we could stop with tests of independence and odds ratios. But we want to go further, and it turns out the table already contains a model.</p>
-<p>Here is the Berkeley table from <a href="15-tables-dependence.html" class="quarto-xref"><span>Chapter 15</span></a> again, this time as <strong>conditional probabilities</strong>, the building blocks of models:</p>
+<p>If we were only analyzing 2x2 tables, we could stop with tests of independence and odds ratios. But we want to go further. And it turns out the table already has a model in it!</p>
+<p>Here’s the Berkeley table from <a href="15-tables-dependence.html" class="quarto-xref"><span>Chapter 15</span></a> again, this time as <strong>conditional probabilities</strong>:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -499,7 +499,7 @@ citizenship    no   yes
 </div>
 <section id="working-from-data-to-model" class="level3" data-number="16.1.1">
 <h3 data-number="16.1.1" class="anchored" data-anchor-id="working-from-data-to-model"><span class="header-section-number">16.1.1</span> Working from data to model</h3>
-<p>Models are functions. Abstractly, <span class="math inline">\(y\)</span> is some function of <span class="math inline">\(x\)</span>. That is, <span class="math inline">\(y\)</span> is <em>conditional</em> on <span class="math inline">\(x\)</span>. In high school algebra you were handed the function and asked for the output. Here we have the opposite problem: <strong>we don’t have the model, we have the result of an unknown model.</strong></p>
+<p>Models are functions. Abstractly, <span class="math inline">\(y\)</span> is some function of <span class="math inline">\(x\)</span>. That is, <span class="math inline">\(y\)</span> is <em>conditional</em> on <span class="math inline">\(x\)</span>. In high school algebra, you were given the function and asked for the output. Here we have the opposite problem: <strong>we don’t have the model, we have the result of an unknown model.</strong></p>
 <p>Not <span class="math inline">\(y = 4x + 12\)</span>, but</p>
 <p><span class="math display">\[
 16 = ? \times 1 + ? \qquad \text{and} \qquad 12 = ? \times 0 + ?
@@ -508,7 +508,7 @@ citizenship    no   yes
 <p><span class="math display">\[
 .135 = ? \times 1 + ? \qquad \text{and} \qquad .041 = ? \times 0 + ?
 \]</span></p>
-<p>So the intercept is .041 and the slope is .094. Writing it with the notation we’ll be using from here on:</p>
+<p>So the intercept is .041 and the slope is .094. Here’s how we’ll write it from now on:</p>
 <p><span class="math display">\[
 \pi(y = 1 \mid x) = \alpha + \beta x
 \]</span></p>
@@ -521,7 +521,7 @@ citizenship    no   yes
 <p><span class="math display">\[
 \log \left( \frac{\pi(y = 1 \mid x)}{1 - \pi(y = 1 \mid x)} \right) = \alpha + \beta x
 \]</span></p>
-<p>Do the same substitution, this time on the log odds of each row:</p>
+<p>We can do the same thing with the log odds of each row:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">4</span> <span class="sc">/</span> <span class="dv">93</span>)                    <span class="co"># log odds of admission when x = 0</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>beta  <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="dv">33</span> <span class="sc">/</span> <span class="dv">212</span>) <span class="sc">-</span> <span class="fu">log</span>(<span class="dv">4</span> <span class="sc">/</span> <span class="dv">93</span>)    <span class="co"># difference in log odds</span></span>
@@ -537,7 +537,7 @@ citizenship    no   yes
 \text{logit}(\text{admission}) = 1.29x - 3.15
 \]</span></p>
 <p>where <span class="math inline">\(x = 0\)</span> if the applicant is not a citizen and <span class="math inline">\(x = 1\)</span> if the applicant is a citizen.</p>
-<p>And <span class="math inline">\(\exp(\beta)\)</span> is the odds ratio, the same cross-product we computed by hand in <a href="15-tables-dependence.html" class="quarto-xref"><span>Chapter 15</span></a>:</p>
+<p>And <span class="math inline">\(\exp(\beta)\)</span> is the odds ratio we calculated by hand in <a href="15-tables-dependence.html" class="quarto-xref"><span>Chapter 15</span></a>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">exp_beta =</span> <span class="fu">exp</span>(beta),</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">cross_product =</span> (<span class="dv">93</span> <span class="sc">*</span> <span class="dv">33</span>) <span class="sc">/</span> (<span class="dv">212</span> <span class="sc">*</span> <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -645,7 +645,7 @@ BA     no yes  Sum
 </div>
 <section id="three-links-one-outcome" class="level3" data-number="16.2.1">
 <h3 data-number="16.2.1" class="anchored" data-anchor-id="three-links-one-outcome"><span class="header-section-number">16.2.1</span> Three links, one outcome</h3>
-<p>The GLM has two parts: the <strong>link</strong>, which says what function of the outcome is linear in the predictors, and the <strong>family</strong>, which is the probability distribution we are using. For a binary outcome the family is always binomial (Bernoulli). The link is a choice, and there are three common ones.</p>
+<p>Remember that the GLM has two parts. The <strong>family</strong> is the probability distribution for the outcome, and for a binary outcome that’s always the binomial (Bernoulli). The <strong>link</strong> says what function of the outcome’s expected value is linear in the predictors. We get to choose the link, and there are three common ones for binary outcomes.</p>
 <p><strong>Identity link.</strong> This is the <em>linear probability model</em>, treating the outcome as continuous even when it’s really not.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>mod_id <span class="ot">&lt;-</span> <span class="fu">glm</span>(abany <span class="sc">~</span> college,</span>
@@ -664,7 +664,7 @@ BA     no yes  Sum
 <p><span class="math display">\[
 \beta = \pi(y = 1 \mid x = 1) - \pi(y = 1 \mid x = 0)
 \]</span></p>
-<p>What is the unit of <span class="math inline">\(\beta\)</span>? Compare these two numbers against the conditional probabilities above: <span class="math inline">\(\alpha\)</span> <em>is</em> the probability for the reference group and <span class="math inline">\(\beta\)</span> <em>is</em> the difference in probabilities.</p>
+<p>What is the unit of <span class="math inline">\(\beta\)</span>? Compare these to the conditional probabilities above. <span class="math inline">\(\alpha\)</span> <em>is</em> the probability for the reference group, and <span class="math inline">\(\beta\)</span> <em>is</em> the difference in probabilities.</p>
 <p><strong>Log link.</strong> Now the model is <span class="math inline">\(\log(\pi_i) = \alpha + \beta x_i\)</span>, or equivalently <span class="math inline">\(\pi_i = e^{\alpha + \beta x_i}\)</span>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mod_log <span class="ot">&lt;-</span> <span class="fu">glm</span>(abany <span class="sc">~</span> college,</span>
@@ -751,12 +751,12 @@ Tip
 <p>Linear probability models (identity link) and logistic regression models (logit link) are both common in sociology. The main value of the former is <strong>simplicity</strong> and the main value of the latter is <strong>realism</strong>. As we’ll see below, sometimes the LPM can create predicted probabilities below 0 or above 1, which is suboptimal!</p>
 </div>
 </div>
-<p>Notice that the logit <span class="math inline">\(\beta\)</span> is the same log odds ratio we computed by hand from a 2x2 table at the start of the chapter. <strong>A logistic regression coefficient is a log odds ratio.</strong> With one binary predictor it is exactly the quantity from the table; with more predictors it is that quantity adjusted for the others, in the sense of <a href="11-multiple-regression.html" class="quarto-xref"><span>Chapter 11</span></a>.</p>
+<p>Just like with the Berkeley table, <strong>a logistic regression coefficient is a log odds ratio.</strong> With one binary predictor, it’s exactly the log odds ratio from the 2x2 table. With more predictors, it’s the log odds ratio adjusting for the other predictors (like in <a href="11-multiple-regression.html" class="quarto-xref"><span>Chapter 11</span></a>).</p>
 </section>
 </section>
 <section id="getting-back-to-probabilities" class="level2" data-number="16.3">
 <h2 data-number="16.3" class="anchored" data-anchor-id="getting-back-to-probabilities"><span class="header-section-number">16.3</span> Getting back to probabilities</h2>
-<p>An odds ratio of 1.63 does <strong>not</strong> mean college graduates are 1.63 times as likely to agree. Odds are not probabilities, and the two coincide only when the outcome is rare. Rather than making readers do that conversion in their heads, we can ask <code>marginaleffects</code> for the quantity directly.</p>
+<p>An odds ratio of 1.63 does <strong>not</strong> mean college graduates are 1.63 times as likely to agree. Odds aren’t probabilities, and the odds ratio is only close to the risk ratio when the outcome is rare. Instead of making readers figure this out in their heads, we can get the quantities we want from <code>marginaleffects</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">m_abany =</span> <span class="fu">mean</span>(abany), <span class="at">.by =</span> college)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -790,7 +790,7 @@ Type: response
 Comparison: mean(Yes) / mean(No)</code></pre>
 </div>
 </div>
-<p>Look at what those two numbers are. The default difference is 0.117, the identity-link <span class="math inline">\(\beta\)</span>. The ratio is 1.218, the exponentiated log-link <span class="math inline">\(\beta\)</span>. All three models are describing the same table; the links just report it on different scales, and <code>avg_comparisons()</code> lets you ask for whichever one you want after fitting the logit.</p>
+<p>Notice that the difference is 0.117, which is the <span class="math inline">\(\beta\)</span> from the identity link model. And the ratio is 1.218, which is the exponentiated <span class="math inline">\(\beta\)</span> from the log link model. All three models describe the same table, just on different scales. And <code>avg_comparisons()</code> lets you get whichever one you want after fitting the logit.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -801,8 +801,7 @@ Comparison: mean(Yes) / mean(No)</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Odds ratios are what the model estimates, so they belong in a table. But they are badly suited to communicating a result, because almost nobody reasons in odds, and readers routinely convert them to probabilities in their heads incorrectly.</p>
-<p>Report the average marginal effect on the probability scale alongside the coefficients. It costs one line of code and prevents a common misreading.</p>
+<p>Odds ratios are what the model estimates, so it’s fine to put them in a table. But they aren’t a great way to communicate results, because hardly anyone thinks in odds, and people often misread them as probabilities. So report the average marginal effect on the probability scale too. It’s just one more line of code!</p>
 </div>
 </div>
 </section>
@@ -823,7 +822,7 @@ Comparison: mean(Yes) / mean(No)</code></pre>
 3 age         -0.00955   0.00360</code></pre>
 </div>
 </div>
-<p>Because the model is nonlinear in probability, the effect of age is not a straight line. Predicted probabilities show the curve.</p>
+<p>Because the model isn’t linear on the probability scale, the relationship with age isn’t exactly a straight line. We can see this by plotting the predicted probabilities.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
@@ -889,11 +888,11 @@ Type: response
 Comparison: Yes - No</code></pre>
 </div>
 </div>
-<p>Adjusting for age barely moves the college comparison.</p>
+<p>This is about the same as the college difference without adjusting for age.</p>
 </section>
 <section id="a-rarer-outcome" class="level2" data-number="16.5">
 <h2 data-number="16.5" class="anchored" data-anchor-id="a-rarer-outcome"><span class="header-section-number">16.5</span> A rarer outcome</h2>
-<p>The Bernoulli’s variance depends on its mean, so a rare outcome behaves differently from a common one. About 9% of respondents report watching no television at all.</p>
+<p>Let’s try a rarer outcome. About 9% of respondents say they don’t watch any television at all.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(notv <span class="sc">~</span> college <span class="sc">+</span> age, <span class="co"># is this reasonable?</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">data =</span> d,</span>
@@ -909,7 +908,7 @@ Comparison: Yes - No</code></pre>
 3 age          -0.0183   0.00646</code></pre>
 </div>
 </div>
-<p>It is worth looking at this one on the <strong>log odds</strong> scale, where the model is by construction a pair of straight lines, “linear in the logit.”</p>
+<p>Let’s look at this one on the <strong>log odds</strong> scale. On this scale, the model is just two parallel straight lines (it’s “linear in the logit”).</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
@@ -964,8 +963,8 @@ Figure&nbsp;16.4: The same model on the log odds scale: two parallel lines.
 </div>
 </div>
 </div>
-<p>That is the whole trick of the model: additive and parallel on the log odds scale, curved and squeezed toward the boundaries on the probability scale. Burn these two shapes into your memory.</p>
-<p>The marginal effects, meanwhile, are not the same for everyone. <code>slopes()</code> gives one row per respondent:</p>
+<p>This is the key thing to understand about logistic regression: it’s additive (parallel lines) on the log odds scale, but curved on the probability scale.</p>
+<p>This also means that the marginal effects aren’t the same for everyone. <code>slopes()</code> gives one for each respondent:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">slopes</span>(m3, <span class="at">variables =</span> <span class="st">"age"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
@@ -979,7 +978,7 @@ Figure&nbsp;16.4: The same model on the log odds scale: two parallel lines.
 4  31     Yes -0.002155430 0.0009512308</code></pre>
 </div>
 </div>
-<p><code>avg_slopes()</code> is just the average of that column. When the outcome is rare, the per-person slopes are small everywhere, which is worth knowing before you report the average as though it described anyone in particular.</p>
+<p><code>avg_slopes()</code> is just the average of these. (Keep in mind that the average slope doesn’t necessarily describe any particular person.)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">avg_comparisons</span>(m3, <span class="at">variables =</span> <span class="fu">c</span>(<span class="st">"college"</span>, <span class="st">"age"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -991,7 +990,7 @@ Figure&nbsp;16.4: The same model on the log odds scale: two parallel lines.
 Type: response</code></pre>
 </div>
 </div>
-<p>The college comparison is small and its interval includes zero. Compare that with the odds ratio:</p>
+<p>The college difference is small and its confidence interval includes zero. Now look at the odds ratio:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(m3)[<span class="st">"collegeYes"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -999,11 +998,11 @@ Type: response</code></pre>
   1.349158 </code></pre>
 </div>
 </div>
-<p>An odds ratio of 1.35 sounds substantial (“35% higher odds”) while the probability difference is about 2.5 percentage points and not distinguishable from zero. When the outcome is rare, odds ratios are large numbers attached to small differences.</p>
+<p>An odds ratio of 1.35 sounds pretty big (“35% higher odds”!), but the difference in probability is only about 2.5 percentage points and we can’t tell it apart from zero. When the outcome is rare, a big-sounding odds ratio can go along with a tiny difference in probability.</p>
 </section>
 <section id="inference" class="level2" data-number="16.6">
 <h2 data-number="16.6" class="anchored" data-anchor-id="inference"><span class="header-section-number">16.6</span> Inference</h2>
-<p>There is no SSE here, so the F test is unavailable. What we use instead is <a href="09-likelihood.html" class="quarto-xref"><span>Chapter 9</span></a>: <strong>deviance</strong> and the likelihood ratio test.</p>
+<p>We don’t have an SSE here, so we can’t use the F test. Instead we use the tools from <a href="09-likelihood.html" class="quarto-xref"><span>Chapter 9</span></a>: <strong>deviance</strong> and the likelihood ratio test.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>m0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(abany <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> d, <span class="at">family =</span> <span class="fu">binomial</span>())</span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1022,23 +1021,23 @@ Model 3: abany ~ college + age
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<p>Each line asks whether the added parameter reduced deviance by more than chance would deliver. Both do.</p>
-<p>Note that all three models are fitted to the same 1,014 rows. That is not automatic. Dropping missing values separately for each model would silently change the data underneath the comparison, which <a href="10-comparing-models.html" class="quarto-xref"><span>Chapter 10</span></a> warned invalidates it.</p>
-<p>And the pseudo-<span class="math inline">\(R^2\)</span> from <a href="09-likelihood.html" class="quarto-xref"><span>Chapter 9</span></a>:</p>
+<p>Each line tests whether adding a parameter reduced the deviance more than we’d expect by chance. Both do.</p>
+<p>Notice that all three models use the same 1,014 rows. That’s because we used <code>drop_na()</code> on all the variables at the start. If we had dropped missing values separately for each model, the models would be fit to different data and we couldn’t compare them.</p>
+<p>Here’s one version of pseudo-<span class="math inline">\(R^2\)</span> (McFadden’s):</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">as.numeric</span>(<span class="fu">logLik</span>(m2)) <span class="sc">/</span> <span class="fu">as.numeric</span>(<span class="fu">logLik</span>(m0))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.01505771</code></pre>
 </div>
 </div>
-<p>Small, as pseudo-<span class="math inline">\(R^2\)</span> values usually are, and (as that chapter insisted) not comparable to an <span class="math inline">\(R^2\)</span> from a linear model. <a href="appendix-pseudo-r2.html" class="quarto-xref"><span>Appendix C</span></a> shows how far apart the competing versions can get, and how little of a dichotomized outcome’s original association any of them recovers.</p>
+<p>This is pretty small, as pseudo-<span class="math inline">\(R^2\)</span> values usually are. It’s not really comparable to an <span class="math inline">\(R^2\)</span> from a linear model. <a href="appendix-pseudo-r2.html" class="quarto-xref"><span>Appendix C</span></a> shows how different the various versions can be.</p>
 </section>
 <section id="should-you-use-logistic-regression-at-all" class="level2" data-number="16.7">
 <h2 data-number="16.7" class="anchored" data-anchor-id="should-you-use-logistic-regression-at-all"><span class="header-section-number">16.7</span> Should you use logistic regression at all?</h2>
-<p>We have now spent a chapter on the logistic model, so it may be surprising to end by saying that for many sociological problems the <strong>linear probability model is the better choice</strong>.</p>
+<p>We just spent a whole chapter on logistic regression, so it might be surprising that I think the <strong>linear probability model is often the better choice</strong> for a lot of sociological problems.</p>
 <section id="the-two-models-usually-agree" class="level3" data-number="16.7.1">
 <h3 data-number="16.7.1" class="anchored" data-anchor-id="the-two-models-usually-agree"><span class="header-section-number">16.7.1</span> The two models usually agree</h3>
-<p>Fit both to the same specification and compare the linear model’s coefficients against the logistic model’s average marginal effects, the quantity we just spent several pages arguing you should report:</p>
+<p>Let’s fit both models with the same predictors and compare the LPM coefficients to the average marginal effects from the logistic model:</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -1061,12 +1060,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 2     age -0.00230  -0.00228</code></pre>
 </div>
 </div>
-<p>They agree to three or four decimal places. This is typical rather than lucky: over the middle range of probabilities the logistic curve is close to straight, so its average slope is close to what a line would fit.</p>
-<p>And notice what the linear model gives you for free. Its coefficients <em>are</em> the probability differences, so there is no exponentiating, no marginal effects step, and no chance for a reader to mistake an odds ratio for a risk ratio.</p>
+<p>They’re almost identical. This usually happens, because in the middle range of probabilities the logistic curve is pretty close to a straight line.</p>
+<p>And the LPM coefficients already <em>are</em> differences in probability. You don’t need to exponentiate anything or calculate marginal effects, and nobody can mistake an odds ratio for a risk ratio.</p>
 </section>
 <section id="out-of-range-predictions-are-information" class="level3" data-number="16.7.2">
 <h3 data-number="16.7.2" class="anchored" data-anchor-id="out-of-range-predictions-are-information"><span class="header-section-number">16.7.2</span> Out-of-range predictions are information</h3>
-<p>The standard objection is that a linear probability model can predict values outside <span class="math inline">\([0, 1]\)</span>. But consider what such a prediction is telling you.</p>
+<p>The usual objection to the LPM is that it can predict values below 0 or above 1. But think about what that tells you.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>lpm_bad <span class="ot">&lt;-</span> <span class="fu">lm</span>(notv <span class="sc">~</span> educ <span class="sc">+</span> age <span class="sc">+</span> <span class="fu">I</span>(age<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> d)</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1080,13 +1079,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
   -0.10990297    0.14713108    0.02761341 </code></pre>
 </div>
 </div>
-<p>Here, inside the data, about 2.8% of fitted values fall below zero. That is a <strong>signal that the specification is wrong</strong>. A quadratic in age has been fitted to a rare outcome and is predicting impossibilities for real respondents.</p>
-<p>Now fit the same specification with a logit. It will produce perfectly well-behaved predictions between 0 and 1, and say nothing at all about the problem. The boundedness that gets advertised as logistic regression’s great advantage is, from this angle, a way of <strong>concealing misspecification</strong>. The linear model complains; the logistic model quietly absorbs.</p>
+<p>Here, about 2.8% of the predicted values for people in our data are below zero. That’s a <strong>sign that the model is wrong</strong>. (We fit a quadratic in age to a rare outcome, and it’s predicting impossible values for real respondents.)</p>
+<p>If we fit the same model with a logit, all the predictions will be between 0 and 1, and we’d never know there was a problem. So the thing people like most about logistic regression can actually <strong>hide a bad specification</strong>. The LPM, on the other hand, lets you know.</p>
 </section>
 <section id="one-real-cost-of-the-linear-model" class="level3" data-number="16.7.3">
 <h3 data-number="16.7.3" class="anchored" data-anchor-id="one-real-cost-of-the-linear-model"><span class="header-section-number">16.7.3</span> One real cost of the linear model</h3>
-<p>The linear probability model does have a genuine technical problem. Because the outcome is Bernoulli, its variance is <span class="math inline">\(\pi(1-\pi)\)</span>, which depends on the prediction, so the errors cannot have constant variance, and the standard errors from <code>lm()</code> are wrong.</p>
-<p>The fix is routine: use heteroskedasticity-consistent standard errors.</p>
+<p>The LPM does have one real technical problem. Since the outcome is Bernoulli, its variance is <span class="math inline">\(\pi(1-\pi)\)</span>, which depends on the prediction. That means the errors can’t have constant variance, so the standard errors from <code>lm()</code> are wrong.</p>
+<p>The fix is easy: use heteroskedasticity-consistent (“robust”) standard errors.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
@@ -1101,25 +1100,25 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_0qjdmgqm1joysqvarneu = TinyTable.createTableFunctions("tinytable_0qjdmgqm1joysqvarneu");
+      const tableFns_3dsa8tni0cypcr890yss = TinyTable.createTableFunctions("tinytable_3dsa8tni0cypcr890yss");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '8', j: 2 }, { i: '8', j: 3 } ], css_id: 'tinytable_css_6wvqpci3cwx5g51aj597',}, 
-          { positions: [ { i: '6', j: 2 }, { i: '6', j: 3 } ], css_id: 'tinytable_css_oyq586t0v2khge3eufhi',}, 
-          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '7', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '7', j: 3 } ], css_id: 'tinytable_css_k24h8dr5akodgfh3dwu9',}, 
-          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_7dvewxr0lgp9i8j0rbsd',}, 
-          { positions: [ { i: '8', j: 1 } ], css_id: 'tinytable_css_jyh70xl1g5ffr1g6kvzi',}, 
-          { positions: [ { i: '6', j: 1 } ], css_id: 'tinytable_css_0l0ia1d6rtklu1yq4z8z',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '7', j: 1 } ], css_id: 'tinytable_css_jtcdoh2nxxkuvsdn27w6',}, 
-          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_bejn4gh282qdwa8q8zxu',}, 
+          { positions: [ { i: '8', j: 2 }, { i: '8', j: 3 } ], css_id: 'tinytable_css_0v2mtdke8zo3v8hx9830',}, 
+          { positions: [ { i: '6', j: 2 }, { i: '6', j: 3 } ], css_id: 'tinytable_css_5jmkc3st4r8spmwwkwbc',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '7', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 }, { i: '7', j: 3 } ], css_id: 'tinytable_css_crocq8dex9xluou3qzc4',}, 
+          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_eg6y0ic9108t9lvgbmr0',}, 
+          { positions: [ { i: '8', j: 1 } ], css_id: 'tinytable_css_ghjtxv3132l475p5wrf3',}, 
+          { positions: [ { i: '6', j: 1 } ], css_id: 'tinytable_css_amdl3ubm4tiow8vxzuqf',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '7', j: 1 } ], css_id: 'tinytable_css_8d2txj2aiiw32tn1w4ir',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_9nrptl1snjhfs36ygpzk',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_0qjdmgqm1joysqvarneu.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_3dsa8tni0cypcr890yss.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1128,17 +1127,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_0qjdmgqm1joysqvarneu td.tinytable_css_6wvqpci3cwx5g51aj597, #tinytable_0qjdmgqm1joysqvarneu th.tinytable_css_6wvqpci3cwx5g51aj597 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_0qjdmgqm1joysqvarneu td.tinytable_css_oyq586t0v2khge3eufhi, #tinytable_0qjdmgqm1joysqvarneu th.tinytable_css_oyq586t0v2khge3eufhi {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_0qjdmgqm1joysqvarneu td.tinytable_css_k24h8dr5akodgfh3dwu9, #tinytable_0qjdmgqm1joysqvarneu th.tinytable_css_k24h8dr5akodgfh3dwu9 { text-align: center }
-    #tinytable_0qjdmgqm1joysqvarneu td.tinytable_css_7dvewxr0lgp9i8j0rbsd, #tinytable_0qjdmgqm1joysqvarneu th.tinytable_css_7dvewxr0lgp9i8j0rbsd {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_0qjdmgqm1joysqvarneu td.tinytable_css_jyh70xl1g5ffr1g6kvzi, #tinytable_0qjdmgqm1joysqvarneu th.tinytable_css_jyh70xl1g5ffr1g6kvzi {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_0qjdmgqm1joysqvarneu td.tinytable_css_0l0ia1d6rtklu1yq4z8z, #tinytable_0qjdmgqm1joysqvarneu th.tinytable_css_0l0ia1d6rtklu1yq4z8z {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_0qjdmgqm1joysqvarneu td.tinytable_css_jtcdoh2nxxkuvsdn27w6, #tinytable_0qjdmgqm1joysqvarneu th.tinytable_css_jtcdoh2nxxkuvsdn27w6 { text-align: left }
-    #tinytable_0qjdmgqm1joysqvarneu td.tinytable_css_bejn4gh282qdwa8q8zxu, #tinytable_0qjdmgqm1joysqvarneu th.tinytable_css_bejn4gh282qdwa8q8zxu {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_3dsa8tni0cypcr890yss td.tinytable_css_0v2mtdke8zo3v8hx9830, #tinytable_3dsa8tni0cypcr890yss th.tinytable_css_0v2mtdke8zo3v8hx9830 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_3dsa8tni0cypcr890yss td.tinytable_css_5jmkc3st4r8spmwwkwbc, #tinytable_3dsa8tni0cypcr890yss th.tinytable_css_5jmkc3st4r8spmwwkwbc {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_3dsa8tni0cypcr890yss td.tinytable_css_crocq8dex9xluou3qzc4, #tinytable_3dsa8tni0cypcr890yss th.tinytable_css_crocq8dex9xluou3qzc4 { text-align: center }
+    #tinytable_3dsa8tni0cypcr890yss td.tinytable_css_eg6y0ic9108t9lvgbmr0, #tinytable_3dsa8tni0cypcr890yss th.tinytable_css_eg6y0ic9108t9lvgbmr0 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_3dsa8tni0cypcr890yss td.tinytable_css_ghjtxv3132l475p5wrf3, #tinytable_3dsa8tni0cypcr890yss th.tinytable_css_ghjtxv3132l475p5wrf3 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_3dsa8tni0cypcr890yss td.tinytable_css_amdl3ubm4tiow8vxzuqf, #tinytable_3dsa8tni0cypcr890yss th.tinytable_css_amdl3ubm4tiow8vxzuqf {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_3dsa8tni0cypcr890yss td.tinytable_css_8d2txj2aiiw32tn1w4ir, #tinytable_3dsa8tni0cypcr890yss th.tinytable_css_8d2txj2aiiw32tn1w4ir { text-align: left }
+    #tinytable_3dsa8tni0cypcr890yss td.tinytable_css_9nrptl1snjhfs36ygpzk, #tinytable_3dsa8tni0cypcr890yss th.tinytable_css_9nrptl1snjhfs36ygpzk {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_0qjdmgqm1joysqvarneu" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_3dsa8tni0cypcr890yss" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -1195,20 +1194,20 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
-<p>The estimates are identical. Only the standard errors change, and here not by much. Report the robust version and the objection is answered.</p>
+<p>The estimates are the same. Only the standard errors change (and here not by much). So if you report the robust standard errors, this problem goes away.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>A defensible default
+<span class="screen-reader-only">Important</span>When to use which
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For most of the problems in this book (moderate probabilities, ordinary predictors, a description rather than a prediction machine), the linear probability model is a reasonable and arguably preferable default. Its coefficients are directly interpretable, it agrees with the logistic model’s marginal effects, and it tells you when something has gone wrong.</p>
-<p>Logistic regression earns its place when probabilities are genuinely near the boundaries, when the response is sharply nonlinear, when you need predictions for new cases that must be valid probabilities, or when you want the likelihood machinery of <a href="09-likelihood.html" class="quarto-xref"><span>Chapter 9</span></a> for model comparison.</p>
-<p>What is <em>not</em> a good reason is the one usually given: that logistic regression is the “correct” model for a binary outcome and the linear model is a mistake. Both are approximations. One of them tells you when it is failing.</p>
+<p>For a lot of the problems in this book (probabilities that aren’t too close to 0 or 1, simple predictors, describing patterns rather than making predictions), I think the LPM is a good default. Its coefficients are easy to interpret, it usually agrees with the logistic model’s marginal effects, and it tells you when something has gone wrong.</p>
+<p>Logistic regression makes more sense when probabilities really are near 0 or 1, when the relationship is very nonlinear, when you need predictions for new cases that have to be valid probabilities, or when you want to use the likelihood tools from <a href="09-likelihood.html" class="quarto-xref"><span>Chapter 9</span></a> to compare models.</p>
+<p>But I don’t think “logistic regression is the correct model for a binary outcome” is a good reason. Both models are approximations, and only one of them tells you when it isn’t working.</p>
 <p>For a fuller version of this argument, see <span class="citation" data-cites="hellevik2009">Hellevik (<a href="references.html#ref-hellevik2009" role="doc-biblioref">2009</a>)</span>.</p>
 </div>
 </div>

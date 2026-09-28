@@ -410,8 +410,8 @@ window.Quarto = {
 </header>
 
 
-<p>We’re going to look at models with multiple categorical predictors, including their interactions. The approach here is dummy coding and model comparison rather than contrast coding.</p>
-<p>We are going to use the full GSS data for this example. That is the cumulative file you built in the setup chapter, because we want variation across half a century and no single survey can provide it.</p>
+<p>We’re going to look at models with multiple categorical predictors, including their interactions. I’m going to use dummy coding and model comparison rather than contrast coding.</p>
+<p>We are going to use the full GSS data for this example. That’s the cumulative file you saved in the setup chapter. We need it here because we want to look at about fifty years of surveys.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss-1972-2024.rds"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">zap_labels</span>() <span class="sc">|&gt;</span></span>
@@ -435,7 +435,7 @@ window.Quarto = {
 <li><code>degree_fac</code>: highest degree earned from none (0) to graduate degree (4); stored as a factor</li>
 <li><code>year_fac</code>: a factor encoding the survey year<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> from 1975 to 2024 (with gaps)</li>
 </ul>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<code>year</code> is clearly a “numeric” variable in the obvious sense. We have <code>year_fac</code> stored as a factor so that we make no assumptions about its functional (e.g., straight line) relationship to the outcome when we use it in a model. That is exactly the trade-off from the ladder in <a href="13-comparing-groups.html" class="quarto-xref"><span>Chapter 13</span></a>, decided here in favor of flexibility because we have tens of thousands of observations to spend.</p></div></div><p>Let’s consider a simple model that uses all of these additively.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;<code>year</code> is clearly a “numeric” variable in the obvious sense. We have <code>year_fac</code> stored as a factor so that we make no assumptions about its functional (e.g., straight line) relationship to the outcome when we use it in a model. This is the same trade-off we saw in <a href="13-comparing-groups.html" class="quarto-xref"><span>Chapter 13</span></a>. Here we can afford the extra parameters because we have tens of thousands of cases.</p></div></div><p>Let’s consider a simple model that uses all of these additively.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(tvhours <span class="sc">~</span> degree_fac <span class="sc">+</span> female <span class="sc">+</span> year_fac,</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -517,7 +517,7 @@ F-statistic: 80.55 on 33 and 45966 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>the <code>female</code> one that shows how female respondents are different from males</li>
 <li>the <code>year_fac</code> ones that show how different each survey is from the 1975 reference</li>
 </ul>
-<p>Every one is a difference from a reference category, exactly as in <a href="13-comparing-groups.html" class="quarto-xref"><span>Chapter 13</span></a>. There are simply a lot of them. Coefficient tables stop being a useful way to read a model at about this size.</p>
+<p>Each one is a difference from a reference category, just like in <a href="13-comparing-groups.html" class="quarto-xref"><span>Chapter 13</span></a>. There are just a lot of them! With this many coefficients, the table isn’t a very useful way to understand the model.</p>
 <p>This is easier to see in picture form. I will use <code>plot_predictions()</code> from the <code>marginaleffects</code> package. Using the <code>newdata = "balanced"</code> argument means that the predictions are averaged over equal values of the other predictors (i.e, in the first plot: half male, equal representation from all survey years).</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">ggplot2</a></li></ul>
@@ -687,11 +687,11 @@ Figure&nbsp;14.6: Predicted television hours by sex, balanced over education and
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Balanced is a choice, not a default truth
+<span class="screen-reader-only">Note</span>Balanced predictions are a choice
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Averaging over an equal mix of survey years treats 1975 and 2024 as equally representative, though the GSS did not sample equally across them. Averaging over half men and half women is similarly a construction. Balanced predictions describe a hypothetical population you have specified, which is often what you want for comparison (it holds the composition fixed while one variable moves), but it is a choice you are making, and worth stating when you report it.</p>
+<p>Averaging over an equal mix of survey years treats every year as equally important, even though the GSS didn’t interview the same number of people every year. And averaging over half men and half women is also something we made up. Balanced predictions describe a hypothetical population that you’ve specified. That’s often what you want for comparisons (because it holds the composition constant), but you should say that’s what you did when you report the results.</p>
 </div>
 </div>
 </section>
@@ -706,7 +706,7 @@ Figure&nbsp;14.6: Predicted television hours by sex, balanced over education and
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>m_all     <span class="ot">&lt;-</span> <span class="fu">update</span>(m1, tvhours <span class="sc">~</span> degree_fac <span class="sc">*</span> female <span class="sc">*</span> year_fac)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can compare their performance.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;The <code>AIC_wt</code> and <code>BIC_wt</code> columns convert the differences into something like relative probabilities: exponentiate half the negative difference from the best model, then divide by the total. <a href="10-comparing-models.html" class="quarto-xref"><span>Chapter 10</span></a> introduced them.</p></div></div><div class="cell">
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;The <code>AIC_wt</code> and <code>BIC_wt</code> columns (AIC and BIC “weights”) turn the differences into something like relative probabilities. To get them, you take the difference between each model and the best one, multiply by <span class="math inline">\(-\frac{1}{2}\)</span>, exponentiate, and then divide by the total. The BIC weights are the same idea as the posterior probabilities in <a href="10-comparing-models.html" class="quarto-xref"><span>Chapter 10</span></a>.</p></div></div><div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mods <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">additive        =</span> m1,</span>
@@ -740,9 +740,9 @@ Figure&nbsp;14.6: Predicted television hours by sex, balanced over education and
 5     all three        290 0.0616 214766.6      0 217308.9  0.000</code></pre>
 </div>
 </div>
-<p>PRE rises with every added interaction, as always, and the criteria do not follow it: the three-way model, with 290 parameters, is the <em>worst</em> by both.</p>
+<p>PRE goes up with every interaction we add (as always), but the three-way model with 290 parameters is the <em>worst</em> according to both AIC and BIC.</p>
 <p>With 46,000 cases, it’s not too surprising that the BIC prefers the simple additive model. The AIC, however, prefers the model where degree and sex moderate each other. Let’s take a look at that.</p>
-<p>This disagreement is not a malfunction. <a href="10-comparing-models.html" class="quarto-xref"><span>Chapter 10</span></a> explained that the two answer different questions, and that BIC’s penalty grows with the sample size. Here <span class="math inline">\(\log(n)\)</span> is about 10.7, so BIC charges more than three times AIC’s rate per parameter. A modest interaction can easily be worth keeping for prediction and not worth asserting as real.</p>
+<p>This disagreement isn’t a problem. As we saw in <a href="10-comparing-models.html" class="quarto-xref"><span>Chapter 10</span></a>, AIC and BIC are trying to answer different questions, and BIC’s penalty gets bigger with the sample size. Here <span class="math inline">\(\log(n)\)</span> is about 10.7, so BIC’s penalty per parameter is more than three times as big as AIC’s. An interaction can help with prediction without being something we’d want to claim is “real.”</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>preds <span class="ot">&lt;-</span> <span class="fu">avg_predictions</span>(m_deg_sex,</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">variables =</span> <span class="fu">c</span>(<span class="st">"degree_fac"</span>, <span class="st">"female"</span>),</span>
@@ -827,7 +827,7 @@ Figure&nbsp;14.8: Predicted television hours by education and sex.
 5 4           1.91  1.96 0.049</code></pre>
 </div>
 </div>
-<p>Among respondents with no degree, women are predicted to watch about 0.424 hours more television per day than men. Among those with graduate degrees, the gap is about 0.049 hours (essentially nothing). The sex difference narrows as education rises, and an additive model cannot express that; it would have imposed a single sex gap at every education level, and reported the average of gaps that are in fact quite different.</p>
+<p>Among respondents with no degree, women are predicted to watch about 0.424 hours more television per day than men. Among those with graduate degrees, the gap is about 0.049 hours (basically nothing). So the gap between men and women gets smaller as education goes up. The additive model can’t show that, since it assumes the sex gap is the same at every level of education.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -838,8 +838,8 @@ Figure&nbsp;14.8: Predicted television hours by education and sex.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>It is tempting to write that “education reduces the sex gap in television watching.” It does not follow. We have compared people at different education levels in a survey, not intervened on anyone’s schooling, and everything from birth cohort to employment to household composition differs across those groups as well.</p>
-<p>The defensible statement: <em>among respondents with more education, the predicted difference between women and men is smaller.</em></p>
+<p>It is tempting to write that “education reduces the sex gap in television watching.” But that’s not what we found. We compared people with different amounts of education in a survey. We didn’t change anyone’s education, and lots of other things (birth cohort, employment, household composition, etc.) are different across these groups too.</p>
+<p>A better way to say it: <em>among respondents with more education, the predicted difference between women and men is smaller.</em></p>
 </div>
 </div>
 </section>

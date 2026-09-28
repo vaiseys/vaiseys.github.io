@@ -438,8 +438,7 @@ window.Quarto = {
 </header>
 
 
-<p>Everything from here to the end of the book is a variation on one activity. We propose a rule for predicting an outcome, we measure how badly the rule does, and we ask whether a more complicated rule does enough better to be worth having.</p>
-<p>That lets us start with a model so simple it barely deserves the name and build up from there without ever changing the question we’re asking.</p>
+<p>Most of the rest of this book is some version of the same thing. We come up with a rule for predicting an outcome, we see how wrong the rule is, and we ask whether a more complicated rule is enough better to be worth it. In this chapter we start with a very simple model and build up from there.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>gss <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">zap_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -447,7 +446,7 @@ window.Quarto = {
 <p>We use <code>haven::zap_labels()</code> to get rid of the labels that come from the Stata import that is the origin of the data in the <code>gssr</code> package. These can be useful sometimes, but they can also get in the way of certain functions.</p>
 <section id="a-model-is-a-description-of-a-process" class="level2 page-columns page-full" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="a-model-is-a-description-of-a-process"><span class="header-section-number">4.1</span> A model is a description of a process</h2>
-<p>Let’s start with a single variable and no predictors at all. The GSS asks respondents to place themselves on a seven-point political spectrum, from 1 (extremely liberal) to 7 (extremely conservative).</p>
+<p>We can write a model for something as simple as the observed values of a single variable, with no predictors at all. The GSS asks respondents to place themselves on a seven-point scale of political views, from 1 (extremely liberal) to 7 (extremely conservative).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pol <span class="ot">&lt;-</span> gss <span class="sc">|&gt;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(polviews, sex, wordsum, degree) <span class="sc">|&gt;</span></span>
@@ -458,10 +457,25 @@ window.Quarto = {
 <pre><code>[1] 3160</code></pre>
 </div>
 </div>
-<p>What generates these numbers? Here’s a first attempt, in words: there’s some typical position, and each person departs from it in their own way. Written down:</p>
+<p>If we want to write a model for each individual observation, we could write something like this:</p>
+<p><span class="math display">\[\text{polviews}_i = \text{mean} + \text{weirdness}_i\]</span></p>
+<p>This means that everyone starts at the same place and then departs from it in some way due to their “weirdness” (i.e., difference from what is typical).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The mean doesn’t have a subscript because everyone shares the same one; “weirdness” does because everyone is weird in their own way.</p>
+</div>
+</div>
+<p>We usually write such a model like this:</p>
 <p><span class="math display">\[y_i = \mu + \epsilon_i\]</span></p>
-<p>Read it as: person <span class="math inline">\(i\)</span>’s answer is a common value <span class="math inline">\(\mu\)</span>, shared by everyone, plus a personal departure <span class="math inline">\(\epsilon_i\)</span>, which is that person’s <strong>weirdness</strong>. The subscript bookkeeping tells the story. <span class="math inline">\(\mu\)</span> has no <span class="math inline">\(i\)</span> because everyone gets the same one; <span class="math inline">\(\epsilon_i\)</span> has one because each person is weird in their own particular way.</p>
-<p>This is a <strong>data-generating process</strong>, a claim about how the numbers came to be. It’s obviously too simple. That’s what makes it a model.</p>
+<p>We think of this model as the <strong>data-generating process</strong>. Of course it’s very simple, but that’s why it’s a <em>model</em>.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -472,15 +486,15 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Error</strong> is the real thing in the world: <span class="math inline">\(\epsilon_i\)</span>, the part of a person our model doesn’t capture. It’s there whether or not we ever fit a model, and we never get to see it.</p>
-<p><strong>Residuals</strong> are our <em>estimates</em> of the errors, conditional on a particular model: <span class="math inline">\(e_i = y_i - \hat{y}_i\)</span>. Fit a different model and the residuals change. The errors don’t.</p>
-<p>People use the two words interchangeably all the time, which quietly turns an unknowable feature of the world into a column in a data frame. When you read “error” in this book it means the real, unobserved quantity. When we mean the computed leftover, we’ll say residual.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p><strong>Error</strong> (<span class="math inline">\(\epsilon_i\)</span>) is the part of a person that our model doesn’t capture. It’s a real thing in the world, and we never get to see it.</p>
+<p><strong>Residuals</strong> are our <em>estimates</em> of the errors, based on a particular model: <span class="math inline">\(e_i = y_i - \hat{y}_i\)</span>. If we fit a different model, the residuals change. The errors don’t.</p>
+<p>People use the two words interchangeably all the time. In this book, “error” means the real, unobserved thing and “residual” means the thing we compute.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 </div>
 </div>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;A fuller statement of the model adds a claim about the errors, usually <span class="math inline">\(\epsilon_i \sim \mathcal{N}(0, \sigma)\)</span>, so the weirdness is normally distributed and small departures are more common than big ones. Nothing in <em>this</em> chapter needs that assumption (sums of squared residuals and the comparisons we build from them are purely descriptive). Normality starts doing real work in <a href="05-sampling-distributions.html" class="quarto-xref"><span>Chapter 5</span></a>, where it gives us the sampling distribution that licenses tests and intervals.</p></div></div></section>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;We often add a second line to the model, <span class="math inline">\(\epsilon_i \sim \mathcal{N}(0, \sigma)\)</span>. This means that the “weirdness” (<span class="math inline">\(\epsilon_i\)</span>) is <em>normally distributed</em>, meaning that less weirdness is more common than more weirdness! Nothing in <em>this</em> chapter needs that assumption, because sums of squared residuals (and the comparisons we make with them) are just descriptive. We’ll need it starting in <a href="05-sampling-distributions.html" class="quarto-xref"><span>Chapter 5</span></a>, where it gives us the sampling distributions we use for tests and intervals.</p></div></div></section>
 <section id="the-simplest-possible-prediction" class="level2 page-columns page-full" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="the-simplest-possible-prediction"><span class="header-section-number">4.2</span> The simplest possible prediction</h2>
-<p>Suppose we have to guess one number for everyone. The scale runs 1 to 7, so 4 is the midpoint (“moderate”). That’s a real substantive claim: Americans are, on average, moderate.</p>
+<p>Suppose we have to guess one number for everyone. The scale runs from 1 to 7, so 4 is the midpoint (“moderate”). Guessing 4 amounts to saying that Americans are, on average, moderate.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pol <span class="ot">&lt;-</span> pol <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_c =</span> <span class="dv">4</span>,</span>
@@ -491,8 +505,7 @@ window.Quarto = {
 <pre><code> [1]  0 -1 -3  0 -2  0  0  0 -2 -3</code></pre>
 </div>
 </div>
-<p>Some residuals are positive, some negative. To measure how wrong we are overall we need to combine them, and just adding them up won’t do, since positives and negatives cancel and a wildly wrong model could total zero.</p>
-<p>So we square them first and then add:</p>
+<p>Some residuals are positive and some are negative. To see how wrong we are overall, we need to combine them somehow. We can’t just add them up, because the positives and negatives cancel out (a terrible model could have residuals that add up to zero!). So we square them first and then add them up:</p>
 <p><span class="math display">\[\text{SSE} = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sse_c <span class="ot">&lt;-</span> <span class="fu">sum</span>(pol<span class="sc">$</span>resid_c<span class="sc">^</span><span class="dv">2</span>)</span>
@@ -502,11 +515,11 @@ window.Quarto = {
 <pre><code>[1] 7431</code></pre>
 </div>
 </div>
-<p>We’ll rely on the <strong>sum of squared errors</strong> (SSE) to quantify ERROR in this framework, at least for now.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Squaring solves the cancellation problem, and it also means big misses count for disproportionately more. Being off by 4 is sixteen times as bad as being off by 1, not four times.</p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;This is also sometimes called the sum of squared residuals (SSR) or the residual sum of squares (RSS). These are all the same quantities. Given the distinction we just drew, “sum of squared residuals” is really the more accurate name (it’s computed from residuals, not from errors), but SSE is what you’ll run into most often, so that’s what we’ll use.</p></div></div></section>
+<p>We’ll rely on the <strong>sum of squared errors</strong> (SSE) to quantify ERROR in this framework, at least for now.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> Squaring gets rid of the cancellation problem. It also means that big misses count a lot more than small ones: being off by 4 is sixteen times as bad as being off by 1, not four times.</p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;This is also sometimes called the sum of squared residuals (SSR) or the residual sum of squares (RSS). These are all the same quantities. Given what I said above, “sum of squared residuals” is really the more accurate name. But SSE is what you’ll see most often, so that’s what we’ll use.</p></div></div></section>
 <section id="a-model-that-learns-from-the-data" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="a-model-that-learns-from-the-data"><span class="header-section-number">4.3</span> A model that learns from the data</h2>
-<p>Our first model guessed 4 because the scale said so. It never looked at the data. The obvious improvement is to estimate the typical value instead.</p>
+<p>Our first model guessed 4 without looking at the data at all. We can do better by estimating the typical value from the data instead.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pol <span class="ot">&lt;-</span> pol <span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pred_a =</span> <span class="fu">mean</span>(polviews),</span>
@@ -520,8 +533,8 @@ window.Quarto = {
 7431.000 7394.202 </code></pre>
 </div>
 </div>
-<p>The sample mean is 4.108, close to 4, which is why the improvement is slight. But it <em>is</em> an improvement.</p>
-<p><strong>The mean is the value that minimizes SSE.</strong> No other single guess does better. We can see it directly by trying a bunch of candidates:</p>
+<p>The sample mean is 4.108. That’s close to 4, so the improvement is small. But it <em>is</em> an improvement.</p>
+<p><strong>The mean is the value that minimizes SSE.</strong> No other single guess does better. We can see this by trying a bunch of different guesses:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>candidates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">3.5</span>, <span class="fl">4.7</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -572,15 +585,15 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 </div>
 </div>
 </div>
-<p>A smooth bowl with its bottom at the mean. <strong>Fitting a model means choosing parameter values that make the SSE as small as possible</strong>. Later on the bowl will live in more dimensions, but it’s the same bowl.</p>
+<p>The SSE makes a bowl shape, and the bottom of the bowl is at the mean. <strong>Fitting a model means choosing parameter values that make the SSE as small as possible.</strong> Later on we’ll have more than one parameter to choose, but the idea is exactly the same.</p>
 </section>
 <section id="comparing-two-models" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="comparing-two-models"><span class="header-section-number">4.4</span> Comparing two models</h2>
-<p>Now we have two models and their SSEs. The natural question is how much the second one buys us.</p>
-<p>Raw SSE is awkward for that, because its size depends on the units and on how many people we have. A proportion travels better:</p>
+<p>Now we have two models and their SSEs. How much better is the second one?</p>
+<p>The raw SSE isn’t very useful for this, because its size depends on the units and on how many people we have. A proportion is easier to interpret:</p>
 <p><span class="math display">\[\text{PRE} = \frac{\text{SSE}_{\text{C}} - \text{SSE}_{\text{A}}}{\text{SSE}_{\text{C}}}\]</span></p>
-<p>This is the <strong>proportional reduction in error</strong>: of the error the simpler model made, what fraction did the more complex model get rid of?</p>
-<p>The vocabulary here (the <strong>compact</strong> model C, the <strong>augmented</strong> model A, and PRE as the currency of comparison) follows Correll and colleagues <span class="citation" data-cites="correll2025">(<a href="references.html#ref-correll2025" role="doc-biblioref">Correll et al. 2025</a>)</span>. Comparing models is a much older idea than any particular textbook; what we’re borrowing is their terminology.</p>
+<p>This is the <strong>proportional reduction in error</strong>. It tells us what proportion of the simpler model’s error the more complex model gets rid of.</p>
+<p>The terms here (the <strong>compact</strong> model C, the <strong>augmented</strong> model A, and PRE) come from Correll and colleagues <span class="citation" data-cites="correll2025">(<a href="references.html#ref-correll2025" role="doc-biblioref">Correll et al. 2025</a>)</span>. The idea of comparing models is much older, but I like their terminology.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pre <span class="ot">&lt;-</span> (sse_c <span class="sc">-</span> sse_a) <span class="sc">/</span> sse_c</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -589,12 +602,11 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 <pre><code>[1] 0.004951929</code></pre>
 </div>
 </div>
-<p>About 0.5%. Estimating the mean rather than assuming 4 gets rid of half a percent of the error.</p>
-<p>This isn’t a lot, but it’s not nothing, either. It doesn’t mean the calculation failed. It means the substantive claim behind model C (that Americans average out to the midpoint of the scale) was very nearly right to begin with, so there wasn’t much for model A to improve on. <strong>A small PRE can be a fact about the world instead of a defect in the model.</strong></p>
+<p>Estimating the mean rather than assuming 4 gets rid of about 0.5% of the error.</p>
+<p>This isn’t a lot, but it’s not nothing, either. It just means that model C (Americans are moderate on average) was very nearly right to begin with, so there wasn’t much for model A to improve on. A small PRE can tell you something about the world. It doesn’t have to mean there’s something wrong with the model.</p>
 <section id="a-second-look-with-countries" class="level3" data-number="4.4.1">
 <h3 data-number="4.4.1" class="anchored" data-anchor-id="a-second-look-with-countries"><span class="header-section-number">4.4.1</span> A second look, with countries</h3>
-<p>The same logic works on data that has nothing to do with surveys, and it works even when the predictions aren’t estimated from the data at all.</p>
-<p>Here’s the share of each country’s population using the internet in 2021, from the World Bank’s development indicators.</p>
+<p>The same logic works for other kinds of data, and it works even when we don’t estimate the predictions from the data at all. Here’s the share of each country’s population using the internet in 2021, from the World Bank’s World Development Indicators.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>internet <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"WDI.rds"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(region <span class="sc">!=</span> <span class="st">"Aggregates"</span>) <span class="sc">|&gt;</span></span>
@@ -630,7 +642,7 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 </div>
 </div>
 <p>Conditioning on income gets rid of about 22% of the error, and neither number was estimated. We made both guesses up!</p>
-<p>A model doesn’t have to be <em>fitted</em> to be a model. It has to make predictions, and those predictions can be judged. Fitting is just the business of choosing the predictions well. The reason our invented guesses did tolerably is that one of them happened to be close to the truth:</p>
+<p>So a model doesn’t have to be <em>fitted</em> to be a model. It just has to make predictions that we can compare to the data. Fitting is just a way of choosing good predictions. Our made-up guesses did OK because one of them happened to be pretty close:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>internet <span class="sc">|&gt;</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(high_income) <span class="sc">|&gt;</span></span>
@@ -643,13 +655,12 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 2 TRUE               90.1    63</code></pre>
 </div>
 </div>
-<p>A guess of 90 for high-income countries was nearly exact. A guess of 70 for the rest was too high by a wide margin, and that’s where most of the remaining error sits.</p>
+<p>Guessing 90 for high-income countries was almost exactly right. Guessing 70 for the rest was way too high, and that’s where most of the remaining error comes from.</p>
 </section>
 </section>
 <section id="the-same-thing-with-lm" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="the-same-thing-with-lm"><span class="header-section-number">4.5</span> The same thing with <code>lm()</code></h2>
-<p>Doing this by hand once is worth it. From here on we’ll let R fit the models.</p>
-<p>The workhorse is <code>lm()</code>. We can get R to estimate model A, our one parameter “augmented” estimate, with the formula <code>y ~ 1</code>, which asks it to estimate an intercept and nothing else.</p>
+<p>It’s good to do this by hand once, but from here on we’ll let R fit the models with <code>lm()</code>. We can get R to estimate model A, our one parameter “augmented” estimate, with the formula <code>y ~ 1</code>, which asks it to estimate an intercept and nothing else.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>mod_a <span class="ot">&lt;-</span> <span class="fu">lm</span>(polviews <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> pol)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -663,8 +674,8 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 <pre><code>[1] 7394.202</code></pre>
 </div>
 </div>
-<p><code>deviance()</code> pulls out the SSE, and it matches what we computed by hand. The estimated intercept is the sample mean, as it has to be.</p>
-<p>Model C, our zero parameter guess, is stranger to express. First let’s make a version of <code>polviews</code> “centered” on 4, and then estimate a model with no constant at all (that is, estimating no parameters), written <code>~ 0</code>:</p>
+<p><code>deviance()</code> gives us the SSE, which matches what we got by hand. The estimated intercept is the sample mean.</p>
+<p>Model C, our zero parameter guess, is a little weirder. First let’s make a version of <code>polviews</code> “centered” on 4, and then estimate a model with no constant at all (that is, estimating no parameters), written <code>~ 0</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>mod_c <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">I</span>(polviews <span class="sc">-</span> <span class="dv">4</span>) <span class="sc">~</span> <span class="dv">0</span>, <span class="at">data =</span> pol)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -673,8 +684,8 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 <pre><code>[1] 7431</code></pre>
 </div>
 </div>
-<p>Same number as before. Because of the way we transformed the outcome variable (deviating it from 4), fitting <code>~ 1</code> to it instead would answer “how different is the estimated mean from 4.”</p>
-<p>Now PRE from the fitted objects:</p>
+<p>This is the same SSE as before. (Because of the way we transformed the outcome variable (deviating it from 4), fitting <code>~ 1</code> to it instead would answer “how different is the estimated mean from 4.”)</p>
+<p>Now we can get the PRE from the model objects:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>(<span class="fu">deviance</span>(mod_c) <span class="sc">-</span> <span class="fu">deviance</span>(mod_a)) <span class="sc">/</span> <span class="fu">deviance</span>(mod_c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -684,9 +695,8 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 </section>
 <section id="predictions-that-depend-on-something" class="level2 page-columns page-full" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="predictions-that-depend-on-something"><span class="header-section-number">4.6</span> Predictions that depend on something</h2>
-<p>So far every model has made the same prediction for everyone. The interesting move is to let the prediction depend on what we know about a person.</p>
-<p>In <a href="03-probability.html" class="quarto-xref"><span>Chapter 3</span></a> we compared conditional probabilities across groups. This is the same operation with a continuous outcome: instead of one mean, a mean for each group.</p>
-<p>Let’s take vocabulary scores and education. <code>degree</code> runs from 0 (less than high school) to 4 (graduate degree).</p>
+<p>So far every model has made the same prediction for everyone. But we can also use the data to make different predictions for different groups. In <a href="03-probability.html" class="quarto-xref"><span>Chapter 3</span></a> we compared conditional probabilities across groups. This is the same idea with a continuous outcome: instead of one mean, we have a mean for each group.</p>
+<p>Let’s look at vocabulary scores and education. <code>degree</code> runs from 0 (less than high school) to 4 (graduate degree).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>voc <span class="ot">&lt;-</span> gss <span class="sc">|&gt;</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(wordsum), <span class="sc">!</span><span class="fu">is.na</span>(degree))</span>
@@ -705,7 +715,7 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 5      4         7.63   315</code></pre>
 </div>
 </div>
-<p>A clear gradient. Now let’s compare two models: one that ignores education, and one that gives each degree category its own mean.</p>
+<p>Scores go up pretty steadily with education. Now let’s compare two models: one that ignores education, and one that gives each degree category its own mean.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>uncond <span class="ot">&lt;-</span> <span class="fu">lm</span>(wordsum <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> voc)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>cond   <span class="ot">&lt;-</span> <span class="fu">lm</span>(wordsum <span class="sc">~</span> <span class="fu">factor</span>(degree), <span class="at">data =</span> voc)</span>
@@ -724,7 +734,7 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 <pre><code>[1] 0.1602765</code></pre>
 </div>
 </div>
-<p>Knowing someone’s degree gets rid of about 16% of the error we made by predicting the overall mean for everyone. Next to half a percent, that’s a lot.</p>
+<p>Knowing someone’s degree gets rid of about 16% of the error we made by predicting the overall mean for everyone. That’s a lot more than half a percent!</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -744,25 +754,25 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_kqhdyybiu5vstg9s4619 = TinyTable.createTableFunctions("tinytable_kqhdyybiu5vstg9s4619");
+      const tableFns_yx9rusfyk6k8g2ajsqcq = TinyTable.createTableFunctions("tinytable_yx9rusfyk6k8g2ajsqcq");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '8', j: 2 }, { i: '8', j: 3 } ], css_id: 'tinytable_css_mt6ofe6xwo4n90jimxsu',}, 
-          { positions: [ { i: '5', j: 2 }, { i: '5', j: 3 } ], css_id: 'tinytable_css_aeyx72nw5w0vtmjju567',}, 
-          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '6', j: 3 }, { i: '7', j: 3 } ], css_id: 'tinytable_css_gh8u38s45s0l3gm1hm8g',}, 
-          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_q6h1jk02aocw4oakmrmf',}, 
-          { positions: [ { i: '8', j: 1 } ], css_id: 'tinytable_css_lum5n96co5h84vok22y5',}, 
-          { positions: [ { i: '5', j: 1 } ], css_id: 'tinytable_css_zei3dr8p79hvz9swp66i',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 } ], css_id: 'tinytable_css_d2yrknumm32ri9ppk9vf',}, 
-          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_p582l40b1r2vkjhoz11l',}, 
+          { positions: [ { i: '8', j: 2 }, { i: '8', j: 3 } ], css_id: 'tinytable_css_i3rovt912idfiv96l2do',}, 
+          { positions: [ { i: '5', j: 2 }, { i: '5', j: 3 } ], css_id: 'tinytable_css_0sla9y9xia8s95qp0g9y',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '3', j: 3 }, { i: '4', j: 3 }, { i: '6', j: 3 }, { i: '7', j: 3 } ], css_id: 'tinytable_css_psou0bs9u5bgkj3enabx',}, 
+          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_lhq1tbulvhajz96sikzd',}, 
+          { positions: [ { i: '8', j: 1 } ], css_id: 'tinytable_css_rvcw35jknk8b5btrz2mw',}, 
+          { positions: [ { i: '5', j: 1 } ], css_id: 'tinytable_css_y5hfov6x2m30wiqxfm9h',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 } ], css_id: 'tinytable_css_sq08g5u3x7ibng747ufj',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_xs30cbovj0mtbxletsbk',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_kqhdyybiu5vstg9s4619.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_yx9rusfyk6k8g2ajsqcq.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -771,17 +781,17 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_kqhdyybiu5vstg9s4619 td.tinytable_css_mt6ofe6xwo4n90jimxsu, #tinytable_kqhdyybiu5vstg9s4619 th.tinytable_css_mt6ofe6xwo4n90jimxsu {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_kqhdyybiu5vstg9s4619 td.tinytable_css_aeyx72nw5w0vtmjju567, #tinytable_kqhdyybiu5vstg9s4619 th.tinytable_css_aeyx72nw5w0vtmjju567 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_kqhdyybiu5vstg9s4619 td.tinytable_css_gh8u38s45s0l3gm1hm8g, #tinytable_kqhdyybiu5vstg9s4619 th.tinytable_css_gh8u38s45s0l3gm1hm8g { text-align: center }
-    #tinytable_kqhdyybiu5vstg9s4619 td.tinytable_css_q6h1jk02aocw4oakmrmf, #tinytable_kqhdyybiu5vstg9s4619 th.tinytable_css_q6h1jk02aocw4oakmrmf {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_kqhdyybiu5vstg9s4619 td.tinytable_css_lum5n96co5h84vok22y5, #tinytable_kqhdyybiu5vstg9s4619 th.tinytable_css_lum5n96co5h84vok22y5 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_kqhdyybiu5vstg9s4619 td.tinytable_css_zei3dr8p79hvz9swp66i, #tinytable_kqhdyybiu5vstg9s4619 th.tinytable_css_zei3dr8p79hvz9swp66i {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_kqhdyybiu5vstg9s4619 td.tinytable_css_d2yrknumm32ri9ppk9vf, #tinytable_kqhdyybiu5vstg9s4619 th.tinytable_css_d2yrknumm32ri9ppk9vf { text-align: left }
-    #tinytable_kqhdyybiu5vstg9s4619 td.tinytable_css_p582l40b1r2vkjhoz11l, #tinytable_kqhdyybiu5vstg9s4619 th.tinytable_css_p582l40b1r2vkjhoz11l {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_yx9rusfyk6k8g2ajsqcq td.tinytable_css_i3rovt912idfiv96l2do, #tinytable_yx9rusfyk6k8g2ajsqcq th.tinytable_css_i3rovt912idfiv96l2do {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_yx9rusfyk6k8g2ajsqcq td.tinytable_css_0sla9y9xia8s95qp0g9y, #tinytable_yx9rusfyk6k8g2ajsqcq th.tinytable_css_0sla9y9xia8s95qp0g9y {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_yx9rusfyk6k8g2ajsqcq td.tinytable_css_psou0bs9u5bgkj3enabx, #tinytable_yx9rusfyk6k8g2ajsqcq th.tinytable_css_psou0bs9u5bgkj3enabx { text-align: center }
+    #tinytable_yx9rusfyk6k8g2ajsqcq td.tinytable_css_lhq1tbulvhajz96sikzd, #tinytable_yx9rusfyk6k8g2ajsqcq th.tinytable_css_lhq1tbulvhajz96sikzd {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_yx9rusfyk6k8g2ajsqcq td.tinytable_css_rvcw35jknk8b5btrz2mw, #tinytable_yx9rusfyk6k8g2ajsqcq th.tinytable_css_rvcw35jknk8b5btrz2mw {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_yx9rusfyk6k8g2ajsqcq td.tinytable_css_y5hfov6x2m30wiqxfm9h, #tinytable_yx9rusfyk6k8g2ajsqcq th.tinytable_css_y5hfov6x2m30wiqxfm9h {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_yx9rusfyk6k8g2ajsqcq td.tinytable_css_sq08g5u3x7ibng747ufj, #tinytable_yx9rusfyk6k8g2ajsqcq th.tinytable_css_sq08g5u3x7ibng747ufj { text-align: left }
+    #tinytable_yx9rusfyk6k8g2ajsqcq td.tinytable_css_xs30cbovj0mtbxletsbk, #tinytable_yx9rusfyk6k8g2ajsqcq th.tinytable_css_xs30cbovj0mtbxletsbk {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_kqhdyybiu5vstg9s4619" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_yx9rusfyk6k8g2ajsqcq" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -838,16 +848,16 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 <!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
-<p><span class="math inline">\(R^2\)</span> for the conditional model is 0.16, exactly the PRE we just computed by hand.</p>
-<p><strong>When the compact model is the intercept-only model, PRE <em>is</em> <span class="math inline">\(R^2\)</span>.</strong> They’re two names for one number and you’ll meet both. PRE is the more general idea, since it applies to any pair of nested models; <span class="math inline">\(R^2\)</span> is the name reserved for this particular comparison.</p>
+<p><span class="math inline">\(R^2\)</span> for the conditional model is 0.16, which is exactly the PRE we just computed by hand.</p>
+<p><strong>When the compact model is the intercept-only model, PRE <em>is</em> <span class="math inline">\(R^2\)</span>.</strong> These are two names for the same number, and you’ll see both. PRE is more general, since we can use it to compare any pair of nested models. <span class="math inline">\(R^2\)</span> is just the name for this particular comparison.</p>
 </div>
 </div>
-<p>The model summary also reports RMSE, the <strong>root mean squared error</strong>, which is the square root of the mean squared error and so is roughly the size of a typical residual, back in the units of the outcome. It falls from 2.23 to 2.04 words. Both describe the same improvement: PRE as a proportion, RMSE in words correct.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;<code>broom::glance()</code> is another useful way to look at a model, and its <code>sigma</code> column is this same RMSE. Sigma is the RMSE!</p></div></div></section>
+<p>The model summary also reports the <strong>RMSE</strong> (the square root of the mean squared error). This is roughly the size of a typical residual, in the units of the outcome. It goes down from 2.23 to 2.04 words. So PRE shows the improvement as a proportion and RMSE shows it in words correct.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;<code>broom::glance()</code> is also a useful function to look at models. The <code>sigma</code> column (<span class="math inline">\(\sigma\)</span>) is the RMSE.</p></div></div></section>
 <section id="is-the-improvement-worth-it" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="is-the-improvement-worth-it"><span class="header-section-number">4.7</span> Is the improvement worth it?</h2>
-<p>Here’s the problem that occupies the next several chapters.</p>
-<p>Adding parameters to a model <strong>always</strong> reduces SSE, or at worst leaves it alone. It never increases it. Take twenty respondents, give each one their own parameter, and the SSE drops to exactly zero: a model that predicts the data perfectly and has learned nothing whatsoever about the world.</p>
+<p>This question will keep us busy for the next several chapters.</p>
+<p>Adding parameters to a model <strong>always</strong> reduces the SSE (or at least doesn’t make it bigger). If we take twenty respondents and give each one their own parameter, the SSE goes to zero. That model predicts the data perfectly, but it hasn’t told us anything about the world.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>twenty <span class="ot">&lt;-</span> voc <span class="sc">|&gt;</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">20</span>)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -858,8 +868,7 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 <pre><code>[1] 0</code></pre>
 </div>
 </div>
-<p>So “the more complex model has lower SSE” isn’t evidence of anything. It’s guaranteed in advance. So how do we know if it’s “worth it” to adopt the more complex model? The real question is whether the reduction is <em>bigger than we’d expect from adding parameters to pure noise</em>, and answering that means knowing how much SSE reduction chance alone produces. That’s a question about sampling distributions.</p>
-<p>Which is <a href="05-sampling-distributions.html" class="quarto-xref"><span>Chapter 5</span></a>. We now have the machinery to state the problem properly.</p>
+<p>So the fact that a more complex model has a lower SSE doesn’t tell us much by itself. So how do we know if it’s “worth it” to adopt the more complex model? We need to know whether the reduction is <em>bigger than we’d expect if the extra parameters were just fitting noise</em>. To answer that, we need to know about sampling distributions, which are the subject of <a href="05-sampling-distributions.html" class="quarto-xref"><span>Chapter 5</span></a>.</p>
 </section>
 <section id="recap" class="level2" data-number="4.8">
 <h2 data-number="4.8" class="anchored" data-anchor-id="recap"><span class="header-section-number">4.8</span> Recap</h2>
@@ -868,10 +877,10 @@ Figure&nbsp;4.2: SSE for every candidate guess. The minimum sits exactly at the 
 <li><strong>error</strong> is real and unobserved; <strong>residuals</strong> are our estimates of it, conditional on a model</li>
 <li>change the model and the residuals change, but the errors don’t</li>
 <li><strong>SSE</strong> squares residuals before summing, so positives and negatives can’t cancel</li>
-<li>the <strong>mean minimizes SSE</strong>, and fitting a model means finding the parameter values at the bottom of that bowl</li>
+<li>the <strong>mean minimizes SSE</strong>, and fitting a model means finding the parameter values that make the SSE as small as possible</li>
 <li><strong>PRE</strong> expresses one model’s improvement over another as a proportion of the simpler model’s error</li>
 <li>when the simpler model is intercept-only, PRE is <span class="math inline">\(R^2\)</span></li>
-<li>a small PRE may be a fact about the world rather than a failure of the model</li>
+<li>a small PRE isn’t necessarily a problem with the model</li>
 <li>more parameters always reduce SSE, so a reduction by itself proves nothing</li>
 </ul>
 

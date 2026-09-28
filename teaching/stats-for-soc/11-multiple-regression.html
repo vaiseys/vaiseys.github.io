@@ -434,9 +434,40 @@ window.Quarto = {
   \text{LIFEEXP}_i &amp;\sim \mathcal{N}(\mu_i, \sigma) \\
   \mu_i &amp;= \beta_0 + \beta_1(\text{HSGRAD}_i) + \beta_2(\text{MURDER}_i)
 \end{align}\]</span></p>
-<p>Before estimating the model, here’s a quick look at the three variables. You can see that all of them are correlated with each other. That is, there is at least some <strong>redundancy</strong> among the predictors.</p>
+<p>Before estimating the model, here’s a quick visualization of the three variables. You can see that all of them are correlated with each other. That is, there is at least some <strong>redundancy</strong> among the predictors.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(states[, <span class="fu">c</span>(<span class="st">"life_exp"</span>, <span class="st">"hs_grad"</span>, <span class="st">"murder"</span>)]), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clear theme because pairs() doesn't work with the changes it makes to par()</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tinytheme</span>()</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># pairs plot</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>states <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(life_exp, hs_grad, murder) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pairs</span>()</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># reset the theme</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">tinytheme</span>(<span class="st">"ipsum"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>          <span class="at">family =</span> book_font,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette.qualitative =</span> <span class="st">"Tableau 10"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>          <span class="at">palette.sequential =</span> <span class="st">"agSunset"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-pairs" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pairs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiple-regression_files/figure-html/fig-pairs-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pairs-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.1: Life expectancy, graduation rate, and murder rate in the 50 states.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We can quantify this using a correlation matrix.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">cor</span>(states[, <span class="fu">c</span>(<span class="st">"life_exp"</span>, <span class="st">"hs_grad"</span>, <span class="st">"murder"</span>)]), <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         life_exp hs_grad murder
 life_exp    1.000   0.582 -0.781
@@ -446,24 +477,24 @@ murder     -0.781  -0.488  1.000</code></pre>
 </div>
 <p>These are the Pearson’s <span class="math inline">\(r\)</span> correlations. What would the PREs/<span class="math inline">\(R^2\)</span>s be for the separate simple regressions of life expectancy on these predictors?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>simple_hs     <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad, <span class="at">data =</span> states)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>simple_murder <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> murder,  <span class="at">data =</span> states)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">hs_grad =</span> <span class="fu">summary</span>(simple_hs)<span class="sc">$</span>r.squared,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">murder  =</span> <span class="fu">summary</span>(simple_murder)<span class="sc">$</span>r.squared)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>simple_hs     <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad, <span class="at">data =</span> states)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>simple_murder <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> murder,  <span class="at">data =</span> states)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">hs_grad =</span> <span class="fu">summary</span>(simple_hs)<span class="sc">$</span>r.squared,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">murder  =</span> <span class="fu">summary</span>(simple_murder)<span class="sc">$</span>r.squared)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  hs_grad    murder 
 0.3389757 0.6097201 </code></pre>
 </div>
 </div>
 </section>
-<section id="estimating-parameters-in-multiple-regression" class="level2" data-number="11.2">
+<section id="estimating-parameters-in-multiple-regression" class="level2 page-columns page-full" data-number="11.2">
 <h2 data-number="11.2" class="anchored" data-anchor-id="estimating-parameters-in-multiple-regression"><span class="header-section-number">11.2</span> Estimating parameters in multiple regression</h2>
 <p>Let’s estimate the two-predictor model.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad <span class="sc">+</span> murder, <span class="at">data =</span> states)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(fit, <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"r.squared"</span>, <span class="st">"rmse"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad <span class="sc">+</span> murder, <span class="at">data =</span> states)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">msummary</span>(fit, <span class="at">gof_map =</span> <span class="fu">c</span>(<span class="st">"nobs"</span>, <span class="st">"r.squared"</span>, <span class="st">"rmse"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <!-- preamble start -->
 
@@ -471,25 +502,25 @@ murder     -0.781  -0.488  1.000</code></pre>
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_jyhz6kgubyb04k4yn64m = TinyTable.createTableFunctions("tinytable_jyhz6kgubyb04k4yn64m");
+      const tableFns_ekvv6bfxxfvwxxsrslrs = TinyTable.createTableFunctions("tinytable_ekvv6bfxxfvwxxsrslrs");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '9', j: 2 } ], css_id: 'tinytable_css_bdufnd2p998fjp6s6ov6',}, 
-          { positions: [ { i: '6', j: 2 } ], css_id: 'tinytable_css_h9pbabtwzpgto606d8d5',}, 
-          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '7', j: 2 }, { i: '8', j: 2 } ], css_id: 'tinytable_css_2hqffxrs7wudkik2tv6a',}, 
-          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_o8valy12ts9ldz8b7629',}, 
-          { positions: [ { i: '9', j: 1 } ], css_id: 'tinytable_css_ea9xmybo6yq02m5qqhp1',}, 
-          { positions: [ { i: '6', j: 1 } ], css_id: 'tinytable_css_j96j17g2ne1rwf8miylh',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '7', j: 1 }, { i: '8', j: 1 } ], css_id: 'tinytable_css_ex2l49km4or9f67sio63',}, 
-          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_71eiqo189ie5pahn2muf',}, 
+          { positions: [ { i: '9', j: 2 } ], css_id: 'tinytable_css_815h80n8s4yagv2r0nv1',}, 
+          { positions: [ { i: '6', j: 2 } ], css_id: 'tinytable_css_mpnzw4m03v0co2yui3g2',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '7', j: 2 }, { i: '8', j: 2 } ], css_id: 'tinytable_css_zj69m0kj5e2b8eu9st8x',}, 
+          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_uwb8wi65mk16q03ive7k',}, 
+          { positions: [ { i: '9', j: 1 } ], css_id: 'tinytable_css_ns5bkkg4mjyj6jpc0swc',}, 
+          { positions: [ { i: '6', j: 1 } ], css_id: 'tinytable_css_lg6dyg2zjabuzimukefl',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 }, { i: '7', j: 1 }, { i: '8', j: 1 } ], css_id: 'tinytable_css_8wb3muzkzhd8c3cf844d',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_w9fvtj63uh35d01r9fpi',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_jyhz6kgubyb04k4yn64m.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_ekvv6bfxxfvwxxsrslrs.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -498,17 +529,17 @@ murder     -0.781  -0.488  1.000</code></pre>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_jyhz6kgubyb04k4yn64m td.tinytable_css_bdufnd2p998fjp6s6ov6, #tinytable_jyhz6kgubyb04k4yn64m th.tinytable_css_bdufnd2p998fjp6s6ov6 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_jyhz6kgubyb04k4yn64m td.tinytable_css_h9pbabtwzpgto606d8d5, #tinytable_jyhz6kgubyb04k4yn64m th.tinytable_css_h9pbabtwzpgto606d8d5 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_jyhz6kgubyb04k4yn64m td.tinytable_css_2hqffxrs7wudkik2tv6a, #tinytable_jyhz6kgubyb04k4yn64m th.tinytable_css_2hqffxrs7wudkik2tv6a { text-align: center }
-    #tinytable_jyhz6kgubyb04k4yn64m td.tinytable_css_o8valy12ts9ldz8b7629, #tinytable_jyhz6kgubyb04k4yn64m th.tinytable_css_o8valy12ts9ldz8b7629 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_jyhz6kgubyb04k4yn64m td.tinytable_css_ea9xmybo6yq02m5qqhp1, #tinytable_jyhz6kgubyb04k4yn64m th.tinytable_css_ea9xmybo6yq02m5qqhp1 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_jyhz6kgubyb04k4yn64m td.tinytable_css_j96j17g2ne1rwf8miylh, #tinytable_jyhz6kgubyb04k4yn64m th.tinytable_css_j96j17g2ne1rwf8miylh {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_jyhz6kgubyb04k4yn64m td.tinytable_css_ex2l49km4or9f67sio63, #tinytable_jyhz6kgubyb04k4yn64m th.tinytable_css_ex2l49km4or9f67sio63 { text-align: left }
-    #tinytable_jyhz6kgubyb04k4yn64m td.tinytable_css_71eiqo189ie5pahn2muf, #tinytable_jyhz6kgubyb04k4yn64m th.tinytable_css_71eiqo189ie5pahn2muf {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_ekvv6bfxxfvwxxsrslrs td.tinytable_css_815h80n8s4yagv2r0nv1, #tinytable_ekvv6bfxxfvwxxsrslrs th.tinytable_css_815h80n8s4yagv2r0nv1 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_ekvv6bfxxfvwxxsrslrs td.tinytable_css_mpnzw4m03v0co2yui3g2, #tinytable_ekvv6bfxxfvwxxsrslrs th.tinytable_css_mpnzw4m03v0co2yui3g2 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_ekvv6bfxxfvwxxsrslrs td.tinytable_css_zj69m0kj5e2b8eu9st8x, #tinytable_ekvv6bfxxfvwxxsrslrs th.tinytable_css_zj69m0kj5e2b8eu9st8x { text-align: center }
+    #tinytable_ekvv6bfxxfvwxxsrslrs td.tinytable_css_uwb8wi65mk16q03ive7k, #tinytable_ekvv6bfxxfvwxxsrslrs th.tinytable_css_uwb8wi65mk16q03ive7k {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_ekvv6bfxxfvwxxsrslrs td.tinytable_css_ns5bkkg4mjyj6jpc0swc, #tinytable_ekvv6bfxxfvwxxsrslrs th.tinytable_css_ns5bkkg4mjyj6jpc0swc {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_ekvv6bfxxfvwxxsrslrs td.tinytable_css_lg6dyg2zjabuzimukefl, #tinytable_ekvv6bfxxfvwxxsrslrs th.tinytable_css_lg6dyg2zjabuzimukefl {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_ekvv6bfxxfvwxxsrslrs td.tinytable_css_8wb3muzkzhd8c3cf844d, #tinytable_ekvv6bfxxfvwxxsrslrs th.tinytable_css_8wb3muzkzhd8c3cf844d { text-align: left }
+    #tinytable_ekvv6bfxxfvwxxsrslrs td.tinytable_css_w9fvtj63uh35d01r9fpi, #tinytable_ekvv6bfxxfvwxxsrslrs th.tinytable_css_w9fvtj63uh35d01r9fpi {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_jyhz6kgubyb04k4yn64m" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_ekvv6bfxxfvwxxsrslrs" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -560,7 +591,64 @@ murder     -0.781  -0.488  1.000</code></pre>
 <!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
-<p>Something has moved. On its own, graduation rate carried a slope of 0.0968. In the presence of the murder rate it is 0.0439 (less than half).</p>
+<p>Now here’s a plot. The red points are positive residuals and the blue points are negative residuals.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;I got this from ChatGPT 5.2 and made just a few tweaks. I never make these so I really had no idea where to start…</p></div></div><div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">model.frame</span>(fit)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x  <span class="ot">&lt;-</span> df<span class="sc">$</span>hs_grad</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>y  <span class="ot">&lt;-</span> df<span class="sc">$</span>murder</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>z  <span class="ot">&lt;-</span> df<span class="sc">$</span>life_exp</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>zh <span class="ot">&lt;-</span> <span class="fu">fitted</span>(fit)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># colors</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>blue_a <span class="ot">&lt;-</span> <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="at">alpha =</span> <span class="fl">0.35</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>red_a  <span class="ot">&lt;-</span> <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># color by residual sign: red = above plane, blue = below plane</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>res  <span class="ot">&lt;-</span> z <span class="sc">-</span> zh</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(res <span class="sc">&gt;</span> <span class="dv">0</span>, red_a, <span class="fu">ifelse</span>(res <span class="sc">&lt;</span> <span class="dv">0</span>, blue_a, <span class="st">"gray40"</span>))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># prediction grid for the plane</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>gx <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(x), <span class="fu">max</span>(x), <span class="at">length.out =</span> <span class="dv">40</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>gy <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">min</span>(y), <span class="fu">max</span>(y), <span class="at">length.out =</span> <span class="dv">40</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">hs_grad =</span> gx, <span class="at">murder =</span> gy)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>Z <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">predict</span>(fit, <span class="at">newdata =</span> grid), <span class="at">nrow =</span> <span class="fu">length</span>(gx), <span class="at">ncol =</span> <span class="fu">length</span>(gy))</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># padding</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>zlim <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">c</span>(z, Z), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>pad  <span class="ot">&lt;-</span> <span class="fu">diff</span>(zlim) <span class="sc">*</span> <span class="fl">0.05</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>zlim <span class="ot">&lt;-</span> zlim <span class="sc">+</span> <span class="fu">c</span>(<span class="sc">-</span>pad, pad)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># graph</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>pmat <span class="ot">&lt;-</span> <span class="fu">persp</span>(</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> gx, <span class="at">y =</span> gy, <span class="at">z =</span> Z,</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta =</span> <span class="dv">120</span>, <span class="at">phi =</span> <span class="dv">15</span>,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">zlim =</span> zlim,</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"HS grad %"</span>, <span class="at">ylab =</span> <span class="st">"Murder rate"</span>, <span class="at">zlab =</span> <span class="st">"Life expectancy"</span>,</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">ticktype =</span> <span class="st">"detailed"</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="co"># projected points and "sticks"</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>p_obs <span class="ot">&lt;-</span> <span class="fu">trans3d</span>(x, y, z,  <span class="at">pmat =</span> pmat)</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>p_fit <span class="ot">&lt;-</span> <span class="fu">trans3d</span>(x, y, zh, <span class="at">pmat =</span> pmat)</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(p_fit<span class="sc">$</span>x, p_fit<span class="sc">$</span>y, p_obs<span class="sc">$</span>x, p_obs<span class="sc">$</span>y, <span class="at">col =</span> cols, <span class="at">lwd =</span> <span class="dv">1</span>)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(p_obs, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">col =</span> cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-plane" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-plane-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-multiple-regression_files/figure-html/fig-plane-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-plane-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11.2: The fitted regression plane, with each state’s residual drawn as a stick.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Notice that the coefficient for graduation rate changed. On its own, it was 0.0968. Adjusting for the murder rate, it’s 0.0439 (less than half as big).</p>
 </section>
 <section id="interpreting-parameters-in-multiple-regression" class="level2" data-number="11.3">
 <h2 data-number="11.3" class="anchored" data-anchor-id="interpreting-parameters-in-multiple-regression"><span class="header-section-number">11.3</span> Interpreting parameters in multiple regression</h2>
@@ -588,20 +676,33 @@ murder     -0.781  -0.488  1.000</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>It’s tempting to read “adjusting for the murder rate” as “as if murder rates were equal everywhere.” That isn’t what happened. The adjustment removes the part of graduation rates that’s <em>linearly</em> related to murder rates, in <em>these</em> data, and nothing more. It doesn’t account for anything you didn’t measure.</p>
+<p>It’s tempting to read “adjusting for the murder rate” as “as if murder rates were equal everywhere.” But that’s not quite what the model does. It removes the part of graduation rates that’s <em>linearly</em> related to murder rates in <em>these</em> data, and that’s all. It doesn’t adjust for anything we didn’t measure.</p>
 </div>
 </div>
 </section>
 <section id="comparing-coefficients" class="level3" data-number="11.3.2">
 <h3 data-number="11.3.2" class="anchored" data-anchor-id="comparing-coefficients"><span class="header-section-number">11.3.2</span> Comparing coefficients</h3>
 <p>These predictors are on different units. HS graduation is percentages and the murder rate is per 100,000. But it’s also worth pointing out that graduating from high school is (fortunately) more common than being murdered. How could we compare the sizes of these coefficients?</p>
+<p>Here are the results with <strong>x-normalization</strong>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>normalized_x <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hs_grad01 =</span> scales<span class="sc">::</span><span class="fu">rescale</span>(hs_grad),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">murder01 =</span> scales<span class="sc">::</span><span class="fu">rescale</span>(murder))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad01 <span class="sc">+</span> murder01, <span class="at">data =</span> normalized_x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)   hs_grad01    murder01 
+  71.624098    1.294675   -3.248134 </code></pre>
+</div>
+</div>
+<p>How would you interpret these? Be sure to use the correct units!</p>
 <p>Here are the results with <strong>x-standardization</strong>. Interpret these. Be sure to use the correct units!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>standardized_x <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hs_z =</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(hs_grad)),</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">murder_z =</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(murder)))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_z <span class="sc">+</span> murder_z, <span class="at">data =</span> standardized_x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>standardized_x <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hs_z =</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(hs_grad)),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">murder_z =</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(murder)))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_z <span class="sc">+</span> murder_z, <span class="at">data =</span> standardized_x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)        hs_z    murder_z 
  70.8786000   0.3544776  -0.8752275 </code></pre>
@@ -609,10 +710,10 @@ murder     -0.781  -0.488  1.000</code></pre>
 </div>
 <p>Here are the results with <strong>full standardization</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fully <span class="ot">&lt;-</span> standardized_x <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">life_z =</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(life_exp)))</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(life_z <span class="sc">~</span> hs_z <span class="sc">+</span> murder_z, <span class="at">data =</span> fully))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fully <span class="ot">&lt;-</span> standardized_x <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">life_z =</span> <span class="fu">as.numeric</span>(<span class="fu">scale</span>(life_exp)))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(life_z <span class="sc">~</span> hs_z <span class="sc">+</span> murder_z, <span class="at">data =</span> fully))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  (Intercept)          hs_z      murder_z 
 -3.514457e-15  2.640639e-01 -6.519902e-01 </code></pre>
@@ -623,13 +724,13 @@ murder     -0.781  -0.488  1.000</code></pre>
 </section>
 <section id="more-intuition" class="level2 page-columns page-full" data-number="11.4">
 <h2 data-number="11.4" class="anchored" data-anchor-id="more-intuition"><span class="header-section-number">11.4</span> More intuition</h2>
-<p>How does multiple regression work? We can build a two-predictor multiple regression out of a series of simple regressions.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;This is sometimes referred to as the <a href="https://en.wikipedia.org/wiki/Frisch%E2%80%93Waugh%E2%80%93Lovell_theorem">Frisch-Waugh-Lovell theorem</a> but it looks like first credit for this goes to <a href="https://en.wikipedia.org/wiki/Udny_Yule">Udny Yule</a> in 1907.</p></div></div><p>Here it is for <code>hs_grad</code>:</p>
+<p>How does multiple regression work? We can build a two-predictor multiple regression out of a series of simple regressions.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;This is sometimes referred to as the <a href="https://en.wikipedia.org/wiki/Frisch%E2%80%93Waugh%E2%80%93Lovell_theorem">Frisch-Waugh-Lovell theorem</a> but it looks like first credit for this goes to <a href="https://en.wikipedia.org/wiki/Udny_Yule">Udny Yule</a> in 1907.</p></div></div><p>Here it is for <code>hs_grad</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>hs_resid   <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(hs_grad  <span class="sc">~</span> murder, <span class="at">data =</span> states))</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>life_resid <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(life_exp <span class="sc">~</span> murder, <span class="at">data =</span> states))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(life_resid <span class="sc">~</span> hs_resid))[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>hs_resid   <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(hs_grad  <span class="sc">~</span> murder, <span class="at">data =</span> states))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>life_resid <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(life_exp <span class="sc">~</span> murder, <span class="at">data =</span> states))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(life_resid <span class="sc">~</span> hs_resid))[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> hs_resid 
 0.0438873 </code></pre>
@@ -638,10 +739,10 @@ murder     -0.781  -0.488  1.000</code></pre>
 <p>You can confirm this is the same as <span class="math inline">\(b_1\)</span> for <code>hs_grad</code> estimated above.</p>
 <p>Now for <code>murder</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>murder_resid <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(murder   <span class="sc">~</span> hs_grad, <span class="at">data =</span> states))</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>life_resid2  <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad, <span class="at">data =</span> states))</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(life_resid2 <span class="sc">~</span> murder_resid))[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>murder_resid <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(murder   <span class="sc">~</span> hs_grad, <span class="at">data =</span> states))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>life_resid2  <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(life_exp <span class="sc">~</span> hs_grad, <span class="at">data =</span> states))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">lm</span>(life_resid2 <span class="sc">~</span> murder_resid))[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>murder_resid 
   -0.2370901 </code></pre>
@@ -649,23 +750,23 @@ murder     -0.781  -0.488  1.000</code></pre>
 </div>
 <p>You can confirm this is the same as <span class="math inline">\(b_2\)</span> for <code>murder</code> estimated above.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">b1 =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[<span class="dv">2</span>]), <span class="at">b2 =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[<span class="dv">3</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">b1 =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[<span class="dv">2</span>]), <span class="at">b2 =</span> <span class="fu">unname</span>(<span class="fu">coef</span>(fit)[<span class="dv">3</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        b1         b2 
  0.0438873 -0.2370901 </code></pre>
 </div>
 </div>
-<p>This two-step procedure should give you some sense of what we mean when we talk about “adjustment”; we are pulling the influence of a third variable<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> out of the relationship with the other two and then estimating a “simple” regression on those adjusted variables.</p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;We’re usually (as in this case) “pulling it out” under the assumption that the relationships between that third variable and the other two are <em>linear</em>.</p></div></div><div class="tabset-margin-container"></div><div class="panel-tabset">
+<p>This two-step procedure should give you some sense of what we mean when we talk about “adjustment”; we are pulling the influence of a third variable<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> out of the relationship with the other two and then estimating a “simple” regression on those adjusted variables.</p>
+<div class="no-row-height column-margin column-container"><div id="fn3"><p><sup>3</sup>&nbsp;We’re usually (as in this case) “pulling it out” under the assumption that the relationships between that third variable and the other two are <em>linear</em>.</p></div></div><div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" aria-current="page">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(life_resid <span class="sc">~</span> hs_resid, <span class="at">type =</span> <span class="st">"p"</span>,</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Graduation rate (murder rate removed)"</span>,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Life expectancy (murder rate removed)"</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(life_resid <span class="sc">~</span> hs_resid), <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(life_resid <span class="sc">~</span> hs_resid, <span class="at">type =</span> <span class="st">"p"</span>,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"Graduation rate (murder rate removed)"</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Life expectancy (murder rate removed)"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(life_resid <span class="sc">~</span> hs_resid), <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-partial-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -673,7 +774,7 @@ murder     -0.781  -0.488  1.000</code></pre>
 <img src="11-multiple-regression_files/figure-html/fig-partial-tinyplot-1.png" class="img-fluid figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-partial-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11.1: Life expectancy and graduation rate, both adjusted for the murder rate.
+Figure&nbsp;11.3: Life expectancy and graduation rate, both adjusted for the murder rate.
 </figcaption>
 </figure>
 </div>
@@ -682,11 +783,11 @@ Figure&nbsp;11.1: Life expectancy and graduation rate, both adjusted for the mur
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(hs_resid, life_resid), <span class="fu">aes</span>(<span class="at">x =</span> hs_resid, <span class="at">y =</span> life_resid)) <span class="sc">+</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Graduation rate (murder rate removed)"</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life expectancy (murder rate removed)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(hs_resid, life_resid), <span class="fu">aes</span>(<span class="at">x =</span> hs_resid, <span class="at">y =</span> life_resid)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Graduation rate (murder rate removed)"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Life expectancy (murder rate removed)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
 </div>
@@ -697,7 +798,7 @@ Figure&nbsp;11.1: Life expectancy and graduation rate, both adjusted for the mur
 <img src="11-multiple-regression_files/figure-html/fig-partial-ggplot-1.png" class="img-fluid figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-partial-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11.2: Life expectancy and graduation rate, both adjusted for the murder rate.
+Figure&nbsp;11.4: Life expectancy and graduation rate, both adjusted for the murder rate.
 </figcaption>
 </figure>
 </div>
@@ -711,7 +812,7 @@ Figure&nbsp;11.2: Life expectancy and graduation rate, both adjusted for the mur
 <h2 data-number="11.5" class="anchored" data-anchor-id="statistical-inference-in-multiple-regression"><span class="header-section-number">11.5</span> Statistical inference in multiple regression</h2>
 <p>There’s not much to add here conceptually beyond what we did for simple regression. But I’ll add a couple of things.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                  2.5 %      97.5 %
 (Intercept) 68.25382379 72.34034424
@@ -719,9 +820,9 @@ hs_grad      0.01144419  0.07633041
 murder      -0.30807483 -0.16610536</code></pre>
 </div>
 </div>
-<p>Neither interval contains zero. And the model comparison machinery still applies: is graduation rate worth adding to a model that already has murder?</p>
+<p>Neither interval includes zero. We can also still compare models. For example, is it worth adding graduation rate to a model that already has the murder rate?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(simple_murder, fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(simple_murder, fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
@@ -735,9 +836,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>pre <span class="ot">&lt;-</span> (<span class="fu">deviance</span>(simple_murder) <span class="sc">-</span> <span class="fu">deviance</span>(fit)) <span class="sc">/</span> <span class="fu">deviance</span>(simple_murder)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>pre</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pre <span class="ot">&lt;-</span> (<span class="fu">deviance</span>(simple_murder) <span class="sc">-</span> <span class="fu">deviance</span>(fit)) <span class="sc">/</span> <span class="fu">deviance</span>(simple_murder)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>pre</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.1361228</code></pre>
 </div>
@@ -746,41 +847,41 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h3 data-number="11.5.1" class="anchored" data-anchor-id="bootstrapping"><span class="header-section-number">11.5.1</span> Bootstrapping</h3>
 <p>We can use bootstrapping to demonstrate how sample size and sampling variability affect the precision of our parameter estimates.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">522</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co"># get function that spits out estimates</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>get_parameter_estimates <span class="ot">&lt;-</span> <span class="cf">function</span>(formula, data) {</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## estimate model</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> formula, <span class="at">data =</span> data)</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## extract and name sigma</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">sigma</span>(fit)</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(s) <span class="ot">&lt;-</span> <span class="st">"sigma"</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## put together all params</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  params <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(fit), s)</span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">## return them</span></span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(params)</span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="co"># create skeleton and iterate with resampling</span></span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>myboots <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">sim_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) <span class="sc">|&gt;</span></span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">params =</span> <span class="fu">list</span>(<span class="fu">get_parameter_estimates</span>(</span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> life_exp <span class="sc">~</span> hs_grad <span class="sc">+</span> murder,</span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">slice_sample</span>(states,</span>
-<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>                        <span class="at">n =</span> <span class="dv">50</span>,</span>
-<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>                        <span class="at">replace =</span> <span class="cn">TRUE</span>)))) <span class="sc">|&gt;</span></span>
-<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_longer</span>(params,</span>
-<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_to =</span> <span class="st">"value"</span>,</span>
-<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>                <span class="at">indices_to =</span> <span class="st">"term"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">522</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># get function that spits out estimates</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>get_parameter_estimates <span class="ot">&lt;-</span> <span class="cf">function</span>(formula, data) {</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="do">## estimate model</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> formula, <span class="at">data =</span> data)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">## extract and name sigma</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  s <span class="ot">&lt;-</span> <span class="fu">sigma</span>(fit)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(s) <span class="ot">&lt;-</span> <span class="st">"sigma"</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="do">## put together all params</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  params <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">coef</span>(fit), s)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">## return them</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(params)</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="co"># create skeleton and iterate with resampling</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>myboots <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">sim_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">params =</span> <span class="fu">list</span>(<span class="fu">get_parameter_estimates</span>(</span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">formula =</span> life_exp <span class="sc">~</span> hs_grad <span class="sc">+</span> murder,</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">slice_sample</span>(states,</span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a>                        <span class="at">n =</span> <span class="dv">50</span>,</span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>                        <span class="at">replace =</span> <span class="cn">TRUE</span>)))) <span class="sc">|&gt;</span></span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unnest_longer</span>(params,</span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_to =</span> <span class="st">"value"</span>,</span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>                <span class="at">indices_to =</span> <span class="st">"term"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is the data structure we have.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(myboots, <span class="at">n =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(myboots, <span class="at">n =</span> <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4,000 x 3
   sim_id term          value
@@ -802,17 +903,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(<span class="sc">~</span> value,</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> myboots,</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Bootstrap estimates"</span>,</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"1000 samples"</span>,</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">facet =</span> term,</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">facet.args =</span> <span class="fu">list</span>(<span class="at">free =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="fu">type_density</span>(<span class="at">joint.bw =</span> <span class="st">"none"</span>),</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxt =</span> <span class="st">"n"</span>,</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">""</span>,</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">""</span>,</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(<span class="sc">~</span> value,</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> myboots,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="st">"Bootstrap estimates"</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sub =</span> <span class="st">"1000 samples"</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">facet =</span> term,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">facet.args =</span> <span class="fu">list</span>(<span class="at">free =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="fu">type_density</span>(<span class="at">joint.bw =</span> <span class="st">"none"</span>),</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">yaxt =</span> <span class="st">"n"</span>,</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">""</span>,</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">""</span>,</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">lw =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-bootparams-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -820,7 +921,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <img src="11-multiple-regression_files/figure-html/fig-bootparams-tinyplot-1.png" class="img-fluid figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bootparams-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11.3: Bootstrap distributions of the two slopes.
+Figure&nbsp;11.5: Bootstrap distributions of the two slopes.
 </figcaption>
 </figure>
 </div>
@@ -829,14 +930,14 @@ Figure&nbsp;11.3: Bootstrap distributions of the two slopes.
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(myboots, <span class="fu">aes</span>(<span class="at">x =</span> value)) <span class="sc">+</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> tableau10[<span class="dv">1</span>]) <span class="sc">+</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>term, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Bootstrap estimates"</span>,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"1000 samples"</span>,</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(myboots, <span class="fu">aes</span>(<span class="at">x =</span> value)) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> tableau10[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>term, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Bootstrap estimates"</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"1000 samples"</span>,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-bootparams-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -844,7 +945,7 @@ Figure&nbsp;11.3: Bootstrap distributions of the two slopes.
 <img src="11-multiple-regression_files/figure-html/fig-bootparams-ggplot-1.png" class="img-fluid figure-img" width="1050">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bootparams-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;11.4: Bootstrap distributions of the two slopes.
+Figure&nbsp;11.6: Bootstrap distributions of the two slopes.
 </figcaption>
 </figure>
 </div>
@@ -857,32 +958,32 @@ Figure&nbsp;11.4: Bootstrap distributions of the two slopes.
 </section>
 <section id="when-predictors-overlap" class="level3" data-number="11.5.2">
 <h3 data-number="11.5.2" class="anchored" data-anchor-id="when-predictors-overlap"><span class="header-section-number">11.5.2</span> When predictors overlap</h3>
-<p>The more two predictors share, the less unique variation is left to estimate either one with. We can watch it happen:</p>
+<p>When two predictors are highly correlated, there isn’t much unique variation left in either one to estimate its coefficient. We can see this with a simulation:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">522</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>get_se <span class="ot">&lt;-</span> <span class="cf">function</span>(rho, <span class="at">n =</span> <span class="dv">400</span>) {</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x1 =</span> <span class="fu">rnorm</span>(n),</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x2 =</span> rho <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> rho<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fl">0.5</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> x2 <span class="sc">+</span> <span class="fu">rnorm</span>(n))</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> d)</span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="st">"x1"</span>, <span class="st">"Std. Error"</span>]</span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="fu">expand_grid</span>(</span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">rep =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">400</span>,</span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">rho =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>)</span>
-<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
-<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">se =</span> <span class="fu">get_se</span>(rho)) <span class="sc">|&gt;</span></span>
-<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rho) <span class="sc">|&gt;</span></span>
-<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_SE =</span> <span class="fu">round</span>(<span class="fu">mean</span>(se), <span class="dv">4</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">522</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>get_se <span class="ot">&lt;-</span> <span class="cf">function</span>(rho, <span class="at">n =</span> <span class="dv">400</span>) {</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x1 =</span> <span class="fu">rnorm</span>(n),</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x2 =</span> rho <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">-</span> rho<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">y =</span> <span class="fl">0.5</span> <span class="sc">*</span> x1 <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> x2 <span class="sc">+</span> <span class="fu">rnorm</span>(n))</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x1 <span class="sc">+</span> x2, <span class="at">data =</span> d)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coef</span>(<span class="fu">summary</span>(fit))[<span class="st">"x1"</span>, <span class="st">"Std. Error"</span>]</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="fu">expand_grid</span>(</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">rep =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">400</span>,</span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">rho =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>)</span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">se =</span> <span class="fu">get_se</span>(rho)) <span class="sc">|&gt;</span></span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(rho) <span class="sc">|&gt;</span></span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_SE =</span> <span class="fu">round</span>(<span class="fu">mean</span>(se), <span class="dv">4</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 x 2
     rho mean_SE
@@ -894,7 +995,7 @@ Figure&nbsp;11.4: Bootstrap distributions of the two slopes.
 5  0.95  0.160 </code></pre>
 </div>
 </div>
-<p>The true coefficient is 0.5 in every one of these simulations. Only the standard error changes. This is <strong>collinearity</strong>, and note what it does and doesn’t do: the estimates stay unbiased, they just become imprecise. It’s a shortage of information.</p>
+<p>The true coefficient is .5 in every one of these simulations, but the standard error gets bigger as the correlation between the predictors goes up. This is called <strong>collinearity</strong>. It doesn’t bias the estimates, but it makes them less precise.</p>
 </section>
 </section>
 <section id="recap" class="level2" data-number="11.6">

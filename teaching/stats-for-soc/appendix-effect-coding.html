@@ -411,8 +411,8 @@ window.Quarto = {
 </header>
 
 
-<p><a href="13-comparing-groups.html" class="quarto-xref"><span>Chapter 13</span></a> uses <strong>dummy coding</strong> throughout, and says so: a categorical predictor becomes a set of 0/1 indicators, the intercept is the reference group’s mean, and each coefficient is a difference from that reference.</p>
-<p>That is the sociology convention, and this book follows it. But it is not the only scheme, and you will meet others in print, particularly in psychology, where the same model is routinely written a different way. This appendix covers the main alternative, so that a table coded that way does not look like a different analysis.</p>
+<p>This book uses <strong>dummy coding</strong> for categorical predictors (see <a href="13-comparing-groups.html" class="quarto-xref"><span>Chapter 13</span></a>). Each category becomes a 0/1 indicator, the intercept is the mean of the reference group, and each coefficient is a difference from that reference group.</p>
+<p>That’s the usual approach in sociology. But you’ll see other approaches in published work, especially in psychology. This appendix shows the main alternative, so you’ll recognize it if you run into it.</p>
 <p>Let’s look at Southern and non-Southern states in 1977 and compare them on life expectancy.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>state.x77_with_names <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(state.x77,</span>
@@ -502,25 +502,25 @@ window.Quarto = {
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_nyt6vco46r1y38tpfm37 = TinyTable.createTableFunctions("tinytable_nyt6vco46r1y38tpfm37");
+      const tableFns_i7plzuk124qsjw6vl4fr = TinyTable.createTableFunctions("tinytable_i7plzuk124qsjw6vl4fr");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '6', j: 2 }, { i: '6', j: 3 } ], css_id: 'tinytable_css_c2qs6n4c9kqxl2yd44b3',}, 
-          { positions: [ { i: '3', j: 2 }, { i: '3', j: 3 } ], css_id: 'tinytable_css_5fpoab9h7apbzdj8xr1m',}, 
-          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 } ], css_id: 'tinytable_css_dizj0bpd5qknndy85jti',}, 
-          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_vkrnlwveb619bhpxj5kf',}, 
-          { positions: [ { i: '6', j: 1 } ], css_id: 'tinytable_css_pwou21jvq1arzsgk07r9',}, 
-          { positions: [ { i: '3', j: 1 } ], css_id: 'tinytable_css_rml2vcckgthu08so2gl0',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 } ], css_id: 'tinytable_css_08hzcn9sf305ie4sj8ct',}, 
-          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_qnykseyk0lbabxprb2jz',}, 
+          { positions: [ { i: '6', j: 2 }, { i: '6', j: 3 } ], css_id: 'tinytable_css_mr917vkdhj0kt92sgsmb',}, 
+          { positions: [ { i: '3', j: 2 }, { i: '3', j: 3 } ], css_id: 'tinytable_css_vf6ayp89imbyhmzx9teg',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '4', j: 2 }, { i: '5', j: 2 }, { i: '1', j: 3 }, { i: '2', j: 3 }, { i: '4', j: 3 }, { i: '5', j: 3 } ], css_id: 'tinytable_css_bqlpv67k9upw8mta9t2d',}, 
+          { positions: [ { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_tmpthfik49imr0mbtpv8',}, 
+          { positions: [ { i: '6', j: 1 } ], css_id: 'tinytable_css_2icjv5emf8jk9eopmowa',}, 
+          { positions: [ { i: '3', j: 1 } ], css_id: 'tinytable_css_pu2ivi5lq8fun0l0bmvn',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '4', j: 1 }, { i: '5', j: 1 } ], css_id: 'tinytable_css_5rb2msn7wl10zjmhnr75',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_k4hper3vscunv8jvm4pf',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_nyt6vco46r1y38tpfm37.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_i7plzuk124qsjw6vl4fr.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -529,17 +529,17 @@ window.Quarto = {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_nyt6vco46r1y38tpfm37 td.tinytable_css_c2qs6n4c9kqxl2yd44b3, #tinytable_nyt6vco46r1y38tpfm37 th.tinytable_css_c2qs6n4c9kqxl2yd44b3 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_nyt6vco46r1y38tpfm37 td.tinytable_css_5fpoab9h7apbzdj8xr1m, #tinytable_nyt6vco46r1y38tpfm37 th.tinytable_css_5fpoab9h7apbzdj8xr1m {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_nyt6vco46r1y38tpfm37 td.tinytable_css_dizj0bpd5qknndy85jti, #tinytable_nyt6vco46r1y38tpfm37 th.tinytable_css_dizj0bpd5qknndy85jti { text-align: center }
-    #tinytable_nyt6vco46r1y38tpfm37 td.tinytable_css_vkrnlwveb619bhpxj5kf, #tinytable_nyt6vco46r1y38tpfm37 th.tinytable_css_vkrnlwveb619bhpxj5kf {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_nyt6vco46r1y38tpfm37 td.tinytable_css_pwou21jvq1arzsgk07r9, #tinytable_nyt6vco46r1y38tpfm37 th.tinytable_css_pwou21jvq1arzsgk07r9 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_nyt6vco46r1y38tpfm37 td.tinytable_css_rml2vcckgthu08so2gl0, #tinytable_nyt6vco46r1y38tpfm37 th.tinytable_css_rml2vcckgthu08so2gl0 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_nyt6vco46r1y38tpfm37 td.tinytable_css_08hzcn9sf305ie4sj8ct, #tinytable_nyt6vco46r1y38tpfm37 th.tinytable_css_08hzcn9sf305ie4sj8ct { text-align: left }
-    #tinytable_nyt6vco46r1y38tpfm37 td.tinytable_css_qnykseyk0lbabxprb2jz, #tinytable_nyt6vco46r1y38tpfm37 th.tinytable_css_qnykseyk0lbabxprb2jz {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_i7plzuk124qsjw6vl4fr td.tinytable_css_mr917vkdhj0kt92sgsmb, #tinytable_i7plzuk124qsjw6vl4fr th.tinytable_css_mr917vkdhj0kt92sgsmb {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_i7plzuk124qsjw6vl4fr td.tinytable_css_vf6ayp89imbyhmzx9teg, #tinytable_i7plzuk124qsjw6vl4fr th.tinytable_css_vf6ayp89imbyhmzx9teg {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_i7plzuk124qsjw6vl4fr td.tinytable_css_bqlpv67k9upw8mta9t2d, #tinytable_i7plzuk124qsjw6vl4fr th.tinytable_css_bqlpv67k9upw8mta9t2d { text-align: center }
+    #tinytable_i7plzuk124qsjw6vl4fr td.tinytable_css_tmpthfik49imr0mbtpv8, #tinytable_i7plzuk124qsjw6vl4fr th.tinytable_css_tmpthfik49imr0mbtpv8 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_i7plzuk124qsjw6vl4fr td.tinytable_css_2icjv5emf8jk9eopmowa, #tinytable_i7plzuk124qsjw6vl4fr th.tinytable_css_2icjv5emf8jk9eopmowa {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_i7plzuk124qsjw6vl4fr td.tinytable_css_pu2ivi5lq8fun0l0bmvn, #tinytable_i7plzuk124qsjw6vl4fr th.tinytable_css_pu2ivi5lq8fun0l0bmvn {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_i7plzuk124qsjw6vl4fr td.tinytable_css_5rb2msn7wl10zjmhnr75, #tinytable_i7plzuk124qsjw6vl4fr th.tinytable_css_5rb2msn7wl10zjmhnr75 { text-align: left }
+    #tinytable_i7plzuk124qsjw6vl4fr td.tinytable_css_k4hper3vscunv8jvm4pf, #tinytable_i7plzuk124qsjw6vl4fr th.tinytable_css_k4hper3vscunv8jvm4pf {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_nyt6vco46r1y38tpfm37" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_i7plzuk124qsjw6vl4fr" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -587,7 +587,7 @@ window.Quarto = {
 </div>
 </div>
 <p>With effect coding, the intercept is the <strong>grand mean</strong>, or the overall mean you’d expect if both groups were the same size. And <span class="math inline">\(b_1\)</span> is half the difference between the two groups.</p>
-<p>Both of those are worth checking:</p>
+<p>We can check both of those:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>group_means <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(south) <span class="sc">|&gt;</span></span>
@@ -610,22 +610,22 @@ window.Quarto = {
          -0.8620221          -0.8620221 </code></pre>
 </div>
 </div>
-<p>The halving follows from the coding. Moving from -1 to +1 is a move of two units, so the per-unit slope is half the total gap.</p>
+<p>The slope is half the difference because going from -1 to +1 is two units, so each unit is half the gap.</p>
 </section>
 <section id="the-model-is-the-same-model" class="level2" data-number="D.2">
 <h2 data-number="D.2" class="anchored" data-anchor-id="the-model-is-the-same-model"><span class="header-section-number">D.2</span> The model is the same model</h2>
-<p>Look at the <code>nobs</code>, <code>F</code>, and <code>R2</code> rows of that table: they are identical. Everything that describes the fit is the same.</p>
+<p>Look at the <code>nobs</code>, <code>F</code>, and <code>R2</code> rows of that table. They’re exactly the same!</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">all.equal</span>(<span class="fu">unname</span>(<span class="fu">fitted</span>(ma)), <span class="fu">unname</span>(<span class="fu">fitted</span>(ma_effect)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
-<p>Same <span class="math inline">\(R^2\)</span>, same fitted values, same residuals, same F test. Only the parameterization differs, the same point made in <a href="13-comparing-groups.html" class="quarto-xref"><span>Chapter 13</span></a> about <code>relevel()</code>. Changing how you write a model down does not change the model.</p>
+<p>The <span class="math inline">\(R^2\)</span>, fitted values, residuals, and F test are all the same. The only thing that changes is how the parameters are defined, just like when we used <code>relevel()</code> in <a href="13-comparing-groups.html" class="quarto-xref"><span>Chapter 13</span></a>. Writing the model a different way doesn’t change the model.</p>
 </section>
 <section id="more-than-two-groups" class="level2" data-number="D.3">
 <h2 data-number="D.3" class="anchored" data-anchor-id="more-than-two-groups"><span class="header-section-number">D.3</span> More than two groups</h2>
-<p>With <span class="math inline">\(k\)</span> groups, effect coding generalizes to coding each category’s departure from the <strong>unweighted grand mean</strong>, which is what the mean would be if all groups were of equal size. In R the scheme is <code>contr.sum()</code>.</p>
+<p>With <span class="math inline">\(k\)</span> groups, effect coding generalizes to coding each category’s departure from the <strong>unweighted grand mean</strong>, which is what the mean would be if all groups were of equal size. In R, this is called <code>contr.sum()</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">reg4 =</span> <span class="fu">factor</span>(state.region))</span>
@@ -654,7 +654,7 @@ window.Quarto = {
      70.993       0.271      -1.287       0.774 </code></pre>
 </div>
 </div>
-<p>The intercept is the unweighted grand mean, and each of the three coefficients is one region’s deviation from it:</p>
+<p>The intercept is the unweighted grand mean, and each of the three coefficients is how far one region is from it:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>region_means <span class="ot">&lt;-</span> states <span class="sc">|&gt;</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(reg4) <span class="sc">|&gt;</span></span>
@@ -673,7 +673,7 @@ window.Quarto = {
 <pre><code>[1]  0.271 -1.287  0.774  0.242</code></pre>
 </div>
 </div>
-<p>Three coefficients for four groups, as always. The fourth deviation is not printed because it is not free: the deviations have to sum to zero, so the last one is minus the sum of the others.</p>
+<p>There are three coefficients for four groups, as usual. The fourth one isn’t shown because we don’t need it. The deviations have to add up to zero, so the last one is just minus the sum of the others.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>deviations <span class="ot">&lt;-</span> <span class="fu">coef</span>(m4)[<span class="sc">-</span><span class="dv">1</span>]</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -685,7 +685,7 @@ window.Quarto = {
      0.2714503     -1.2867441      0.7736725      0.2416213      0.0000000 </code></pre>
 </div>
 </div>
-<p>You can see these estimates sum to zero. That constraint is what makes the scheme <em>deviation</em> coding: every group is described relative to a common center rather than to one chosen group.</p>
+<p>You can see these estimates sum to zero. That’s why it’s called <em>deviation</em> coding: every group is compared to the same center rather than to one reference group.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -696,15 +696,15 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Effect coding is standard in the experimental psychology tradition, where designs are often balanced (equal group sizes) and the grand mean is the natural baseline. In a balanced design the unweighted and weighted averages coincide, so the intercept is simply “the mean,” and each coefficient reads as a deviation from it.</p>
-<p>In observational sociology, groups are rarely balanced and there is usually a substantively natural reference category: no college, unmarried, non-South. Dummy coding says what you want to say, and it says it in units a reader can check against a table of group means.</p>
-<p>That is why this book uses dummy coding. Effect coding is here so that when you read a table with an intercept that does not match any group’s mean and coefficients that look half the size you expect, you know what you are looking at.</p>
+<p>Effect coding is common in experimental psychology, where the groups are often the same size and the grand mean makes sense as a baseline. When the groups are the same size, the unweighted and weighted means are the same, so the intercept is just “the mean.”</p>
+<p>In sociology, the groups are usually different sizes, and there’s often an obvious reference category (no college, unmarried, non-South, etc.). Dummy coding lets you compare to that group, in units a reader can check against a table of group means.</p>
+<p>That’s why this book uses dummy coding. But now if you see a table where the intercept doesn’t match any group’s mean and the coefficients look half as big as you’d expect, you’ll know what’s going on!</p>
 </div>
 </div>
 </section>
 <section id="a-caution-about-unbalanced-groups" class="level2" data-number="D.4">
 <h2 data-number="D.4" class="anchored" data-anchor-id="a-caution-about-unbalanced-groups"><span class="header-section-number">D.4</span> A caution about unbalanced groups</h2>
-<p>The one genuine trap is the grand mean.</p>
+<p>The main thing to watch out for is the grand mean.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n_south =</span> <span class="fu">sum</span>(states<span class="sc">$</span>south), <span class="at">n_other =</span> <span class="fu">sum</span>(<span class="sc">!</span>states<span class="sc">$</span>south))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -712,8 +712,7 @@ window.Quarto = {
      16      34 </code></pre>
 </div>
 </div>
-<p>With 16 southern and 34 other states, the effect-coded intercept 70.568 is not the mean life expectancy of American states. That is 70.879. It is the average of the two group means, which gives a state in a small group more weight than a state in a large one.</p>
-<p>Reported carelessly, that is a real error. If you use effect coding, say that the intercept is the unweighted grand mean and not the sample mean.</p>
+<p>With 16 southern and 34 other states, the effect-coded intercept 70.568 is not the mean life expectancy of American states. That’s 70.879. The intercept is the average of the two group means, which gives each state in the smaller group more weight than each state in the bigger group. So if you use effect coding, be sure to say that the intercept is the unweighted grand mean, not the sample mean.</p>
 
 
 </section>

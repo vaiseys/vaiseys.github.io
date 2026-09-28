@@ -392,7 +392,7 @@ window.Quarto = {
   <li><a href="#rejecting-or-not-the-null" id="toc-rejecting-or-not-the-null" class="nav-link" data-scroll-target="#rejecting-or-not-the-null"><span class="header-section-number">6.6.1</span> Rejecting (or not) the null</a></li>
   <li><a href="#conventional-alpha-levels" id="toc-conventional-alpha-levels" class="nav-link" data-scroll-target="#conventional-alpha-levels"><span class="header-section-number">6.6.2</span> Conventional alpha levels</a></li>
   </ul></li>
-  <li><a href="#a-test-that-does-not-resolve" id="toc-a-test-that-does-not-resolve" class="nav-link" data-scroll-target="#a-test-that-does-not-resolve"><span class="header-section-number">6.7</span> A test that does not resolve</a></li>
+  <li><a href="#failing-to-reject" id="toc-failing-to-reject" class="nav-link" data-scroll-target="#failing-to-reject"><span class="header-section-number">6.7</span> Failing to reject</a></li>
   <li><a href="#p-values-and-confidence-intervals" id="toc-p-values-and-confidence-intervals" class="nav-link" data-scroll-target="#p-values-and-confidence-intervals"><span class="header-section-number">6.8</span> p-values and confidence intervals</a></li>
   <li><a href="#p-value-pitfalls" id="toc-p-value-pitfalls" class="nav-link" data-scroll-target="#p-value-pitfalls"><span class="header-section-number">6.9</span> p-value pitfalls</a></li>
   <li><a href="#recap" id="toc-recap" class="nav-link" data-scroll-target="#recap"><span class="header-section-number">6.10</span> Recap</a></li>
@@ -431,7 +431,7 @@ window.Quarto = {
 <section id="setting-up-the-null-model" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="setting-up-the-null-model"><span class="header-section-number">6.1</span> Setting up the null model</h2>
 <p>Null hypothesis: <em>the average American adult in 2024 watched 3 hours of TV per day</em>. By subtracting 3 from the observed value, we can make it so the null hypothesis is 0. That makes it easy to use <code>lm(y ~ 0)</code> to set up the null model that tests whether the mean of <code>tvhours</code> is different from 0.</p>
-<p>In the language of <a href="04-prediction-error.html" class="quarto-xref"><span>Chapter 4</span></a>, that null model <em>is</em> model C. Model A spends a parameter to estimate the mean.</p>
+<p>In the language of <a href="04-prediction-error.html" class="quarto-xref"><span>Chapter 4</span></a>, the null model is model C. Model A estimates the mean.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">tvdev =</span> tv <span class="sc">-</span> <span class="dv">3</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -450,7 +450,8 @@ window.Quarto = {
 <section id="creating-a-null-distribution" class="level2 page-columns page-full" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="creating-a-null-distribution"><span class="header-section-number">6.2</span> Creating a null distribution</h2>
 <p>Here’s a quick example where we make data where the null hypothesis is <strong><em>actually true</em></strong>. Then we can use it to check whether we could get numbers as large as we see in the <em>real</em> data by chance variation alone. We can use <code>rnorm()</code> to make fake data with a given mean and SD.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;We could create a better null distribution here by using a different distribution than the normal for our fake <code>tvhours</code> data. As you saw earlier the <em>data</em> itself is actually NOT normally distributed. We could use a count distribution but we’re not ready for that! We’ll talk about that more in <a href="17-counts.html" class="quarto-xref"><span>Chapter 17</span></a>.</p></div></div><div class="cell">
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;We could create a better null distribution here by using a different distribution than the normal for our fake <code>tvhours</code> data. As you saw earlier the <em>data</em> itself is actually NOT normally distributed. We could use a count distribution but we’re not ready for that! We’ll talk about that more in <a href="17-counts.html" class="quarto-xref"><span>Chapter 17</span></a>.</p></div></div><p>Convert this idea to a function so we can do this many times. The basic idea is to simulate data where the null is true, then calculate the PRE (which won’t be <em>exactly</em> zero because of sampling variability). Then we create a skeleton and append 1000 null PRE simulations.</p>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">522</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n_tv  <span class="ot">&lt;-</span> <span class="fu">length</span>(tv)</span>
@@ -526,14 +527,99 @@ Figure&nbsp;6.2: Null PREs from 1,000 simulated worlds, with the observed PRE ma
 <p>What F would that be equivalent to?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fstat <span class="ot">&lt;-</span> (observed_pre <span class="sc">/</span> <span class="dv">1</span>) <span class="sc">/</span> ((<span class="dv">1</span> <span class="sc">-</span> observed_pre) <span class="sc">/</span> (n_tv <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">F =</span> fstat, <span class="at">critical_F =</span> <span class="fu">qf</span>(.<span class="dv">95</span>, <span class="dv">1</span>, n_tv <span class="sc">-</span> <span class="dv">1</span>), <span class="at">p_value =</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(fstat, <span class="dv">1</span>, n_tv <span class="sc">-</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fstat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           F   critical_F      p_value 
-1.809805e+01 3.845786e+00 2.188091e-05 </code></pre>
+<pre><code>[1] 18.09805</code></pre>
 </div>
 </div>
-<p>The critical value is the 95th percentile F-statistic we’d expect to get by chance <strong>if the null hypothesis is true</strong>. The observed value is way higher than that. The formula-based approach and the simulation have the same basic logic and the same conclusion. Remember that there is nothing sacred about 95% or 99% or any of that.</p>
+<p>We can compare this F-statistic we calculated to an F-distribution with numerator df = 1 and denominator df = 2151.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Data prep</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df1    <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df2    <span class="ot">&lt;-</span> n_tv <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>f_crit <span class="ot">&lt;-</span> <span class="fu">qf</span>(.<span class="dv">95</span>, df1, df2)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>x_max  <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(fstat) <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># grid for the curve</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, x_max, <span class="at">length.out =</span> <span class="dv">2000</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">df</span>(x, <span class="at">df1 =</span> df1, <span class="at">df2 =</span> df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">ggplot2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plt</span>(y <span class="sc">~</span> x,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">main =</span> <span class="fu">paste0</span>(<span class="st">"F(1, "</span>, df2, <span class="st">")"</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">"F"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ylab =</span> <span class="st">"Density"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, x_max),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> f_crit, <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> fstat, <span class="at">col =</span> tableau10[<span class="dv">2</span>], <span class="at">lwd =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-fdist-tinyplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fdist-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-hypothesis-testing_files/figure-html/fig-fdist-tinyplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fdist-tinyplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.3: The F distribution under the null, with the critical value (dotted) and the observed F (solid).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> tableau10[<span class="dv">1</span>]) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> f_crit, <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> fstat, <span class="at">color =</span> tableau10[<span class="dv">2</span>], <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, x_max)) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="fu">paste0</span>(<span class="st">"F(1, "</span>, df2, <span class="st">")"</span>), <span class="at">x =</span> <span class="st">"F"</span>, <span class="at">y =</span> <span class="st">"Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-fdist-ggplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fdist-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-hypothesis-testing_files/figure-html/fig-fdist-ggplot-1.png" class="img-fluid figure-img" width="1050">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fdist-ggplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.4: The F distribution under the null, with the critical value (dotted) and the observed F (solid).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>The dotted line is the “critical value”—that is, the 95th percentile F-statistic we’d expect to get by chance <strong>if the null hypothesis is true</strong>. The solid line is the observed value from the data. Again, we can see that it’s way higher than what we’d expect by chance. The formula-based approach and the simulation have the same basic logic and the same conclusion.</p>
+<p>Before computers, people looked up F* (the critical value for alpha = .05) in a table in the back of a statistics book. Now we can do it using functions in R (as we did in the code for the graph above).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(.<span class="dv">95</span>, <span class="dv">1</span>, n_tv <span class="sc">-</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.845786</code></pre>
+</div>
+</div>
+<p>Remember that there is nothing sacred about 95% or 99% or any of that.</p>
+<p>You can also get the p-value from functions rather than from a table.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> <span class="fu">pf</span>(fstat, <span class="dv">1</span>, n_tv <span class="sc">-</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.188091e-05</code></pre>
+</div>
+</div>
 <p>In any case, we will be rejecting the null hypothesis here!</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -541,31 +627,31 @@ Figure&nbsp;6.2: Null PREs from 1,000 simulated worlds, with the observed PRE ma
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>What a simulation can and can’t resolve
+<span class="screen-reader-only">Note</span>A limit of simulation
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The simulated p-value bottoms out at 0, because with 1,000 simulations the smallest non-zero value you can observe is 1/1000. The analytic p-value is far below that. A simulation can’t resolve a probability much smaller than one over the number of simulations, which is a practical reason analytic results are worth having.</p>
+<p>The share of our null simulations with a PRE at least as big as the observed one is 0. But with 1,000 simulations, we can’t see anything much smaller than 1/1000. The p-value from the F distribution is way smaller than that. This is one practical reason it’s nice to have formulas!</p>
 </div>
 </div>
 </section>
 <section id="the-z-score-route" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="the-z-score-route"><span class="header-section-number">6.4</span> The z-score route</h2>
-<p>We can approach this issue more generally through z-scores, exactly as in <a href="05-sampling-distributions.html" class="quarto-xref"><span>Chapter 5</span></a>. How “weird” is our result? How many standard errors is it away from the expected value of the null distribution?</p>
+<p>We can approach this issue more generally through z-scores, just like in <a href="05-sampling-distributions.html" class="quarto-xref"><span>Chapter 5</span></a>. How “weird” is our result? How many standard errors is it away from the expected value of the null distribution?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>se_tv <span class="ot">&lt;-</span> <span class="fu">sd</span>(tv) <span class="sc">/</span> <span class="fu">sqrt</span>(n_tv)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>z_tv  <span class="ot">&lt;-</span> (<span class="fu">mean</span>(tv) <span class="sc">-</span> <span class="dv">3</span>) <span class="sc">/</span> se_tv</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">se =</span> se_tv, <span class="at">z =</span> z_tv, <span class="at">p_value =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z_tv))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>se_tv <span class="ot">&lt;-</span> <span class="fu">sd</span>(tv) <span class="sc">/</span> <span class="fu">sqrt</span>(n_tv)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>z_tv  <span class="ot">&lt;-</span> (<span class="fu">mean</span>(tv) <span class="sc">-</span> <span class="dv">3</span>) <span class="sc">/</span> se_tv</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">se =</span> se_tv, <span class="at">z =</span> z_tv, <span class="at">p_value =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z_tv))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          se            z      p_value 
 7.110872e-02 4.254180e+00 2.098166e-05 </code></pre>
 </div>
 </div>
 <p>That probability is called the <strong>p-value</strong> of the test.</p>
-<p>R will do the whole thing at once. Because we estimated <span class="math inline">\(\sigma\)</span> from the data rather than knowing it, the correct reference distribution is the <span class="math inline">\(t\)</span> distribution rather than the normal, which we take up in <a href="07-power-effect-size.html" class="quarto-xref"><span>Chapter 7</span></a>. At this sample size the difference is invisible.</p>
+<p>R’s <code>t.test()</code> will do the whole thing at once. Since we estimated <span class="math inline">\(\sigma\)</span> from the data, the right distribution to use is actually the <span class="math inline">\(t\)</span> distribution rather than the normal (more on that in <a href="07-power-effect-size.html" class="quarto-xref"><span>Chapter 7</span></a>). But with this many people, the difference is tiny.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(tv, <span class="at">mu =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(tv, <span class="at">mu =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     One Sample t-test
@@ -609,51 +695,51 @@ mean of x
 <h3 data-number="6.6.2" class="anchored" data-anchor-id="conventional-alpha-levels"><span class="header-section-number">6.6.2</span> Conventional alpha levels</h3>
 <p>The conventional alpha level for a test is .05. Heuristically speaking, this means we’re willing to falsely reject the null hypothesis 5% of the time. This value is by no means sacred. In fact, it is fundamentally arbitrary.</p>
 <p>Just as we saw with confidence intervals, we can pick any value we like, which is both liberating and scary!</p>
-<p>Among widowed respondents, is a majority afraid to walk alone at night in their own neighborhood?</p>
+<p>Here’s an example. Among widowed respondents, is a majority afraid to walk alone at night in their own neighborhood?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>wid <span class="ot">&lt;-</span> gss <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(marital <span class="sc">==</span> <span class="dv">2</span>, <span class="sc">!</span><span class="fu">is.na</span>(fear)) <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">afraid =</span> <span class="fu">as.numeric</span>(fear <span class="sc">==</span> <span class="dv">1</span>))</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>p_wid <span class="ot">&lt;-</span> <span class="fu">mean</span>(wid<span class="sc">$</span>afraid)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>n_wid <span class="ot">&lt;-</span> <span class="fu">nrow</span>(wid)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>z_wid <span class="ot">&lt;-</span> (p_wid <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fl">0.25</span> <span class="sc">/</span> n_wid)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> n_wid, <span class="at">p_hat =</span> p_wid, <span class="at">z =</span> z_wid,</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z_wid))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>wid <span class="ot">&lt;-</span> gss <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(marital <span class="sc">==</span> <span class="dv">2</span>, <span class="sc">!</span><span class="fu">is.na</span>(fear)) <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">afraid =</span> <span class="fu">as.numeric</span>(fear <span class="sc">==</span> <span class="dv">1</span>))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>p_wid <span class="ot">&lt;-</span> <span class="fu">mean</span>(wid<span class="sc">$</span>afraid)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>n_wid <span class="ot">&lt;-</span> <span class="fu">nrow</span>(wid)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>z_wid <span class="ot">&lt;-</span> (p_wid <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fl">0.25</span> <span class="sc">/</span> n_wid)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> n_wid, <span class="at">p_hat =</span> p_wid, <span class="at">z =</span> z_wid,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_value =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z_wid))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           n        p_hat            z      p_value 
 176.00000000   0.41477273  -2.26133508   0.02373852 </code></pre>
 </div>
 </div>
-<p>At <span class="math inline">\(\alpha = 0.05\)</span> we reject the null. At <span class="math inline">\(\alpha = 0.01\)</span> we don’t. The data are identical; only the threshold moved.</p>
+<p>At <span class="math inline">\(\alpha = .05\)</span> we would reject the null, but at <span class="math inline">\(\alpha = .01\)</span> we wouldn’t. Same data, different conclusion!</p>
 </section>
 </section>
-<section id="a-test-that-does-not-resolve" class="level2 page-columns page-full" data-number="6.7">
-<h2 data-number="6.7" class="anchored" data-anchor-id="a-test-that-does-not-resolve"><span class="header-section-number">6.7</span> A test that does not resolve</h2>
-<p>Do a majority of never-married Americans favor the death penalty for murder? Here <span class="math inline">\(H_0: p = 0.5\)</span> is a meaningful null, since it’s the line between a majority and a minority.</p>
+<section id="failing-to-reject" class="level2 page-columns page-full" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="failing-to-reject"><span class="header-section-number">6.7</span> Failing to reject</h2>
+<p>Now let’s ask whether a majority of never-married Americans favor the death penalty for murder. In the case of yes/no questions like this, the most obvious null hypothesis is .5 or 50%. This is because the majority wins.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>nm <span class="ot">&lt;-</span> gss <span class="sc">|&gt;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(marital <span class="sc">==</span> <span class="dv">5</span>, <span class="sc">!</span><span class="fu">is.na</span>(cappun)) <span class="sc">|&gt;</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">favor =</span> <span class="fu">as.numeric</span>(cappun <span class="sc">==</span> <span class="dv">1</span>))</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>p_nm <span class="ot">&lt;-</span> <span class="fu">mean</span>(nm<span class="sc">$</span>favor)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>n_nm <span class="ot">&lt;-</span> <span class="fu">nrow</span>(nm)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>z_nm <span class="ot">&lt;-</span> (p_nm <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fl">0.5</span> <span class="sc">*</span> <span class="fl">0.5</span> <span class="sc">/</span> n_nm)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> n_nm, <span class="at">p_hat =</span> p_nm, <span class="at">p_value =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z_nm))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nm <span class="ot">&lt;-</span> gss <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(marital <span class="sc">==</span> <span class="dv">5</span>, <span class="sc">!</span><span class="fu">is.na</span>(cappun)) <span class="sc">|&gt;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">favor =</span> <span class="fu">as.numeric</span>(cappun <span class="sc">==</span> <span class="dv">1</span>))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>p_nm <span class="ot">&lt;-</span> <span class="fu">mean</span>(nm<span class="sc">$</span>favor)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>n_nm <span class="ot">&lt;-</span> <span class="fu">nrow</span>(nm)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>z_nm <span class="ot">&lt;-</span> (p_nm <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fl">0.5</span> <span class="sc">*</span> <span class="fl">0.5</span> <span class="sc">/</span> n_nm)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> n_nm, <span class="at">p_hat =</span> p_nm, <span class="at">p_value =</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z_nm))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          n       p_hat     p_value 
 650.0000000   0.5215385   0.2720952 </code></pre>
 </div>
 </div>
-<p>We fail to reject. A sample majority of this size, with this many respondents, is entirely ordinary in a population split down the middle. Note what we have <em>not</em> concluded: not that support is 50%, only that our data can’t distinguish 50% from what we observed.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;The standard error here uses <span class="math inline">\(p_0 = 0.5\)</span>, the null value, rather than the observed <span class="math inline">\(\hat{p}\)</span>, because the whole calculation happens inside the world where the null is true. A confidence interval uses <span class="math inline">\(\hat{p}\)</span> instead, since it isn’t committed to any particular null.</p></div></div></section>
+<p>We fail to reject the null. We’d see a sample majority this big pretty often even if the population were split 50/50. But notice that this doesn’t mean support <em>is</em> 50%. It just means our data can’t tell the difference between 50% and what we observed.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;The standard error here uses the null value (.5) rather than <span class="math inline">\(\hat{p}\)</span>. That’s because we’re asking what would happen in a world where the null is true. A confidence interval uses <span class="math inline">\(\hat{p}\)</span> instead.</p></div></div></section>
 <section id="p-values-and-confidence-intervals" class="level2" data-number="6.8">
 <h2 data-number="6.8" class="anchored" data-anchor-id="p-values-and-confidence-intervals"><span class="header-section-number">6.8</span> p-values and confidence intervals</h2>
 <p>There is a close relationship between p-values and confidence intervals. For example, if a 95% confidence interval includes the null value, the p-value of the hypothesis test will be above .05.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(tv, <span class="at">mu =</span> <span class="dv">3</span>)<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(tv, <span class="at">mu =</span> <span class="dv">3</span>)<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.163060 3.441958
 attr(,"conf.level")
@@ -669,7 +755,7 @@ attr(,"conf.level")
 <ul>
 <li>Don’t use asterisks as informal indicators of “how big” an effect is (do you have an alpha level or not?)</li>
 <li>Don’t mistake “statistical significance” for importance</li>
-<li>Don’t test many things and report the interesting ones. At <span class="math inline">\(\alpha = 0.05\)</span>, one test in twenty clears the bar by chance</li>
+<li>Don’t run a bunch of tests and only report the significant ones (at <span class="math inline">\(\alpha = .05\)</span>, about one in twenty will be significant by chance even if nothing is going on!)</li>
 <li>When assessing the plausibility of a hypothesis, you need to know the <strong>prior probability</strong> of the hypothesis as well as the p-value</li>
 </ul>
 </section>

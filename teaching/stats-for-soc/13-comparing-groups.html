@@ -437,11 +437,10 @@ window.Quarto = {
 </header>
 
 
-<p>Part IV is about categories, and it does two rather different things.</p>
-<p>The first three chapters keep a continuous outcome and make the <em>predictors</em> categorical: comparing groups, crossing two groupings, and reading contingency tables. Everything you know still applies: model C against model A, SSE, PRE, the F test.</p>
-<p>The last two chapters change the <em>outcome</em> to something that is not continuous at all, such as a yes/no answer or a count. There the model’s shape has to change, and the additive error term we have carried since <a href="04-prediction-error.html" class="quarto-xref"><span>Chapter 4</span></a> will quietly disappear. We will flag that clearly when we get to it.</p>
+<p>This part of the book is about categories. In the next three chapters, the outcome is still continuous but the <em>predictors</em> are categorical. Everything we’ve done so far (model C vs.&nbsp;model A, SSE, PRE, the F test) still works.</p>
+<p>In the last two chapters, the <em>outcome</em> isn’t continuous anymore (yes/no answers and counts). That means the models have to change, and the “weirdness” term we’ve been using since <a href="04-prediction-error.html" class="quarto-xref"><span>Chapter 4</span></a> goes away. I’ll point that out when we get there.</p>
 <p>The goal of this chapter is to show you how to use <strong>categorical predictors</strong> in a sensible way.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;There is a strong pitch in the model comparison tradition <span class="citation" data-cites="correll2025">(<a href="references.html#ref-correll2025" role="doc-biblioref">Correll et al. 2025</a>)</span> for the value of <strong>orthogonal contrast coding</strong> versus <strong>dummy coding.</strong> This is the opposite of our convention in sociology and I admit I simply can’t understand the idea that contrast coding is easier. It must be cultural differences! I did try for a while but the availability of <em>post-hoc test</em> calculation functions like <code>car::linearHypothesis()</code> and <code>marginaleffects::hypotheses()</code> seem to make contrast coding mostly irrelevant to my use cases. So this book uses dummy coding throughout. <a href="appendix-effect-coding.html" class="quarto-xref"><span>Appendix D</span></a> shows one of the alternatives, so that a table coded that way is readable rather than baffling.</p></div></div><p>We will use the GSS data. Our outcome will be <code>tvhours</code> and we will use various transformations of education as the predictors.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;There is a strong pitch in the model comparison tradition <span class="citation" data-cites="correll2025">(<a href="references.html#ref-correll2025" role="doc-biblioref">Correll et al. 2025</a>)</span> for the value of <strong>orthogonal contrast coding</strong> versus <strong>dummy coding.</strong> This is the opposite of our convention in sociology and I admit I simply can’t understand the idea that contrast coding is easier. It must be cultural differences! I did try for a while but the availability of <em>post-hoc test</em> calculation functions like <code>car::linearHypothesis()</code> and <code>marginaleffects::hypotheses()</code> seem to make contrast coding mostly irrelevant to my use cases. So this book uses dummy coding throughout. But <a href="appendix-effect-coding.html" class="quarto-xref"><span>Appendix D</span></a> shows one of the alternatives in case you run into it.</p></div></div><p>We will use the GSS data. Our outcome will be <code>tvhours</code> and we will use various transformations of education as the predictors.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tvhours, degree, educ) <span class="sc">|&gt;</span></span>
@@ -535,25 +534,25 @@ Figure&nbsp;13.2: Mean hours of TV per day by college status.
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_c5i5fdxmxqj06bviynp8 = TinyTable.createTableFunctions("tinytable_c5i5fdxmxqj06bviynp8");
+      const tableFns_z3a5ts736xvog43st17v = TinyTable.createTableFunctions("tinytable_z3a5ts736xvog43st17v");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '5', j: 2 } ], css_id: 'tinytable_css_mu6qbe2megxjkerdn8g1',}, 
-          { positions: [ { i: '2', j: 2 } ], css_id: 'tinytable_css_jdiny4at17v36i55qn0h',}, 
-          { positions: [ { i: '1', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_0sefh1sm38w3a9p9eh7z',}, 
-          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_byrsos94av81voovoh9d',}, 
-          { positions: [ { i: '5', j: 1 } ], css_id: 'tinytable_css_qj0crf82nsu3emppo53c',}, 
-          { positions: [ { i: '2', j: 1 } ], css_id: 'tinytable_css_62tgqmw4jmhdv5pg4xup',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 } ], css_id: 'tinytable_css_p8uywvhhh2z29jl17n47',}, 
-          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_qqru6n0lmvdyn3wunjnx',}, 
+          { positions: [ { i: '5', j: 2 } ], css_id: 'tinytable_css_wldnhu7fwq9xugw1ugjy',}, 
+          { positions: [ { i: '2', j: 2 } ], css_id: 'tinytable_css_dvtaiy1n275xnkaem3jm',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 } ], css_id: 'tinytable_css_hrgm3fdmaldot4q51k0s',}, 
+          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_pes5bq1p9mzsdkhivkxm',}, 
+          { positions: [ { i: '5', j: 1 } ], css_id: 'tinytable_css_zqys3ibhjhis6p75yg0h',}, 
+          { positions: [ { i: '2', j: 1 } ], css_id: 'tinytable_css_s0uodlr418hi1la3vr62',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 } ], css_id: 'tinytable_css_n5rdp8rtp7jc7flismzw',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_20nn9rpymmdb4nl1en4h',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_c5i5fdxmxqj06bviynp8.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_z3a5ts736xvog43st17v.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -562,17 +561,17 @@ Figure&nbsp;13.2: Mean hours of TV per day by college status.
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_c5i5fdxmxqj06bviynp8 td.tinytable_css_mu6qbe2megxjkerdn8g1, #tinytable_c5i5fdxmxqj06bviynp8 th.tinytable_css_mu6qbe2megxjkerdn8g1 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_c5i5fdxmxqj06bviynp8 td.tinytable_css_jdiny4at17v36i55qn0h, #tinytable_c5i5fdxmxqj06bviynp8 th.tinytable_css_jdiny4at17v36i55qn0h {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_c5i5fdxmxqj06bviynp8 td.tinytable_css_0sefh1sm38w3a9p9eh7z, #tinytable_c5i5fdxmxqj06bviynp8 th.tinytable_css_0sefh1sm38w3a9p9eh7z { text-align: center }
-    #tinytable_c5i5fdxmxqj06bviynp8 td.tinytable_css_byrsos94av81voovoh9d, #tinytable_c5i5fdxmxqj06bviynp8 th.tinytable_css_byrsos94av81voovoh9d {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_c5i5fdxmxqj06bviynp8 td.tinytable_css_qj0crf82nsu3emppo53c, #tinytable_c5i5fdxmxqj06bviynp8 th.tinytable_css_qj0crf82nsu3emppo53c {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_c5i5fdxmxqj06bviynp8 td.tinytable_css_62tgqmw4jmhdv5pg4xup, #tinytable_c5i5fdxmxqj06bviynp8 th.tinytable_css_62tgqmw4jmhdv5pg4xup {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_c5i5fdxmxqj06bviynp8 td.tinytable_css_p8uywvhhh2z29jl17n47, #tinytable_c5i5fdxmxqj06bviynp8 th.tinytable_css_p8uywvhhh2z29jl17n47 { text-align: left }
-    #tinytable_c5i5fdxmxqj06bviynp8 td.tinytable_css_qqru6n0lmvdyn3wunjnx, #tinytable_c5i5fdxmxqj06bviynp8 th.tinytable_css_qqru6n0lmvdyn3wunjnx {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_z3a5ts736xvog43st17v td.tinytable_css_wldnhu7fwq9xugw1ugjy, #tinytable_z3a5ts736xvog43st17v th.tinytable_css_wldnhu7fwq9xugw1ugjy {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_z3a5ts736xvog43st17v td.tinytable_css_dvtaiy1n275xnkaem3jm, #tinytable_z3a5ts736xvog43st17v th.tinytable_css_dvtaiy1n275xnkaem3jm {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_z3a5ts736xvog43st17v td.tinytable_css_hrgm3fdmaldot4q51k0s, #tinytable_z3a5ts736xvog43st17v th.tinytable_css_hrgm3fdmaldot4q51k0s { text-align: center }
+    #tinytable_z3a5ts736xvog43st17v td.tinytable_css_pes5bq1p9mzsdkhivkxm, #tinytable_z3a5ts736xvog43st17v th.tinytable_css_pes5bq1p9mzsdkhivkxm {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_z3a5ts736xvog43st17v td.tinytable_css_zqys3ibhjhis6p75yg0h, #tinytable_z3a5ts736xvog43st17v th.tinytable_css_zqys3ibhjhis6p75yg0h {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_z3a5ts736xvog43st17v td.tinytable_css_s0uodlr418hi1la3vr62, #tinytable_z3a5ts736xvog43st17v th.tinytable_css_s0uodlr418hi1la3vr62 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_z3a5ts736xvog43st17v td.tinytable_css_n5rdp8rtp7jc7flismzw, #tinytable_z3a5ts736xvog43st17v th.tinytable_css_n5rdp8rtp7jc7flismzw { text-align: left }
+    #tinytable_z3a5ts736xvog43st17v td.tinytable_css_20nn9rpymmdb4nl1en4h, #tinytable_z3a5ts736xvog43st17v th.tinytable_css_20nn9rpymmdb4nl1en4h {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_c5i5fdxmxqj06bviynp8" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_z3a5ts736xvog43st17v" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -770,7 +769,7 @@ m_welch  4 11042.55</code></pre>
 <div class="no-row-height column-margin column-container"><div id="fn2"><p><sup>2</sup>&nbsp;We could also use a likelihood-ratio test here using <code>anova()</code>. But to do so, we’d need to reestimate the linear regression model using <code>nlme::gls()</code> where you just delete the <code>weights</code> line.</p></div></div></section>
 <section id="give-your-dummies-a-meaningful-zero" class="level2" data-number="13.2">
 <h2 data-number="13.2" class="anchored" data-anchor-id="give-your-dummies-a-meaningful-zero"><span class="header-section-number">13.2</span> Give your dummies a meaningful zero</h2>
-<p>The <code>college</code> variable above was built to take the values 0 and 1. Here is what happens when a categorical variable arrives already stored as a number and you hand it straight to <code>lm()</code>.</p>
+<p>We made the <code>college</code> variable above so that it’s either 0 or 1. But what happens if a categorical variable is already stored as some other set of numbers? Here’s an example using <code>polviews</code> and <code>sex</code> (coded 1 for male and 2 for female).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>pol <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">zap_labels</span>() <span class="sc">|&gt;</span></span>
@@ -823,7 +822,7 @@ m_welch  4 11042.55</code></pre>
 2 factor(sex)2   -0.178    0.0547     -3.26 0.00113</code></pre>
 </div>
 </div>
-<p>The slope never moved. Only the intercept did, and only the version with a real zero puts a group mean there:</p>
+<p>Notice that the size of the slope is the same in all three models (only the sign flips in the last one). What changes is the intercept. In the two models with a real zero, the intercept is one of the group means:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>pol <span class="sc">|&gt;</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sex) <span class="sc">|&gt;</span></span>
@@ -846,7 +845,7 @@ m_welch  4 11042.55</code></pre>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>R constructs dummies automatically when you give it a factor, which is the reliable habit. The trap is a categorical variable that arrives already stored as a number, where nothing will warn you.</p>
+<p>If you give R a factor, it will make the dummy variables for you. So it’s a good habit to turn categorical variables into factors as soon as you load them. R won’t warn you if a categorical variable is stored as a number!</p>
 </div>
 </div>
 </section>
@@ -984,25 +983,25 @@ Figure&nbsp;13.6: Mean hours of TV per day by degree.
 
     <script>
       // Create table-specific functions using external factory
-      const tableFns_movcnx8hkp7ga5qw4daf = TinyTable.createTableFunctions("tinytable_movcnx8hkp7ga5qw4daf");
+      const tableFns_ohzhxwwlxumk56oebe3w = TinyTable.createTableFunctions("tinytable_ohzhxwwlxumk56oebe3w");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '8', j: 2 } ], css_id: 'tinytable_css_vp7upj7mqdcg5s002m6v',}, 
-          { positions: [ { i: '5', j: 2 } ], css_id: 'tinytable_css_fwmla55kh3s7f01sfhsd',}, 
-          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_58qatpdwex5l7m04cn62',}, 
-          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_ozuwwg9u2ou3ydh0eamh',}, 
-          { positions: [ { i: '8', j: 1 } ], css_id: 'tinytable_css_s1erqi9ptca6k6wtzeuy',}, 
-          { positions: [ { i: '5', j: 1 } ], css_id: 'tinytable_css_70zi7u489bthtcny4zn7',}, 
-          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 } ], css_id: 'tinytable_css_pcu2g0w4p3xpf7dd2u0t',}, 
-          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_1iqfotkd5m24riuae60a',}, 
+          { positions: [ { i: '8', j: 2 } ], css_id: 'tinytable_css_ygkjv0sgeiwwu3p64c3c',}, 
+          { positions: [ { i: '5', j: 2 } ], css_id: 'tinytable_css_cegfwh39633oexp5rdbr',}, 
+          { positions: [ { i: '1', j: 2 }, { i: '2', j: 2 }, { i: '3', j: 2 }, { i: '4', j: 2 }, { i: '6', j: 2 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_15lkim4fczbwir5tkgds',}, 
+          { positions: [ { i: '0', j: 2 } ], css_id: 'tinytable_css_k7sbm1wydpiplsg64y4p',}, 
+          { positions: [ { i: '8', j: 1 } ], css_id: 'tinytable_css_96g0kiwpdixc909wplkv',}, 
+          { positions: [ { i: '5', j: 1 } ], css_id: 'tinytable_css_rakw07tyrlhpzvxt32mp',}, 
+          { positions: [ { i: '1', j: 1 }, { i: '2', j: 1 }, { i: '3', j: 1 }, { i: '4', j: 1 }, { i: '6', j: 1 }, { i: '7', j: 1 } ], css_id: 'tinytable_css_8b2cpi5799ta3a04pwoa',}, 
+          { positions: [ { i: '0', j: 1 } ], css_id: 'tinytable_css_unceg583ckoxvw3f1ymz',}, 
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_movcnx8hkp7ga5qw4daf.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_ohzhxwwlxumk56oebe3w.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
@@ -1011,17 +1010,17 @@ Figure&nbsp;13.6: Mean hours of TV per day by degree.
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
     <style>
     /* tinytable css entries after */
-    #tinytable_movcnx8hkp7ga5qw4daf td.tinytable_css_vp7upj7mqdcg5s002m6v, #tinytable_movcnx8hkp7ga5qw4daf th.tinytable_css_vp7upj7mqdcg5s002m6v {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_movcnx8hkp7ga5qw4daf td.tinytable_css_fwmla55kh3s7f01sfhsd, #tinytable_movcnx8hkp7ga5qw4daf th.tinytable_css_fwmla55kh3s7f01sfhsd {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_movcnx8hkp7ga5qw4daf td.tinytable_css_58qatpdwex5l7m04cn62, #tinytable_movcnx8hkp7ga5qw4daf th.tinytable_css_58qatpdwex5l7m04cn62 { text-align: center }
-    #tinytable_movcnx8hkp7ga5qw4daf td.tinytable_css_ozuwwg9u2ou3ydh0eamh, #tinytable_movcnx8hkp7ga5qw4daf th.tinytable_css_ozuwwg9u2ou3ydh0eamh {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
-    #tinytable_movcnx8hkp7ga5qw4daf td.tinytable_css_s1erqi9ptca6k6wtzeuy, #tinytable_movcnx8hkp7ga5qw4daf th.tinytable_css_s1erqi9ptca6k6wtzeuy {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_movcnx8hkp7ga5qw4daf td.tinytable_css_70zi7u489bthtcny4zn7, #tinytable_movcnx8hkp7ga5qw4daf th.tinytable_css_70zi7u489bthtcny4zn7 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
-    #tinytable_movcnx8hkp7ga5qw4daf td.tinytable_css_pcu2g0w4p3xpf7dd2u0t, #tinytable_movcnx8hkp7ga5qw4daf th.tinytable_css_pcu2g0w4p3xpf7dd2u0t { text-align: left }
-    #tinytable_movcnx8hkp7ga5qw4daf td.tinytable_css_1iqfotkd5m24riuae60a, #tinytable_movcnx8hkp7ga5qw4daf th.tinytable_css_1iqfotkd5m24riuae60a {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_ohzhxwwlxumk56oebe3w td.tinytable_css_ygkjv0sgeiwwu3p64c3c, #tinytable_ohzhxwwlxumk56oebe3w th.tinytable_css_ygkjv0sgeiwwu3p64c3c {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_ohzhxwwlxumk56oebe3w td.tinytable_css_cegfwh39633oexp5rdbr, #tinytable_ohzhxwwlxumk56oebe3w th.tinytable_css_cegfwh39633oexp5rdbr {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_ohzhxwwlxumk56oebe3w td.tinytable_css_15lkim4fczbwir5tkgds, #tinytable_ohzhxwwlxumk56oebe3w th.tinytable_css_15lkim4fczbwir5tkgds { text-align: center }
+    #tinytable_ohzhxwwlxumk56oebe3w td.tinytable_css_k7sbm1wydpiplsg64y4p, #tinytable_ohzhxwwlxumk56oebe3w th.tinytable_css_k7sbm1wydpiplsg64y4p {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: center }
+    #tinytable_ohzhxwwlxumk56oebe3w td.tinytable_css_96g0kiwpdixc909wplkv, #tinytable_ohzhxwwlxumk56oebe3w th.tinytable_css_96g0kiwpdixc909wplkv {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.08em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_ohzhxwwlxumk56oebe3w td.tinytable_css_rakw07tyrlhpzvxt32mp, #tinytable_ohzhxwwlxumk56oebe3w th.tinytable_css_rakw07tyrlhpzvxt32mp {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
+    #tinytable_ohzhxwwlxumk56oebe3w td.tinytable_css_8b2cpi5799ta3a04pwoa, #tinytable_ohzhxwwlxumk56oebe3w th.tinytable_css_8b2cpi5799ta3a04pwoa { text-align: left }
+    #tinytable_ohzhxwwlxumk56oebe3w td.tinytable_css_unceg583ckoxvw3f1ymz, #tinytable_ohzhxwwlxumk56oebe3w th.tinytable_css_unceg583ckoxvw3f1ymz {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: var(--tt-line-color); --line-color-left: var(--tt-line-color); --line-color-right: var(--tt-line-color); --line-color-top: var(--tt-line-color); --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.08em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%; ; text-align: left }
     </style>
     <div class="container">
-      <table class="tinytable" id="tinytable_movcnx8hkp7ga5qw4daf" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="tinytable" id="tinytable_ohzhxwwlxumk56oebe3w" style="width: auto; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
         
         <thead>
               <tr>
@@ -1092,7 +1091,7 @@ Figure&nbsp;13.6: Mean hours of TV per day by degree.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>With a <code>&lt;chr&gt;</code> variable, R will pick the alphabetically lowest value as the reference category. And if you build an <strong>ordered</strong> factor, R defaults to “polynomial contrasts” (<code>.L</code> means “linear,” <code>.Q</code> means “quadratic,” and so on), which you <em>really</em> don’t need to worry about here (the coefficients are not group differences at all). Either problem is fixed by building an unordered factor with the levels in the order you want, as we did with <code>degree_fac</code>.</p>
+<p>With a <code>&lt;chr&gt;</code> variable, R will pick the alphabetically lowest value as the reference category. And if you build an <strong>ordered</strong> factor, R defaults to “polynomial contrasts” (<code>.L</code> means “linear,” <code>.Q</code> means “quadratic,” and so on), which you <em>really</em> don’t need to worry about here (the coefficients are not group differences at all). You can avoid both problems by making a regular (unordered) factor with the levels in the order you want, like we did with <code>degree_fac</code>.</p>
 </div>
 </div>
 <section id="joint-significance" class="level3" data-number="13.3.1">
@@ -1223,7 +1222,7 @@ Figure&nbsp;13.8: TV watching by education, with the unweighted grand mean.
 </div>
 </div>
 <p>This gives you the difference and standard error of the difference between these groups.</p>
-<p>The catch is that it is now very easy to ask for <em>all</em> of them, and with five groups there are ten pairs. Here is what that costs, on data where every group is identical:</p>
+<p>The catch is that it’s now very easy to ask for <em>all</em> of them, and with five groups there are ten pairs. Here’s a simulation where the groups are all actually the same:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">522</span>)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1257,7 +1256,7 @@ Figure&nbsp;13.8: TV watching by education, with the unweighted grand mean.
 1          0.292        0.044     0.048</code></pre>
 </div>
 </div>
-<p>Running all ten pairwise tests turns up at least one “significant” difference about 29% of the time. The overall F test misfires at just about its advertised 5%, and Holm’s adjustment brings the sweep back to roughly the same place. The deeper protection is deciding which comparisons you care about <strong>before</strong> you look, which is exactly what a single <code>hypotheses()</code> call written in advance amounts to.</p>
+<p>If we run all ten pairwise tests, we find at least one “significant” difference about 29% of the time, even though there are no real differences! The overall F test gets it wrong about 5% of the time, which is what it’s supposed to do. Holm’s adjustment brings the pairwise tests back down to about the same level. But the best protection is to decide which comparisons you care about <strong>before</strong> you look at the results.</p>
 </section>
 </section>
 <section id="model-comparison" class="level2" data-number="13.4">
@@ -1442,7 +1441,7 @@ Figure&nbsp;13.12: Five models of TV watching by education.
 </div>
 </div>
 <p>You can see that the most flexible model—the ANOVA that treats every distinct year of education as its own category—has the highest PRE but isn’t preferred by AIC or BIC. It’s a classic case of overfitting.</p>
-<p>We can see exactly where it goes wrong:</p>
+<p>Here’s part of the problem:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(d<span class="sc">$</span>educ)[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1451,7 +1450,7 @@ Figure&nbsp;13.12: Five models of TV watching by education.
  8  1  2  4  2  4 13  5 </code></pre>
 </div>
 </div>
-<p>One respondent reports a single year of schooling. Two report two years. The factor model dutifully estimates a separate mean for each of those cells and carries that noise forward as though it were knowledge.</p>
+<p>Very few people report less than eight years of school, but the factor model still estimates a separate mean for each of these tiny groups.</p>
 <p>The model that “wins” here is the model that one might fit by accident—the one that treats degree as continuous. This assumes that only degree transitions matter and that every transition size is the same. This is clearly a simplification but it’s one that fits surprisingly well!</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1463,8 +1462,8 @@ Figure&nbsp;13.12: Five models of TV watching by education.
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Treating an ordered predictor as <strong>numeric</strong> imposes a straight line: each additional step is assumed to matter the same amount. Treating it as a <strong>factor</strong> assumes nothing about spacing or order, and pays for that freedom with a parameter per category.</p>
-<p>Neither is automatically right, and the comparison above is how you decide. Here it retroactively justifies the shortcut we have been taking since <a href="01-data-variables.html" class="quarto-xref"><span>Chapter 1</span></a>, where treating ordinal variables as numeric was flagged as a judgment call and left unresolved.</p>
+<p>Treating an ordered predictor as <strong>numeric</strong> assumes a straight line, so each step is assumed to make the same difference. Treating it as a <strong>factor</strong> doesn’t assume anything about the spacing (or even the order), but it costs a parameter for every category.</p>
+<p>Neither one is always right. Comparing models like we just did is how you decide. In this case, it suggests that the shortcut we’ve been taking since <a href="01-data-variables.html" class="quarto-xref"><span>Chapter 1</span></a> (treating ordinal variables as numeric) is pretty reasonable.</p>
 </div>
 </div>
 </section>

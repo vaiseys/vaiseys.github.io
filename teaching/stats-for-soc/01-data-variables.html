@@ -441,12 +441,12 @@ window.Quarto = {
 </header>
 
 
-<p>Before we can say anything about a population, we have to be able to say something about the data in front of us. This chapter is about that: how data are arranged, what kinds of variables there are, how to look at them, and how to summarize them.</p>
+<p>Before we can say anything about a population, we need to be able to describe the data we have. This chapter is about how data are arranged, what kinds of variables there are, and how to look at and summarize them.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>gss <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss2024.rds"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  haven<span class="sc">::</span><span class="fu">zap_labels</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We work mostly with the single-year file. When we look at change over time we will need the other one.</p>
+<p>We’ll mostly use the single-year file in this chapter. We’ll need the cumulative file when we look at change over time.</p>
 <section id="data-structure" class="level2 page-columns page-full" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="data-structure"><span class="header-section-number">1.1</span> Data structure</h2>
 <p>Data, for our purposes, arrive as a rectangle.</p>
@@ -471,8 +471,8 @@ window.Quarto = {
 </div>
 </div>
 <p>Tidy format: columns contain <strong>variables</strong>, each row is an <strong>observation</strong>.</p>
-<p>Nearly every tool in this book assumes it, and a large fraction of real analytic work is getting data into this shape.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;The term is Hadley Wickham’s, and the underlying idea is much older. The useful thing about the definition is that it is <em>checkable</em>: point at a row and ask what it is an observation of. If you cannot answer in one word, the data are not tidy.</p></div></div><section id="untidy-data" class="level3" data-number="1.1.1">
+<p>Nearly every tool in this book assumes data are in this format. A lot of real analytic work is just getting data into this shape.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;The term “tidy data” comes from Hadley Wickham.</p></div></div><section id="untidy-data" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="untidy-data"><span class="header-section-number">1.1.1</span> Untidy data</h3>
 <p>Untidy data usually means a table where the columns are not variables but <em>values</em>. Suppose we summarize support for legalizing marijuana by year and lay it out with one column per year:</p>
 <div class="cell">
@@ -482,7 +482,7 @@ window.Quarto = {
 2          Sample size 1,471 1,447   862</code></pre>
 </div>
 </div>
-<p>That is readable, and for a report it may be exactly what you want. But <code>1973</code> is not a variable. It is a <em>value</em> of the variable <code>year</code>. To compute with these data we would want them the other way around, one row per year. We will build exactly that table later in the chapter.</p>
+<p>That is readable, and for a report it may be exactly what you want. But <code>1973</code> is not a variable. It is a <em>value</em> of the variable <code>year</code>. To compute with these data we would want them the other way around, with one row per year. We’ll make that table later in the chapter.</p>
 </section>
 </section>
 <section id="types-of-variables" class="level2" data-number="1.2">
@@ -508,7 +508,7 @@ window.Quarto = {
 </tbody>
 </table>
 <p>The first two types are <strong>continuous</strong> or <strong>numeric</strong>. The second two types are <strong>categorical</strong>. Ordinal variables are often treated as numeric and this is usually fine.</p>
-<p>“Usually fine” is a judgment, though, not a fact. Consider <code>degree</code> in the GSS, coded 0 for less than high school through 4 for a graduate degree. The categories are clearly ordered, but is the distance from 0 to 1 the same as from 3 to 4? Almost certainly not. Treating it as a number implicitly says yes. We do it anyway, constantly, and <a href="13-comparing-groups.html" class="quarto-xref"><span>Chapter 13</span></a> shows how to check whether it cost us anything.</p>
+<p>But it’s still a choice you are making. Consider <code>degree</code> in the GSS, coded 0 for less than high school through 4 for a graduate degree. The categories are clearly ordered, but is the distance from 0 to 1 the same as from 3 to 4? Probably not. Treating <code>degree</code> as a number assumes that it is. We do this all the time anyway, and <a href="13-comparing-groups.html" class="quarto-xref"><span>Chapter 13</span></a> shows one way to check whether it makes a difference.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -519,7 +519,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>R happily computes the mean of a nominal variable if it is stored as a number. The GSS codes <code>marital</code> as 1 through 5, so <code>mean(gss$marital)</code> returns 2.77 (a number with no meaning whatsoever). There is no such thing as 2.77 marital statuses. Knowing what your variables <em>are</em> is your job.</p>
+<p>R will happily compute the mean of a nominal variable if it is stored as a number. The GSS codes <code>marital</code> as 1 through 5, so <code>mean(gss$marital)</code> returns 2.77. This number means nothing at all! R doesn’t know that, so you have to.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -544,7 +544,7 @@ window.Quarto = {
 <li>bivariate plots</li>
 </ul>
 <p>These are also types of <strong>distributions.</strong></p>
-<p>For this section we’ll use country-level data on internet access from the World Development Indicators, which gives us genuinely continuous variables. The GSS, being mostly categorical, does not.</p>
+<p>The GSS is mostly categorical, so for this section we’ll use country-level data on internet access from the World Development Indicators.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>wdi <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"WDI.rds"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(region <span class="sc">!=</span> <span class="st">"Aggregates"</span>) <span class="sc">|&gt;</span></span>
@@ -620,8 +620,8 @@ Figure&nbsp;1.2: Internet access by country, 2021.
 </div>
 </div>
 </div>
-<p>Bin width is a real choice. Too wide and you flatten everything interesting; too narrow and you are looking at noise. Try a few.</p>
-<p>A <strong>density plot</strong> does something similar with a smooth curve instead of bars. It is easier on the eye and slightly harder to interpret honestly, since the smoothing can invent structure that is not there.</p>
+<p>The width of the bins makes a big difference. If they’re too wide you’ll smooth over the interesting stuff, and if they’re too narrow you’ll mostly see noise. It’s a good idea to try a few.</p>
+<p>A <strong>density plot</strong> does something similar with a smooth curve instead of bars. It’s easier on the eyes, but the smoothing can show structure that isn’t really there.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
@@ -733,7 +733,7 @@ Figure&nbsp;1.6: Internet access by country, sorted.
 </div>
 </div>
 </div>
-<p>It shows every observation, in order, with nothing smoothed or binned away, so you can see the shape of the whole distribution <em>and</em> pick out individual countries at either end.</p>
+<p>This shows every single observation, so nothing is smoothed over or hidden in a bin.</p>
 <p>And a bar graph, for a categorical variable:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-4-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-1" role="tab" aria-controls="tabset-4-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-4-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-4-2" role="tab" aria-controls="tabset-4-2" aria-selected="false">ggplot2</a></li></ul>
@@ -834,7 +834,7 @@ Figure&nbsp;1.10: Internet access by region.
 </div>
 </div>
 </div>
-<p>Points at identical values land on top of each other, which hides how many there are. <strong>Jittering</strong> adds a little random noise so the density becomes visible. The noise is cosmetic. Never analyze jittered values.</p>
+<p>Points at identical values land on top of each other, which hides how many there are. <strong>Jittering</strong> adds a little random noise so you can see how many there are. The noise is just for display (don’t ever analyze jittered values!).</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-6-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-1" role="tab" aria-controls="tabset-6-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-6-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-6-2" role="tab" aria-controls="tabset-6-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
@@ -883,7 +883,7 @@ Figure&nbsp;1.12: The same plot, jittered.
 </div>
 </div>
 </div>
-<p>A <strong>scatter plot</strong> puts two continuous variables against each other. Back in the GSS, years of schooling against vocabulary score:</p>
+<p>A <strong>scatter plot</strong> shows two continuous variables. This one goes back to the GSS and plots vocabulary score against years of schooling:</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-7-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-1" role="tab" aria-controls="tabset-7-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-7-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-7-2" role="tab" aria-controls="tabset-7-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
@@ -1005,11 +1005,11 @@ Figure&nbsp;1.16: Mean vocabulary score by highest degree.
 </div>
 </div>
 </div>
-<p>This is the same comparison-of-conditional-summaries move. In <a href="03-probability.html" class="quarto-xref"><span>Chapter 3</span></a> it is conditional probability; later it becomes a regression coefficient.</p>
+<p>We will keep coming back to this idea of comparing a summary across groups. In <a href="03-probability.html" class="quarto-xref"><span>Chapter 3</span></a> it shows up as conditional probability, and later it shows up as a regression coefficient.</p>
 </section>
 <section id="time-plots" class="level3" data-number="1.3.3">
 <h3 data-number="1.3.3" class="anchored" data-anchor-id="time-plots"><span class="header-section-number">1.3.3</span> Time plots</h3>
-<p>Some questions need more than one year, and this is where the cumulative file is useful.</p>
+<p>A time plot needs more than one year of data, so here we’ll use the cumulative file.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>gss_all <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gss-1972-2024.rds"</span>))</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1030,7 +1030,7 @@ Figure&nbsp;1.16: Mean vocabulary score by highest degree.
 3  1976     0.287  1447</code></pre>
 </div>
 </div>
-<p>There is the tidy version of the table we sketched earlier: one row per year, with <code>year</code> and <code>p_support</code> as honest columns.</p>
+<p>This is the tidy version of the table from earlier, with one row per year.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-9-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-1" role="tab" aria-controls="tabset-9-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-9-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-9-2" role="tab" aria-controls="tabset-9-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
@@ -1082,7 +1082,7 @@ Figure&nbsp;1.18: Support for legalizing marijuana, GSS 1973-2024.
 </div>
 </div>
 </div>
-<p>Support runs from about 19% in 1973 to about 69% in 2024. Whatever you think about the policy, that is a remarkable amount of movement in public opinion, and no single year of data could show it.</p>
+<p>Support runs from about 19% in 1973 to about 69% in 2024. That’s a huge change in public opinion!</p>
 </section>
 </section>
 <section id="descriptive-statistics" class="level2" data-number="1.4">
@@ -1121,7 +1121,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Deleting cases with any missing data is sometimes OK, but there are often better ways to handle it. We will not address that in this book, but you should know that dropping rows is a decision and not a neutral default.</p>
+<p>Deleting cases with any missing data is sometimes OK, but there are often better ways to handle it. That’s a topic for a later course!</p>
 </div>
 </div>
 <section id="continuous-wordsum" class="level3" data-number="1.4.1">
@@ -1269,7 +1269,7 @@ s = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n}(x_i-\bar{x})^2}
 <pre><code>[1] 2.227945</code></pre>
 </div>
 </div>
-<p>The mean of <code>wordsum</code> is 6.34. The standard deviation is 2.23. We’ll talk more about how to use these values soon. For now, just remember that a deviation from the mean of that size or less would not be unusual. So anything between 4.1 and 8.6 is unremarkable, while a score of 0 or 10 is genuinely unusual.</p>
+<p>The mean of <code>wordsum</code> is 6.34. The standard deviation is 2.23. We’ll talk more about how to use these values soon. For now, just remember that a deviation from the mean of that size or less would not be unusual. So anything between 4.1 and 8.6 is pretty typical.</p>
 </section>
 <section id="sample-and-population" class="level3" data-number="1.4.6">
 <h3 data-number="1.4.6" class="anchored" data-anchor-id="sample-and-population"><span class="header-section-number">1.4.6</span> Sample and population</h3>
@@ -1279,12 +1279,12 @@ s = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n}(x_i-\bar{x})^2}
 <li>The sample variance is <span class="math inline">\(s^2\)</span>; the population variance is <span class="math inline">\(\sigma^2\)</span>.</li>
 <li>The sample SD is <span class="math inline">\(s\)</span>; the population SD is <span class="math inline">\(\sigma\)</span>.</li>
 </ul>
-<p>Roman letters for what we compute, Greek for what we want to know. We almost never observe the Greek letters. The rest of this book is about what we can responsibly say about them anyway.</p>
+<p>In general, we use Roman letters for things we compute from a sample and Greek letters for the population values we want to know about. We almost never get to observe the Greek ones. A lot of this book is about what we can say about them anyway.</p>
 </section>
 </section>
 <section id="the-normal-distribution" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="the-normal-distribution"><span class="header-section-number">1.5</span> The normal distribution</h2>
-<p>The <strong>normal distribution</strong> is the one we will keep coming back to. When we resample and compute the mean, for example, our results will converge to that shape. That is the subject of <a href="03-probability.html" class="quarto-xref"><span>Chapter 3</span></a>.</p>
+<p>We are going to see a lot of the <strong>normal distribution</strong>. When we resample and compute the mean, for example, our results will converge to that shape. We’ll see this in <a href="03-probability.html" class="quarto-xref"><span>Chapter 3</span></a>.</p>
 <p><span class="math display">\[
 f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
 \]</span></p>
@@ -1435,7 +1435,7 @@ Figure&nbsp;1.24: Two normal densities. The narrower one exceeds a density of 1.
 </section>
 <section id="cumulative-density-function" class="level3" data-number="1.5.2">
 <h3 data-number="1.5.2" class="anchored" data-anchor-id="cumulative-density-function"><span class="header-section-number">1.5.2</span> Cumulative density function</h3>
-<p>The density answers “how concentrated is probability here?” The <strong>cumulative</strong> density function answers the question we usually want: “what is the probability of a value this large or smaller?”</p>
+<p>The <strong>cumulative density function</strong> tells us the probability of seeing a value that large or smaller.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-13-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-1" role="tab" aria-controls="tabset-13-1" aria-selected="true">tinyplot</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-2" role="tab" aria-controls="tabset-13-2" aria-selected="false">ggplot2</a></li></ul>
 <div class="tab-content">
@@ -1485,7 +1485,7 @@ Figure&nbsp;1.26: The normal cumulative density function.
 </div>
 </div>
 </div>
-<p>Read it off at any point on the x-axis. At one standard deviation above the mean the curve has reached about 0.84:</p>
+<p>For example, the probability of a value one standard deviation above the mean or lower is about 0.84:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pnorm</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1620,8 +1620,8 @@ Figure&nbsp;1.30: Distribution of wordsum with normal dist.
 </div>
 </div>
 </div>
-<p>Not bad. The curve is symmetric; the data are slightly lumpy. The curve extends past 10 and below 0, which is impossible for a ten-item test.</p>
-<p>We can look at the same comparison cumulatively, which is often more revealing because nothing depends on the bin width.</p>
+<p>Not bad! But the data are a little lumpier than the curve, and the curve goes below 0 and past 10, which is impossible on a ten-item test.</p>
+<p>We can also make the same comparison cumulatively. This is often more useful because it doesn’t depend on the bin width.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>ecdf_data <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(wordsum) <span class="sc">|&gt;</span></span>
@@ -1757,7 +1757,7 @@ Figure&nbsp;1.34: Two datasets differing in one value. The means differ; the med
 </div>
 </div>
 </div>
-<p>The same thing happens in real data. Television hours in the GSS:</p>
+<p>Here’s a real example using television hours in the GSS:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>tv <span class="ot">&lt;-</span> gss<span class="sc">$</span>tvhours[<span class="sc">!</span><span class="fu">is.na</span>(gss<span class="sc">$</span>tvhours)]</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1767,8 +1767,8 @@ Figure&nbsp;1.34: Two datasets differing in one value. The means differ; the med
  3.302509  2.000000 24.000000  3.000000 </code></pre>
 </div>
 </div>
-<p>Half of respondents report 2 hours a day or fewer, but the mean is 3.3. A handful of people reporting 24 hours pull the mean upward; they cannot pull the median, which only cares about position. The <strong>interquartile range</strong> (the distance from the 25th to the 75th percentile) is the robust counterpart to the SD.</p>
-<p>Neither the mean nor the median is more correct; they answer different questions. The mean is what you want if the total matters. The median is what you want if the typical case matters, which is why income is nearly always reported as a median.</p>
+<p>Half of respondents report 2 hours a day or fewer, but the mean is 3.3. The few people who say they watch 24 hours a day pull the mean up, but they can’t move the median. The <strong>interquartile range</strong> (the distance from the 25th to the 75th percentile) is the robust version of the SD.</p>
+<p>Neither the mean nor the median is more correct. They just tell you different things. This is why variables with a long tail, like income, are usually summarized with a median.</p>
 </section>
 <section id="bernoulli-distribution" class="level2" data-number="1.7">
 <h2 data-number="1.7" class="anchored" data-anchor-id="bernoulli-distribution"><span class="header-section-number">1.7</span> Bernoulli distribution</h2>
@@ -1927,8 +1927,8 @@ Figure&nbsp;1.38: Position after 100 coin flips, 1000 people.
 </div>
 </div>
 </div>
-<p>The bell comes from the <em>adding up</em>. That is why the normal distribution turns up in places with nothing obviously normal about them, and <a href="03-probability.html" class="quarto-xref"><span>Chapter 3</span></a> makes the point properly.</p>
-<p>There is a nice <a href="https://www.youtube.com/watch?v=EvHiee7gs9Y">physical simulation of this</a> worth watching.</p>
+<p>The normal shape comes from <em>adding up</em> lots of small random steps. This is why the normal distribution shows up in so many places. We’ll come back to this in <a href="03-probability.html" class="quarto-xref"><span>Chapter 3</span></a>.</p>
+<p>Here’s a nice <a href="https://www.youtube.com/watch?v=EvHiee7gs9Y">physical simulation of this</a>.</p>
 </section>
 </section>
 <section id="recap" class="level2" data-number="1.8">
@@ -1936,8 +1936,8 @@ Figure&nbsp;1.38: Position after 100 coin flips, 1000 people.
 <ul>
 <li>tidy format: columns contain <strong>variables</strong>, each row is an <strong>observation</strong></li>
 <li>variables are <strong>ratio</strong>, <strong>interval</strong>, <strong>ordinal</strong>, or <strong>nominal</strong>; the first two are continuous, the last two categorical</li>
-<li>ordinal variables are often treated as numeric, which is usually fine but is a judgment R will not make for you</li>
-<li>look at a variable before summarizing it: histograms, densities, sorted dotplots, and strip plots each reveal something the others hide</li>
+<li>ordinal variables are often treated as numeric, which is usually fine</li>
+<li><strong>histograms</strong>, <strong>density plots</strong>, <strong>dotplots</strong>, and <strong>bar graphs</strong> show one variable; <strong>strip plots</strong>, <strong>scatter plots</strong>, and <strong>time plots</strong> show two</li>
 <li>the <strong>mean</strong> and <strong>median</strong> answer different questions; the median is <strong>robust</strong> to outliers and the mean is not</li>
 <li><strong>variance</strong> is <em>sort of</em> the average squared deviation from the mean, and the <strong>standard deviation</strong> is its square root</li>
 <li>sample quantities get Roman letters (<span class="math inline">\(\bar{x}\)</span>, <span class="math inline">\(s\)</span>), population quantities get Greek (<span class="math inline">\(\mu\)</span>, <span class="math inline">\(\sigma\)</span>)</li>
